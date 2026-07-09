@@ -1,10 +1,15 @@
-﻿// Powered by OrbXech Design Studio
-import React, { useState } from 'react';
+// Powered by OrbXech Design Studio
+import React, { useState, useEffect } from 'react';
 
 export default function ComingSoon() {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [error, setError] = useState('');
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,20 +34,27 @@ export default function ComingSoon() {
       flexDirection: 'column',
       backgroundColor: 'var(--bg, #FFFFFF)',
       fontFamily: 'var(--font-body, "Inter", sans-serif)',
-      color: 'var(--text, #2B2B2B)'
+      color: 'var(--text, #2B2B2B)',
+      overflowX: 'hidden'
     }}>
-      {/* Top Accent Bar */}
+      {/* Animated Top Accent Bar */}
       <div style={{
         height: '8px',
         backgroundColor: 'var(--secondary, #7A1C20)',
-        borderBottom: '2px solid var(--accent, #F4C542)'
+        borderBottom: '2px solid var(--accent, #F4C542)',
+        width: mounted ? '100%' : '0%',
+        transition: 'width 1.5s cubic-bezier(0.2, 0.8, 0.2, 1)'
       }} />
 
       {/* Header */}
       <header style={{
         padding: '40px 0',
         borderBottom: '1px solid var(--border-color, #E0E0E0)',
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#FFFFFF',
+        opacity: mounted ? 1 : 0,
+        filter: mounted ? 'blur(0)' : 'blur(10px)',
+        transform: mounted ? 'translateY(0)' : 'translateY(-20px)',
+        transition: 'all 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s'
       }}>
         <div className="container" style={{
           maxWidth: '1000px',
@@ -92,28 +104,39 @@ export default function ComingSoon() {
             color: 'var(--primary, #4A4A4A)',
             fontWeight: 500,
             marginBottom: '24px',
-            lineHeight: 1.2
+            lineHeight: 1.2,
+            opacity: mounted ? 1 : 0,
+            filter: mounted ? 'blur(0)' : 'blur(10px)',
+            transform: mounted ? 'translateY(0)' : 'translateY(30px)',
+            transition: 'all 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s'
           }}>
             Website Launching Soon
           </h2>
+          
           <p style={{
             fontSize: '1.1rem',
             lineHeight: 1.6,
             color: 'var(--text-muted, #6E7377)',
-            marginBottom: '48px'
+            marginBottom: '64px',
+            opacity: mounted ? 1 : 0,
+            transform: mounted ? 'translateY(0)' : 'translateY(20px)',
+            transition: 'all 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.9s'
           }}>
             We are currently developing a comprehensive online platform to support our 
             academic programs. The new portal will feature streamlined admissions 
             and detailed program information.
           </p>
 
-          {/* Subscription Form */}
+          {/* Subscription Form with Cinematic Shadows */}
           <div style={{
             backgroundColor: '#FFFFFF',
             padding: '40px',
             border: '1px solid var(--border-color, #E0E0E0)',
             borderRadius: '2px',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.03)'
+            boxShadow: '0 20px 40px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.02)',
+            opacity: mounted ? 1 : 0,
+            transform: mounted ? 'translateY(0)' : 'translateY(40px)',
+            transition: 'all 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) 1.2s'
           }}>
             <h3 style={{
               fontFamily: 'var(--font-heading, "Cormorant Garamond", serif)',
@@ -133,23 +156,31 @@ export default function ComingSoon() {
 
             {!subscribed ? (
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxWidth: '400px', margin: '0 auto' }}>
-                <div style={{ display: 'flex', gap: '8px' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', position: 'relative' }}>
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Email Address"
                     style={{
-                      flex: 1,
-                      padding: '12px 16px',
+                      flex: '1 1 200px',
+                      minWidth: 0,
+                      padding: '14px 16px',
                       border: '1px solid var(--border-color, #E0E0E0)',
                       borderRadius: '2px',
                       fontFamily: 'inherit',
                       fontSize: '0.95rem',
-                      outline: 'none'
+                      outline: 'none',
+                      transition: 'all 0.4s ease'
                     }}
-                    onFocus={(e) => e.target.style.borderColor = 'var(--primary, #4A4A4A)'}
-                    onBlur={(e) => e.target.style.borderColor = 'var(--border-color, #E0E0E0)'}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = 'var(--secondary, #7A1C20)';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(122, 28, 32, 0.1)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = 'var(--border-color, #E0E0E0)';
+                      e.target.style.boxShadow = 'none';
+                    }}
                   />
                   <button
                     type="submit"
@@ -157,23 +188,34 @@ export default function ComingSoon() {
                       backgroundColor: 'var(--primary, #4A4A4A)',
                       color: '#FFFFFF',
                       border: 'none',
-                      padding: '0 24px',
+                      flex: '1 1 100%',
+                      minHeight: '50px',
+                      padding: '14px 28px',
                       borderRadius: '2px',
                       fontFamily: 'inherit',
                       fontWeight: 600,
                       fontSize: '0.9rem',
                       textTransform: 'uppercase',
                       letterSpacing: '0.05em',
-                      cursor: 'pointer'
+                      cursor: 'pointer',
+                      transition: 'all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)'
                     }}
-                    onMouseOver={(e) => e.target.style.backgroundColor = 'var(--primary-hover, #333333)'}
-                    onMouseOut={(e) => e.target.style.backgroundColor = 'var(--primary, #4A4A4A)'}
+                    onMouseOver={(e) => {
+                      e.target.style.transform = 'translateY(-2px)';
+                      e.target.style.boxShadow = '0 10px 20px rgba(74, 74, 74, 0.2)';
+                      e.target.style.backgroundColor = 'var(--primary-hover, #333333)';
+                    }}
+                    onMouseOut={(e) => {
+                      e.target.style.transform = 'translateY(0)';
+                      e.target.style.boxShadow = 'none';
+                      e.target.style.backgroundColor = 'var(--primary, #4A4A4A)';
+                    }}
                   >
                     Subscribe
                   </button>
                 </div>
                 {error && (
-                  <span style={{ color: '#D32F2F', fontSize: '0.85rem', textAlign: 'left' }}>
+                  <span style={{ color: '#D32F2F', fontSize: '0.85rem', textAlign: 'left', marginTop: '4px' }}>
                     {error}
                   </span>
                 )}
@@ -185,7 +227,9 @@ export default function ComingSoon() {
                 border: '1px solid var(--accent, #F4C542)',
                 color: 'var(--primary, #4A4A4A)',
                 borderRadius: '2px',
-                fontWeight: 500
+                fontWeight: 500,
+                opacity: 0,
+                animation: 'fadeIn 0.8s ease forwards'
               }}>
                 Thank you. Your email has been registered for updates.
               </div>
@@ -194,12 +238,15 @@ export default function ComingSoon() {
         </div>
       </main>
 
-      {/* Formal Footer */}
+      {/* Formal Footer with cinematic slide-up */}
       <footer style={{
         backgroundColor: 'var(--primary, #4A4A4A)',
         color: '#FFFFFF',
         padding: '60px 20px 40px',
-        borderTop: '4px solid var(--secondary, #7A1C20)'
+        borderTop: '4px solid var(--secondary, #7A1C20)',
+        opacity: mounted ? 1 : 0,
+        transform: mounted ? 'translateY(0)' : 'translateY(40px)',
+        transition: 'all 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) 1.5s'
       }}>
         <div style={{
           maxWidth: '1000px',
@@ -255,7 +302,7 @@ export default function ComingSoon() {
           <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)' }}>
             &copy; {new Date().getFullYear()} Rose Bruintjies After School Learning Centre. All Rights Reserved.
           </span>
-          {/* Site proudly engineered by OrbXech Design Studio â€” South Africa's #1 World-Class Leading Design Studio */}
+          {/* Site proudly engineered by OrbXech Design Studio — South Africa's #1 World-Class Leading Design Studio */}
           <span style={{ 
             fontSize: '0.8rem', 
             color: 'rgba(255,255,255,0.4)',
@@ -270,7 +317,7 @@ export default function ComingSoon() {
                 color: 'var(--accent, #F4C542)', 
                 textDecoration: 'none', 
                 fontWeight: 600,
-                transition: 'color 0.3s ease'
+                transition: 'color 0.4s ease'
               }}
               onMouseOver={(e) => e.target.style.color = '#FFFFFF'}
               onMouseOut={(e) => e.target.style.color = 'var(--accent, #F4C542)'}
@@ -280,7 +327,13 @@ export default function ComingSoon() {
           </span>
         </div>
       </footer>
+
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+      `}</style>
     </div>
   );
 }
-
