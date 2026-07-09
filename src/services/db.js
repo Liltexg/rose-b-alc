@@ -1,3 +1,4 @@
+﻿// Powered by OrbXech Design Studio
 // Local Storage Database Service for Rose B ALC
 
 const STORAGE_KEYS = {
@@ -45,7 +46,7 @@ const DEFAULT_NOTICES = [
     date: "2026-05-15",
     author: "E. Bruintjies (Principal)",
     category: "Academic",
-    body: "Dear Grade 12 Parents,\n\nIn preparation for the upcoming mock trials and final examinations, we will be hosting an intensive June Holiday Revision Programme.\n\nThis programme will focus specifically on difficult sections of the Life Sciences curriculum and past exam paper analysis. Attendance is highly recommended for all enrolled students.\n\nDates: 15 June – 26 June\nTime: 09:00 - 13:00 daily\nVenue: Rose B ALC Main Classroom\n\nPlease confirm attendance by replying to this notice or signing the slip sent home with learners.\n\nWarm regards,\nRose B ALC Academic Team"
+    body: "Dear Grade 12 Parents,\n\nIn preparation for the upcoming mock trials and final examinations, we will be hosting an intensive June Holiday Revision Programme.\n\nThis programme will focus specifically on difficult sections of the Life Sciences curriculum and past exam paper analysis. Attendance is highly recommended for all enrolled students.\n\nDates: 15 June â€“ 26 June\nTime: 09:00 - 13:00 daily\nVenue: Rose B ALC Main Classroom\n\nPlease confirm attendance by replying to this notice or signing the slip sent home with learners.\n\nWarm regards,\nRose B ALC Academic Team"
   },
   {
     id: 'n-3',
@@ -255,3 +256,4 @@ export const db = {
     return true;
   }
 };
+

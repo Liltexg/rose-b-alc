@@ -1,3 +1,4 @@
+﻿// Powered by OrbXech Design Studio
 import React, { useState } from "react";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -113,9 +114,9 @@ export default function App() {
           <div>
             <h4 style={{ color: 'var(--accent)', fontSize: '1rem', marginBottom: '20px', fontFamily: 'var(--font-heading)' }}>Contact Info</h4>
             <p style={{ color: 'rgba(255,255,255,0.7)', lineHeight: '1.8' }}>
-              📍 88 President Street, Johannesburg<br />
-              📞 Phone: 081 529 3764<br />
-              📧 Email: info@rosebalc.co.za
+              ðŸ“ 88 President Street, Johannesburg<br />
+              ðŸ“ž Phone: 081 529 3764<br />
+              ðŸ“§ Email: info@rosebalc.co.za
             </p>
           </div>
         </div>
@@ -152,3 +153,4 @@ export default function App() {
     </div>
   );
 }
+

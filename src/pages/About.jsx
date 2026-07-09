@@ -1,3 +1,4 @@
+﻿// Powered by OrbXech Design Studio
 import React, { useEffect, useState } from 'react';
 import { db } from '../services/db';
 import { BookOpen, Compass, Award, Sparkles, ShieldCheck, Heart } from 'lucide-react';
@@ -256,3 +257,4 @@ export default function About() {
     </div>
   );
 }
+

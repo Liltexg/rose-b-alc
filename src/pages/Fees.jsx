@@ -1,3 +1,4 @@
+﻿// Powered by OrbXech Design Studio
 import React, { useEffect, useState } from 'react';
 import { db } from '../services/db';
 import { Check, ShieldAlert, ChevronRight } from 'lucide-react';
@@ -296,3 +297,4 @@ export default function Fees({ setCurrentPage }) {
     </div>
   );
 }
+

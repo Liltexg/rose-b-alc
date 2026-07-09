@@ -1,3 +1,4 @@
+﻿// Powered by OrbXech Design Studio
 import React, { useState, useRef, useEffect } from 'react';
 import { db } from '../services/db';
 import { AlertCircle, CheckCircle, ArrowRight, RotateCcw, FileSignature } from 'lucide-react';
@@ -671,3 +672,4 @@ export default function Admissions({ setCurrentPage }) {
     </div>
   );
 }
+

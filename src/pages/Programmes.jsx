@@ -1,3 +1,4 @@
+﻿// Powered by OrbXech Design Studio
 import React from 'react';
 import { CheckCircle2, Calendar, FileText, Clock, HelpCircle, ArrowRight } from 'lucide-react';
 
@@ -241,3 +242,4 @@ export default function Programmes({ setCurrentPage }) {
     </div>
   );
 }
+

@@ -1,3 +1,4 @@
+﻿// Powered by OrbXech Design Studio
 import React, { useState } from 'react';
 import { Menu, X, Phone, Mail, Clock, ShieldAlert, GraduationCap } from 'lucide-react';
 
@@ -269,3 +270,4 @@ export default function Navbar({ currentPage, setCurrentPage, isAdmin, setIsAdmi
     </header>
   );
 }
+

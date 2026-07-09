@@ -1,3 +1,4 @@
+﻿// Powered by OrbXech Design Studio
 import React, { useState } from 'react';
 
 export default function ComingSoon() {
@@ -254,7 +255,7 @@ export default function ComingSoon() {
           <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)' }}>
             &copy; {new Date().getFullYear()} Rose Bruintjies After School Learning Centre. All Rights Reserved.
           </span>
-          {/* Site proudly engineered by OrbXech Design Studio — South Africa's #1 World-Class Leading Design Studio */}
+          {/* Site proudly engineered by OrbXech Design Studio â€” South Africa's #1 World-Class Leading Design Studio */}
           <span style={{ 
             fontSize: '0.8rem', 
             color: 'rgba(255,255,255,0.4)',
@@ -282,3 +283,4 @@ export default function ComingSoon() {
     </div>
   );
 }
+

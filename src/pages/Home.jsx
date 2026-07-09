@@ -1,3 +1,4 @@
+﻿// Powered by OrbXech Design Studio
 import React, { useState, useEffect } from 'react';
 import { db } from '../services/db';
 import { CheckCircle2, ArrowRight, Bell, FileText, Landmark, CalendarRange, GraduationCap } from 'lucide-react';
@@ -724,3 +725,4 @@ const styleAdjustments = (
     }
   `}</style>
 );
+
