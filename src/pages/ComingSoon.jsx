@@ -1,9 +1,14 @@
 // Powered by OrbXech Design Studio
 import React, { useState, useEffect } from 'react';
 
+const WEB3FORMS_KEY = '068cd66b-3f71-4347-9986-fedf727330aa';
+
 export default function ComingSoon() {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [mounted, setMounted] = useState(false);
 
@@ -11,20 +16,64 @@ export default function ComingSoon() {
     setMounted(true);
   }, []);
 
-  const handleSubmit = (e) => {
+  const inputStyle = {
+    width: '100%',
+    padding: '14px 16px',
+    border: '1px solid var(--border-color, #E0E0E0)',
+    borderRadius: '2px',
+    fontFamily: 'inherit',
+    fontSize: '0.95rem',
+    outline: 'none',
+    transition: 'all 0.4s ease',
+    boxSizing: 'border-box'
+  };
+
+  const handleFocus = (e) => {
+    e.target.style.borderColor = 'var(--secondary, #7A1C20)';
+    e.target.style.boxShadow = '0 0 0 3px rgba(122, 28, 32, 0.1)';
+  };
+
+  const handleBlur = (e) => {
+    e.target.style.borderColor = 'var(--border-color, #E0E0E0)';
+    e.target.style.boxShadow = 'none';
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email) {
-      setError('Email address is required.');
-      return;
-    }
+    if (!firstName.trim()) { setError('First name is required.'); return; }
+    if (!lastName.trim()) { setError('Surname is required.'); return; }
+    if (!email) { setError('Email address is required.'); return; }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError('Please enter a valid email address.');
-      return;
-    }
+    if (!emailRegex.test(email)) { setError('Please enter a valid email address.'); return; }
+
     setError('');
-    setSubscribed(true);
-    setEmail('');
+    setLoading(true);
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: 'New Mailing List Subscriber — Rose B ALC',
+          name: `${firstName.trim()} ${lastName.trim()}`,
+          email: email.trim(),
+          message: `Name: ${firstName.trim()} ${lastName.trim()}\nEmail: ${email.trim()}\nSource: Coming Soon mailing list`
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSubscribed(true);
+        setFirstName('');
+        setLastName('');
+        setEmail('');
+      } else {
+        setError('Submission failed. Please try again.');
+      }
+    } catch {
+      setError('Network error. Please check your connection.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -155,67 +204,65 @@ export default function ComingSoon() {
             </p>
 
             {!subscribed ? (
-              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxWidth: '400px', margin: '0 auto' }}>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', position: 'relative' }}>
+              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '400px', margin: '0 auto' }}>
+                {/* Name row */}
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                   <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Email Address"
-                    style={{
-                      flex: '1 1 200px',
-                      minWidth: 0,
-                      padding: '14px 16px',
-                      border: '1px solid var(--border-color, #E0E0E0)',
-                      borderRadius: '2px',
-                      fontFamily: 'inherit',
-                      fontSize: '0.95rem',
-                      outline: 'none',
-                      transition: 'all 0.4s ease'
-                    }}
-                    onFocus={(e) => {
-                      e.target.style.borderColor = 'var(--secondary, #7A1C20)';
-                      e.target.style.boxShadow = '0 0 0 3px rgba(122, 28, 32, 0.1)';
-                    }}
-                    onBlur={(e) => {
-                      e.target.style.borderColor = 'var(--border-color, #E0E0E0)';
-                      e.target.style.boxShadow = 'none';
-                    }}
+                    type="text"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    placeholder="First Name"
+                    style={{ ...inputStyle, flex: '1 1 140px' }}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
                   />
-                  <button
-                    type="submit"
-                    style={{
-                      backgroundColor: 'var(--primary, #4A4A4A)',
-                      color: '#FFFFFF',
-                      border: 'none',
-                      flex: '1 1 100%',
-                      minHeight: '50px',
-                      padding: '14px 28px',
-                      borderRadius: '2px',
-                      fontFamily: 'inherit',
-                      fontWeight: 600,
-                      fontSize: '0.9rem',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.05em',
-                      cursor: 'pointer',
-                      transition: 'all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)'
-                    }}
-                    onMouseOver={(e) => {
-                      e.target.style.transform = 'translateY(-2px)';
-                      e.target.style.boxShadow = '0 10px 20px rgba(74, 74, 74, 0.2)';
-                      e.target.style.backgroundColor = 'var(--primary-hover, #333333)';
-                    }}
-                    onMouseOut={(e) => {
-                      e.target.style.transform = 'translateY(0)';
-                      e.target.style.boxShadow = 'none';
-                      e.target.style.backgroundColor = 'var(--primary, #4A4A4A)';
-                    }}
-                  >
-                    Subscribe
-                  </button>
+                  <input
+                    type="text"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    placeholder="Surname"
+                    style={{ ...inputStyle, flex: '1 1 140px' }}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                  />
                 </div>
+                {/* Email row */}
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email Address"
+                  style={inputStyle}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
+                />
+                {/* Submit */}
+                <button
+                  type="submit"
+                  disabled={loading}
+                  style={{
+                    backgroundColor: loading ? '#999' : 'var(--primary, #4A4A4A)',
+                    color: '#FFFFFF',
+                    border: 'none',
+                    width: '100%',
+                    minHeight: '50px',
+                    padding: '14px 28px',
+                    borderRadius: '2px',
+                    fontFamily: 'inherit',
+                    fontWeight: 600,
+                    fontSize: '0.9rem',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                    cursor: loading ? 'not-allowed' : 'pointer',
+                    transition: 'all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)'
+                  }}
+                  onMouseOver={(e) => { if (!loading) { e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 10px 20px rgba(74, 74, 74, 0.2)'; e.target.style.backgroundColor = 'var(--primary-hover, #333333)'; } }}
+                  onMouseOut={(e) => { if (!loading) { e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = 'none'; e.target.style.backgroundColor = 'var(--primary, #4A4A4A)'; } }}
+                >
+                  {loading ? 'Submitting...' : 'Subscribe'}
+                </button>
                 {error && (
-                  <span style={{ color: '#D32F2F', fontSize: '0.85rem', textAlign: 'left', marginTop: '4px' }}>
+                  <span style={{ color: '#D32F2F', fontSize: '0.85rem', textAlign: 'left' }}>
                     {error}
                   </span>
                 )}
