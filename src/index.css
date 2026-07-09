@@ -1,0 +1,682 @@
+:root {
+  /* Rose B ALC Official Brand Colors */
+  --primary: #4A4A4A;         /* Primary Brand: Charcoal Grey */
+  --primary-hover: #333333;
+  --secondary: #7A1C20;       /* Secondary Accent: Deep Burgundy */
+  --secondary-hover: #5D1215;
+  --accent: #F4C542;          /* Accent/Success: Gold Yellow */
+  --accent-hover: #E2B22E;
+  --bg: #FFFFFF;              /* Primary Background: White */
+  --bg-alt: #F5F5F5;          /* Section Background: Light Grey */
+  --white: #FFFFFF;
+  
+  --text: #2B2B2B;            /* Dark Grey text */
+  --text-muted: #6E7377;
+  --border-color: #E0E0E0;    /* Card & section borders */
+  
+  /* Fonts */
+  --font-heading: 'Cormorant Garamond', serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Layout Spacing */
+  --radius-sm: 2px;           /* Sharp, bespoke architectural edges */
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-full: 9999px;
+
+  /* Shadows - Minimalist and high-end studio feel */
+  --shadow-sm: 0 2px 10px rgba(30, 32, 34, 0.03);
+  --shadow-md: 0 10px 30px rgba(30, 32, 34, 0.05);
+  --shadow-lg: 0 20px 48px rgba(30, 32, 34, 0.08);
+}
+
+/* Global Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  background-color: var(--bg);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-alt);
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Typography styling - OrbXech Design Studio Standard */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--primary);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: clamp(3rem, 7vw, 4.8rem);
+  font-weight: 500;
+}
+
+h2 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+h3 {
+  font-size: clamp(1.45rem, 3.5vw, 2rem);
+  font-weight: 500;
+}
+
+h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+/* Layout container */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.section {
+  padding: 120px 0;
+}
+
+.section-alt {
+  background-color: var(--bg-alt);
+  padding: 120px 0;
+}
+
+/* Architectural dividers */
+.double-border {
+  border-top: 3px double var(--primary);
+  margin: 36px 0;
+}
+
+.border-bottom-elegant {
+  position: relative;
+  padding-bottom: 14px;
+  margin-bottom: 28px;
+}
+
+.border-bottom-elegant::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background-color: var(--secondary);
+}
+
+/* Design Studio Buttons - Clean borders, flat transitions */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 36px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  box-shadow: 0 6px 16px rgba(30, 32, 34, 0.15);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: var(--secondary);
+  color: var(--white);
+}
+
+.btn-secondary:hover {
+  background-color: var(--secondary-hover);
+  box-shadow: 0 6px 16px rgba(229, 91, 19, 0.25);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  background-color: transparent;
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.btn-outline:hover {
+  background-color: var(--primary);
+  color: var(--white);
+  transform: translateY(-1px);
+}
+
+.btn-outline-white {
+  background-color: transparent;
+  border-color: var(--white);
+  color: var(--white);
+}
+
+.btn-outline-white:hover {
+  background-color: var(--white);
+  color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.btn-accent {
+  background-color: var(--accent);
+  color: var(--primary);
+}
+
+.btn-accent:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+/* Cards - Sharp panels, thin rules */
+.card {
+  background: var(--white);
+  border-radius: var(--radius-sm);
+  padding: 48px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+}
+
+.card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+}
+
+/* Grids & Layout Utilities */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 48px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+@media (max-width: 1024px) {
+  .grid-3, .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-2, .grid-3, .grid-4 {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .section, .section-alt {
+    padding: 80px 0;
+  }
+  .container {
+    padding: 0 28px;
+  }
+}
+
+/* Forms styling */
+.form-group {
+  margin-bottom: 28px;
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  font-family: var(--font-body);
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.form-control {
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background-color: var(--white);
+  transition: all var(--transition-fast);
+  outline: none;
+  font-family: var(--font-body);
+}
+
+.form-control:focus {
+  border-color: var(--primary);
+  background-color: var(--white);
+  box-shadow: 0 0 0 2px rgba(30, 32, 34, 0.04);
+}
+
+.form-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  font-size: 0.92rem;
+}
+
+.form-checkbox input {
+  margin-top: 5px;
+  accent-color: var(--secondary);
+}
+
+.form-checkbox a {
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.form-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-right: 32px;
+  cursor: pointer;
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+/* Official school letter notice styling */
+.notice-letter {
+  background: var(--white);
+  border: 1px solid var(--border-color);
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 80px;
+  position: relative;
+}
+
+/* Top primary highlight rule */
+.notice-letter::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background-color: var(--secondary);
+}
+
+.notice-letter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 3px double var(--primary);
+  padding-bottom: 28px;
+  margin-bottom: 36px;
+}
+
+.notice-letter-logo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.notice-letter-title {
+  text-align: center;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 40px;
+  color: var(--primary);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 16px;
+}
+
+.notice-letter-body {
+  font-family: var(--font-body);
+  line-height: 1.95;
+  font-size: 0.98rem;
+  color: var(--text);
+  margin-bottom: 56px;
+  white-space: pre-line;
+}
+
+.notice-letter-footer {
+  border-top: 1px solid var(--border-color);
+  padding-top: 28px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+@media (max-width: 600px) {
+  .notice-letter {
+    padding: 40px 24px;
+  }
+  .notice-letter-header {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animated {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Scholastic Tags */
+.tag {
+  background-color: var(--bg-alt);
+  color: var(--primary);
+  padding: 4px 14px;
+  border: 1px solid var(--border-color);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+}
+
+.tag-secondary {
+  background-color: rgba(198, 40, 40, 0.06);
+  color: var(--secondary);
+  border: 1px solid rgba(198, 40, 40, 0.15);
+}
+
+.tag-accent {
+  background-color: rgba(244, 197, 66, 0.08);
+  color: var(--primary);
+  border: 1px solid rgba(244, 197, 66, 0.3);
+}
+
+/* Museum Double-Framed Picture Frame */
+.museum-frame {
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  background-color: var(--white);
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+
+.museum-frame::after {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  border: 1px solid var(--accent);
+  pointer-events: none;
+}
+
+/* OrbXech Premium Branding Accents */
+.meta-tag {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--secondary); /* Academic Red */
+  margin-bottom: 8px;
+  display: inline-block;
+}
+
+.watermark-bg {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  font-family: var(--font-heading);
+  font-size: clamp(12rem, 25vw, 24rem);
+  font-weight: 900;
+  color: rgba(74, 74, 74, 0.02);
+  line-height: 1;
+  z-index: 0;
+}
+
+/* Offset Overlapping Placements for Asymmetry */
+.overlap-up-desktop {
+  margin-top: -60px;
+}
+
+@media (max-width: 900px) {
+  .overlap-up-desktop {
+    margin-top: 0;
+  }
+}
+
+/* Rose Blossom Preloader Styling */
+.preloader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.8s ease;
+}
+
+.preloader-overlay.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.rose-preloader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.preloader-text {
+  font-family: var(--font-heading);
+  font-size: 1.45rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+  opacity: 0;
+  animation: fadeInText 1s 1.8s forwards ease-out;
+}
+
+/* SVG Blossom Animations */
+.stem-path {
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: drawStem 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.leaf-left-path, .leaf-right-path {
+  transform: scale(0);
+  transform-origin: 100px 150px;
+  animation: scaleUp 1s 0.8s forwards ease-out;
+}
+
+.rose-p1 {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: drawBud 1.2s 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.rose-p2 {
+  transform: scale(0);
+  transform-origin: 100px 101px;
+  animation: blossomPetal 1.5s 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.rose-p3, .rose-p4 {
+  transform: scale(0);
+  transform-origin: 100px 92px;
+  animation: blossomPetal 1.6s 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.rose-p5 {
+  transform: scale(0);
+  transform-origin: 100px 102px;
+  animation: blossomPetal 1.8s 1.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.rose-p6 {
+  transform: scale(0);
+  transform-origin: 100px 92px;
+  animation: blossomPetal 2s 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.rose-p7 {
+  transform: scale(0);
+  transform-origin: 100px 110px;
+  animation: blossomPetal 2.2s 2.1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes drawBud {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes scaleUp {
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes blossomPetal {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes drawStem {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fadeInText {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes blossomOuter {
+  0% {
+    transform: scale(0);
+    fill: transparent;
+    stroke: var(--primary); /* Charcoal outline */
+  }
+  35% {
+    transform: scale(0.4);
+    fill: var(--accent); /* Gold morphing start */
+    stroke: var(--accent);
+  }
+  100% {
+    transform: scale(1);
+    fill: var(--secondary); /* Final Red blossom */
+    stroke: var(--secondary);
+  }
+}
+
+@keyframes blossomMid {
+  0% {
+    transform: scale(0);
+    fill: transparent;
+    stroke: var(--primary);
+  }
+  40% {
+    transform: scale(0.5);
+    fill: var(--accent);
+    stroke: var(--accent);
+  }
+  100% {
+    transform: scale(1);
+    fill: var(--secondary);
+    stroke: var(--secondary);
+  }
+}
+
+@keyframes blossomInner {
+  0% {
+    transform: scale(0);
+    fill: transparent;
+    stroke: var(--primary);
+  }
+  50% {
+    transform: scale(0.5);
+    fill: var(--accent);
+    stroke: var(--accent);
+  }
+  100% {
+    transform: scale(1);
+    fill: #a61c1c; /* Deep Accent Red Bud */
+    stroke: var(--secondary);
+  }
+}
