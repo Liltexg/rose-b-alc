@@ -152,6 +152,27 @@ export default function Navbar({ currentPage, setCurrentPage }) {
                 </li>
               ))}
             </ul>
+            <a
+              href="tel:0764237821"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                backgroundColor: 'rgba(0,0,0,0.04)',
+                color: 'var(--primary)',
+                marginLeft: '12px',
+                textDecoration: 'none',
+                transition: 'background-color 0.3s'
+              }}
+              onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.08)'}
+              onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.04)'}
+              title="Call Us"
+            >
+              <Phone size={16} />
+            </a>
             <button
               className="btn btn-secondary"
               style={{ padding: '10px 20px', fontSize: '0.75rem', marginLeft: '8px', minHeight: '40px' }}
@@ -161,28 +182,46 @@ export default function Navbar({ currentPage, setCurrentPage }) {
             </button>
           </div>
 
-          {/* Mobile Toggle Button */}
-          <button
-            className="mobile-nav-toggle"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label={isOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={isOpen}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: 'var(--primary)',
-              cursor: 'pointer',
-              display: 'none',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '8px',
-              minWidth: '44px',
-              minHeight: '44px',
-              borderRadius: '8px'
-            }}
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* Mobile Actions */}
+          <div className="mobile-nav-toggle" style={{ display: 'none', alignItems: 'center', gap: '4px' }}>
+            <a
+              href="tel:0764237821"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '44px',
+                height: '44px',
+                color: 'var(--primary)',
+                textDecoration: 'none',
+                borderRadius: '8px',
+                backgroundColor: 'rgba(0,0,0,0.04)'
+              }}
+              title="Call Us"
+            >
+              <Phone size={20} />
+            </a>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label={isOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={isOpen}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'var(--primary)',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '8px',
+                minWidth: '44px',
+                minHeight: '44px',
+                borderRadius: '8px'
+              }}
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </nav>
       </div>
 
