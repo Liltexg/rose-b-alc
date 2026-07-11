@@ -193,29 +193,26 @@ export default function App() {
           rel="noopener noreferrer"
           className="fab-btn"
           style={{
-            backgroundColor: '#25D366',
-            color: '#FFF',
-            width: '52px',
-            height: '52px',
-            borderRadius: '50%',
+            backgroundColor: 'transparent',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            boxShadow: '0 4px 14px rgba(37, 211, 102, 0.4)',
+            borderRadius: '10px',
+            boxShadow: '0 4px 14px rgba(37, 211, 102, 0.3)',
             transition: 'all 0.3s ease',
             textDecoration: 'none'
           }}
           onMouseOver={(e) => {
             e.currentTarget.style.transform = 'translateY(-4px)';
-            e.currentTarget.style.boxShadow = '0 6px 20px rgba(37, 211, 102, 0.6)';
+            e.currentTarget.style.boxShadow = '0 6px 20px rgba(37, 211, 102, 0.5)';
           }}
           onMouseOut={(e) => {
             e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 4px 14px rgba(37, 211, 102, 0.4)';
+            e.currentTarget.style.boxShadow = '0 4px 14px rgba(37, 211, 102, 0.3)';
           }}
           title="Chat on WhatsApp"
         >
-          <WhatsAppIcon size={38} />
+          <WhatsAppIcon size={52} />
         </a>
       </div>
 

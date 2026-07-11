@@ -1,5 +1,6 @@
 // Powered by OrbXech Design Studio
 import React, { useState, useEffect } from 'react';
+import { PhoneCall, Mail } from 'lucide-react';
 
 // Official WhatsApp brand icon
 const WhatsAppIcon = ({ size = 24 }) => (
@@ -368,12 +369,16 @@ export default function ComingSoon() {
             }}>
               Contact Information
             </h4>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '0.9rem', lineHeight: 1.8, color: 'rgba(255,255,255,0.8)' }}>
-              <li><strong>Telephone:</strong> 076 423 7821</li>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '0.9rem', lineHeight: 1.8, color: 'rgba(255,255,255,0.8)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <PhoneCall size={16} /> <strong>Telephone:</strong> <a href="tel:0764237821" style={{ color: 'inherit', textDecoration: 'none' }}>076 423 7821</a>
+              </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <WhatsAppIcon size={16} /> <strong>WhatsApp:</strong> <a href="https://wa.me/27764237821?text=Hi%20Mr.%20Breintjies,%20I%20would%20like%20to%20inquire%20about%20the%20after-school%20programmes%20at%20Rose%20B%20ALC." target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none', transition: 'color 0.3s' }} onMouseOver={(e) => e.target.style.color = '#25D366'} onMouseOut={(e) => e.target.style.color = 'inherit'}>076 423 7821</a>
               </li>
-              <li><strong>Email:</strong> edwardbreintjies@rosebalc.co.za</li>
+              <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Mail size={16} /> <strong>Email:</strong> <a href="mailto:edwardbreintjies@rosebalc.co.za" style={{ color: 'inherit', textDecoration: 'none' }}>edwardbreintjies@rosebalc.co.za</a>
+              </li>
             </ul>
           </div>
           <div>
@@ -449,29 +454,26 @@ export default function ComingSoon() {
           rel="noopener noreferrer"
           className="fab-btn"
           style={{
-            backgroundColor: '#25D366',
-            color: '#FFF',
-            width: '52px',
-            height: '52px',
-            borderRadius: '50%',
+            backgroundColor: 'transparent',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            boxShadow: '0 4px 14px rgba(37, 211, 102, 0.4)',
+            borderRadius: '10px',
+            boxShadow: '0 4px 14px rgba(37, 211, 102, 0.3)',
             transition: 'all 0.3s ease',
             textDecoration: 'none'
           }}
           onMouseOver={(e) => {
             e.currentTarget.style.transform = 'translateY(-4px)';
-            e.currentTarget.style.boxShadow = '0 6px 20px rgba(37, 211, 102, 0.6)';
+            e.currentTarget.style.boxShadow = '0 6px 20px rgba(37, 211, 102, 0.5)';
           }}
           onMouseOut={(e) => {
             e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 4px 14px rgba(37, 211, 102, 0.4)';
+            e.currentTarget.style.boxShadow = '0 4px 14px rgba(37, 211, 102, 0.3)';
           }}
           title="Chat on WhatsApp"
         >
-          <WhatsAppIcon size={38} />
+          <WhatsAppIcon size={52} />
         </a>
       </div>
 
