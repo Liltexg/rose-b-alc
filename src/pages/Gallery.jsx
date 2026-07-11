@@ -1,4 +1,4 @@
-﻿// Powered by OrbXech Design Studio
+// Powered by OrbXech Design Studio
 import React, { useState, useEffect } from 'react';
 import { db } from '../services/db';
 import { X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
@@ -328,6 +328,28 @@ export default function Gallery() {
         }
         .gallery-card:hover .zoom-icon {
           transform: scale(1) !important;
+        }
+        /* On touch-primary (mobile) devices, always show the gallery overlay caption */
+        @media (max-width: 900px) {
+          .gallery-overlay {
+            opacity: 1 !important;
+            background: linear-gradient(rgba(30,32,34,0), rgba(30,32,34,0.75)) !important;
+          }
+          .zoom-icon {
+            display: none !important;
+          }
+        }
+        /* Lightbox nav buttons — smaller on mobile */
+        @media (max-width: 600px) {
+          .lightbox-prev, .lightbox-next {
+            width: 40px !important;
+            height: 40px !important;
+            left: 8px !important;
+          }
+          .lightbox-next {
+            right: 8px !important;
+            left: auto !important;
+          }
         }
       `}</style>
     </div>

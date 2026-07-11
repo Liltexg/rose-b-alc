@@ -1,4 +1,4 @@
-﻿// Powered by OrbXech Design Studio
+// Powered by OrbXech Design Studio
 import React, { useEffect, useState } from 'react';
 import { db } from '../services/db';
 import { Check, ShieldAlert, ChevronRight } from 'lucide-react';
@@ -176,11 +176,11 @@ export default function Fees({ setCurrentPage }) {
                   {/* Row 2 */}
                   <div style={{ display: 'flex', justify: 'space-between', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                      <h5 style={{ fontSize: '0.92rem', marginBottom: '2px', fontWeight: 600 }}>Once-Off Package</h5>
+                      <h5 style={{ fontSize: '0.92rem', marginBottom: '2px', fontWeight: 600 }}>Once-Off Package (Optional)</h5>
                       <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Upfront single payment</span>
                     </div>
                     <span style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--secondary)' }}>
-                      R{pricing.rewriteOnceOff || 2500}<span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textDecoration: 'line-through', display: 'block', textAlign: 'right', fontWeight: 500 }}>R4 800</span>
+                      R{pricing.rewriteOnceOff || 3500}<span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textDecoration: 'line-through', display: 'block', textAlign: 'right', fontWeight: 500 }}>R4 800</span>
                     </span>
                   </div>
                 </div>

@@ -1,4 +1,4 @@
-﻿// Powered by OrbXech Design Studio
+// Powered by OrbXech Design Studio
 import React, { useEffect, useState } from 'react';
 import { db } from '../services/db';
 import { BookOpen, Compass, Award, Sparkles, ShieldCheck, Heart } from 'lucide-react';
@@ -22,15 +22,17 @@ export default function About() {
     <div className="animated">
       {/* Page Header */}
       <section style={{
-        backgroundColor: 'var(--bg-alt)',
-        padding: '60px 0',
-        borderBottom: '3px double var(--primary)',
-        textAlign: 'center'
+        padding: '100px 0 60px 0',
+        borderBottom: '1px solid rgba(0,0,0,0.1)'
       }}>
         <div className="container">
-          <span className="meta-tag">[ SEC. 01 / HISTORICAL CONTEXT ]</span>
-          <h1 style={{ fontSize: '2.8rem', margin: 0, color: 'var(--primary)' }}>About Rose B ALC</h1>
-          <div style={{ width: '40px', height: '2px', backgroundColor: 'var(--secondary)', margin: '12px auto 0' }}></div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '12px' }}>
+            <div>
+              <span style={{ fontSize: '0.7rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--secondary)', display: 'block', marginBottom: '20px' }}>Historical Context</span>
+              <h1 style={{ fontSize: 'clamp(3rem, 7vw, 5rem)' }}>About Us</h1>
+            </div>
+            <span style={{ fontSize: '0.7rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Rose B ALC</span>
+          </div>
         </div>
       </section>
 
@@ -51,7 +53,7 @@ export default function About() {
                 lineHeight: '1.85',
                 marginBottom: '20px'
               }}>
-                {content.aboutStory || "Rose Bruintjies After School Learning Centre was established to offer structural academic support for learners, helping them navigate standard curricula and build crucial skills."}
+                {content.aboutStory || "Rose Breintjies After School Learning Centre was established to offer structural academic support for learners, helping them navigate standard curricula and build crucial skills."}
               </p>
               <p style={{
                 color: 'var(--text-muted)',
@@ -62,57 +64,62 @@ export default function About() {
               </p>
             </div>
             
-            {/* Museum framed image */}
-            <div className="museum-frame" style={{ width: '100%' }}>
+            {/* Museum framed image with Wix Overlap */}
+            <div className="museum-frame about-museum-frame" style={{ 
+              width: '100%', 
+              marginTop: '-40px', 
+              position: 'relative', 
+              zIndex: 10,
+              boxShadow: '0 30px 60px rgba(0,0,0,0.15)'
+            }}>
               <img 
                 src="https://images.unsplash.com/photo-1577896851231-70ef18881754?w=800&auto=format&fit=crop&q=80" 
                 alt="Students studying at Rose B ALC" 
-                style={{ width: '100%', display: 'block', height: '340px', objectFit: 'cover' }}
+                style={{ width: '100%', display: 'block', height: '400px', objectFit: 'cover' }}
               />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Mission & Vision - High-contrast UJ Color Blocks */}
-      <section className="section-alt" style={{ borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
-        <div className="container">
-          <div className="grid-2">
-            <div className="card" style={{
-              borderLeft: '6px solid var(--secondary)',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              padding: '44px'
+      {/* Mission & Vision - High-contrast Brand Blocks */}
+      <section style={{ borderBottom: '1px solid rgba(0,0,0,0.1)' }}>
+        <div className="container" style={{ padding: 0 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }} className="mission-grid-mobile">
+            
+            <div style={{
+              backgroundColor: 'var(--secondary)',
+              color: 'var(--white)',
+              padding: '80px 60px',
+              borderRight: '1px solid rgba(0,0,0,0.1)'
             }}>
-              <h3 style={{ marginBottom: '16px', color: 'var(--secondary)' }}>Our Mission</h3>
+              <span style={{ fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', display: 'block', marginBottom: '24px' }}>01 / Purpose</span>
+              <h3 style={{ marginBottom: '24px', color: 'var(--white)', fontSize: '2rem' }}>Our Mission</h3>
               <p style={{
-                fontSize: '1.15rem',
+                fontSize: '1.25rem',
                 lineHeight: '1.75',
-                fontStyle: 'italic',
-                color: 'var(--primary)'
+                color: 'rgba(255,255,255,0.9)'
               }}>
                 "{content.aboutMission || "To provide quality academic support that empowers every learner to reach their full potential through dedication, discipline, and excellence."}"
               </p>
             </div>
 
-            <div className="card" style={{
-              borderLeft: '6px solid var(--accent)',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              padding: '44px'
+            <div style={{
+              backgroundColor: 'var(--primary)',
+              color: 'var(--white)',
+              padding: '80px 60px'
             }}>
-              <h3 style={{ marginBottom: '16px', color: 'var(--primary)' }}>Our Vision</h3>
+              <span style={{ fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', display: 'block', marginBottom: '24px' }}>02 / Future</span>
+              <h3 style={{ marginBottom: '24px', color: 'var(--white)', fontSize: '2rem' }}>Our Vision</h3>
               <p style={{
-                fontSize: '1.15rem',
+                fontSize: '1.25rem',
                 lineHeight: '1.75',
-                fontStyle: 'italic',
-                color: 'var(--primary)'
+                color: 'rgba(255,255,255,0.9)'
               }}>
                 "{content.aboutVision || "To become a leading after-school academic support centre that develops confident, knowledgeable, and successful learners."}"
               </p>
             </div>
+
           </div>
         </div>
       </section>
@@ -133,16 +140,17 @@ export default function About() {
             gap: '24px'
           }}>
             {values.map((v, index) => (
-              <div key={index} className="card" style={{
+              <div key={index} style={{
                 width: 'calc(33.333% - 16px)',
                 minWidth: '280px',
                 flexGrow: 1,
-                padding: '36px',
+                padding: '40px 32px',
                 textAlign: 'left',
-                borderTop: `3px double ${v.color}`,
+                borderTop: `1px solid ${v.color}`,
+                borderLeft: '1px solid rgba(0,0,0,0.1)',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '12px'
+                gap: '16px'
               }}>
                 <div style={{ color: v.color }}>
                   {v.icon}
@@ -170,19 +178,19 @@ export default function About() {
               <div className="museum-frame" style={{ width: '100%' }}>
                 <img 
                   src="/mr-breintjies.jpg" 
-                  alt="Founder Mr Edward Bruintjies" 
+                  alt="Founder Mr. E. Breintjies" 
                   style={{ width: '100%', display: 'block', height: '320px', objectFit: 'cover' }}
                 />
               </div>
 
-              <div className="card" style={{ padding: '28px', borderTop: '3px double var(--accent)' }}>
-                <h4 style={{ marginBottom: '16px', color: 'var(--primary)', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px' }}>
+              <div style={{ padding: '32px', borderTop: '1px solid var(--accent)' }}>
+                <h4 style={{ marginBottom: '16px', color: 'var(--primary)', paddingBottom: '10px' }}>
                   Professional Qualifications
                 </h4>
                 <ul style={{
                   paddingLeft: '20px',
                   fontSize: '0.85rem',
-                  color: 'var(--text)',
+                  color: 'var(--text-muted)',
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '10px',
@@ -192,9 +200,8 @@ export default function About() {
                     <li key={idx}>{qual}</li>
                   )) || (
                     <>
-                      <li>Bachelor of Education (B.Ed) - FET Specialization</li>
-                      <li>15+ Years Classroom Teaching Experience</li>
-                      <li>Certified Exam Assessor</li>
+                      <li>BEd (FET) Life Sciences</li>
+                      <li>10 years experience teaching Life Science</li>
                     </>
                   )}
                 </ul>
@@ -202,40 +209,38 @@ export default function About() {
             </div>
 
             {/* Right Col - Details */}
-            <div className="card" style={{ padding: '48px', borderTop: '3px double var(--secondary)' }}>
-              <span className="meta-tag">[ SEC. 03 / BIOGRAPHY ]</span>
-              <h2 style={{ fontSize: '2.5rem', marginBottom: '24px' }}>Mr. Edward Bruintjies</h2>
+            <div style={{ padding: '60px', borderTop: '1px solid var(--secondary)', borderLeft: '1px solid rgba(0,0,0,0.1)' }}>
+              <span style={{ fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--text-muted)', display: 'block', marginBottom: '24px' }}>Biography</span>
+              <h2 style={{ fontSize: '2.5rem', marginBottom: '32px' }}>Mr. E. Breintjies</h2>
               
               <div style={{
-                borderLeft: '4px solid var(--accent)',
-                paddingLeft: '20px',
-                margin: '24px 0',
-                fontStyle: 'italic',
-                fontWeight: 500,
-                fontSize: '1.1rem',
+                borderLeft: '1px solid var(--accent)',
+                paddingLeft: '24px',
+                margin: '32px 0',
+                fontSize: '1.2rem',
                 color: 'var(--primary)',
-                marginBottom: '20px'
+                marginBottom: '32px'
               }}>
                 "Every learner has a unique cognitive makeup. Our job is not to force them into a mold, but to provide the structure, dedication, and clear guidance they need to unlock their academic capability."
               </div>
 
               <p style={{
-                color: 'var(--text)',
+                color: 'var(--text-muted)',
                 lineHeight: '1.8',
-                fontSize: '0.98rem',
-                marginBottom: '28px'
+                fontSize: '1.05rem',
+                marginBottom: '40px'
               }}>
-                {content.founderBio || "Mr. Edward Bruintjies is a highly dedicated educator with over 15 years of classroom teaching experience."}
+                {content.founderBio || "Mr. E. Breintjies is a highly dedicated educator with 10 years of experience teaching Life Science."}
               </p>
 
-              <h4 style={{ marginBottom: '14px', color: 'var(--primary)' }}>Academic Focus Subjects:</h4>
+              <h4 style={{ marginBottom: '16px', color: 'var(--primary)' }}>Academic Focus Subjects:</h4>
               <div style={{
                 display: 'flex',
                 gap: '12px',
                 flexWrap: 'wrap'
               }}>
-                {["FET Life Sciences", "FET Mathematics", "Physical Sciences", "Exam Pacing Techniques"].map((subj, idx) => (
-                  <span key={idx} className="tag tag-secondary" style={{ fontSize: '0.78rem', padding: '6px 14px' }}>
+                {["Life Sciences", "Mathematical Literacy", "Exam Preparation"].map((subj, idx) => (
+                  <span key={idx} className="tag" style={{ borderBottomColor: 'var(--secondary)', color: 'var(--primary)' }}>
                     {subj}
                   </span>
                 ))}
@@ -251,6 +256,24 @@ export default function About() {
           .about-grid-mobile {
             grid-template-columns: 1fr !important;
             gap: 36px !important;
+          }
+          .mission-grid-mobile {
+            grid-template-columns: 1fr !important;
+          }
+          .mission-grid-mobile > div {
+            border-right: none !important;
+            padding: 60px 28px !important;
+          }
+          .about-museum-frame {
+            margin-top: 0 !important;
+          }
+        }
+        @media (max-width: 600px) {
+          .about-grid-mobile > div:last-child {
+            padding: 0 !important;
+          }
+          .mission-grid-mobile > div {
+            padding: 40px 20px !important;
           }
         }
       `}</style>

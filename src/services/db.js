@@ -1,4 +1,4 @@
-﻿// Powered by OrbXech Design Studio
+// Powered by OrbXech Design Studio
 // Local Storage Database Service for Rose B ALC
 
 const STORAGE_KEYS = {
@@ -13,16 +13,16 @@ const STORAGE_KEYS = {
 const DEFAULT_PRICING = {
   hourlyRate: 50,
   rewriteMonthly: 800,
-  rewriteOnceOff: 2500,
+  rewriteOnceOff: 3500,
   promoBannerActive: true,
   promoBannerText: "First 20 Applicants: Receive R200 OFF for the first two months!"
 };
 
 const DEFAULT_CONTENT = {
-  aboutStory: "Rose Bruintjies After School Learning Centre (Rose B ALC) was founded with a singular, powerful vision: to provide a structured, disciplined, and nurturing environment where learners can unlock their full academic potential. Located in our local community, we serve as a bridge between classroom instruction and academic mastery. We believe that with the right guidance, focused support, and dedication, every student can achieve excellence. Our centre follows the standard CAPS curriculum closely, ensuring that our lessons align perfectly with what students are tested on in school, giving them the confidence to excel in their National Senior Certificate (NSC) examinations.",
+  aboutStory: "Rose Breintjies After School Learning Centre (Rose B ALC) was founded with a singular, powerful vision: to provide a structured, disciplined, and nurturing environment where learners can unlock their full academic potential. Located in our local community, we serve as a bridge between classroom instruction and academic mastery. We believe that with the right guidance, focused support, and dedication, every student can achieve excellence. Our centre follows the standard CAPS curriculum closely, ensuring that our lessons align perfectly with what students are tested on in school, giving them the confidence to excel in their National Senior Certificate (NSC) examinations.",
   aboutMission: "To provide quality academic support that empowers every learner to reach their full potential through dedication, discipline, and academic excellence.",
   aboutVision: "To become a leading after-school academic support centre that develops confident, knowledgeable, and successful learners.",
-  founderBio: "Edward Bruintjies is a highly dedicated educator with over 15 years of classroom teaching experience. Having taught in both private and public school settings, Edward established the After School Learning Centre to address the individual needs of learners that are often overlooked in large classrooms. Holding a Bachelor of Education (B.Ed) degree in Senior Phase and FET teaching, specializing in Life Sciences and Mathematics, Edward is committed to instilling discipline, self-belief, and rigorous academic work ethic in every student. His subjects taught include FET Life Sciences and General Sciences, with a track record of helping over 95% of his students improve their grades.",
+  founderBio: "Edward Breintjies is a highly dedicated educator with over 15 years of classroom teaching experience. Having taught in both private and public school settings, Edward established the After School Learning Centre to address the individual needs of learners that are often overlooked in large classrooms. Holding a Bachelor of Education (B.Ed) degree in Senior Phase and FET teaching, specializing in Life Sciences and Mathematics, Edward is committed to instilling discipline, self-belief, and rigorous academic work ethic in every student. His subjects taught include FET Life Sciences and General Sciences, with a track record of helping over 95% of his students improve their grades.",
   founderQualifications: [
     "Bachelor of Education (B.Ed) - FET Specialization",
     "15+ Years Classroom Teaching Experience",
@@ -36,15 +36,15 @@ const DEFAULT_NOTICES = [
     id: 'n-1',
     title: "2027 Applications Now Open",
     date: "2026-07-01",
-    author: "E. Bruintjies (Principal)",
+    author: "E. Breintjies (Principal)",
     category: "General",
-    body: "Dear Parents and Guardians,\n\nWe are pleased to announce that applications for the 2027 academic year are now officially open. Due to our commitment to maintaining small class sizes and providing personalized attention to each learner, spaces are strictly limited.\n\nWe offer comprehensive Grade 12 Support as well as our intensive Rewrite/Upgrade Programme. We encourage early submission to secure your learner's space.\n\nApplications can be submitted directly online through our new website portal or by visiting our centre. Please ensure all supporting documents and signed consent forms are attached.\n\nSincerely,\nMr. Edward Bruintjies\nFounder & Director, Rose B ALC"
+    body: "Dear Parents and Guardians,\n\nWe are pleased to announce that applications for the 2027 academic year are now officially open. Due to our commitment to maintaining small class sizes and providing personalized attention to each learner, spaces are strictly limited.\n\nWe offer comprehensive Grade 12 Support as well as our intensive Rewrite/Upgrade Programme. We encourage early submission to secure your learner's space.\n\nApplications can be submitted directly online through our new website portal or by visiting our centre. Please ensure all supporting documents and signed consent forms are attached.\n\nSincerely,\nMr. Edward Breintjies\nFounder & Director, Rose B ALC"
   },
   {
     id: 'n-2',
     title: "June Holiday Revision Programme",
     date: "2026-05-15",
-    author: "E. Bruintjies (Principal)",
+    author: "E. Breintjies (Principal)",
     category: "Academic",
     body: "Dear Grade 12 Parents,\n\nIn preparation for the upcoming mock trials and final examinations, we will be hosting an intensive June Holiday Revision Programme.\n\nThis programme will focus specifically on difficult sections of the Life Sciences curriculum and past exam paper analysis. Attendance is highly recommended for all enrolled students.\n\nDates: 15 June â€“ 26 June\nTime: 09:00 - 13:00 daily\nVenue: Rose B ALC Main Classroom\n\nPlease confirm attendance by replying to this notice or signing the slip sent home with learners.\n\nWarm regards,\nRose B ALC Academic Team"
   },
@@ -102,18 +102,18 @@ const DEFAULT_APPLICATIONS = [
     id: 'app-1',
     dateSubmitted: "2026-07-06T14:32:00Z",
     programme: "Grade 12",
-    parentName: "John",
-    parentSurname: "Dube",
+    parentName: "James",
+    parentSurname: "Davies",
     parentContact: "082 123 4567",
-    parentAddress: "12 Pine Street, Rosebank, Johannesburg",
-    learnerName: "Sipho",
-    learnerSurname: "Dube",
+    parentAddress: "12 Pine Street, Kariega, Eastern Cape",
+    learnerName: "Tracy",
+    learnerSurname: "Breintjies",
     learnerGrade: "Grade 12",
     learnerSubjects: ["Life Sciences", "Mathematics", "English FAL"],
     consentTerms: true,
     consentPhotos: true,
     consentCorrect: true,
-    signature: "John Dube",
+    signature: "James Davis",
     status: "Pending"
   },
   {
@@ -245,7 +245,7 @@ export const db = {
     db.saveGallery(filtered);
     return true;
   },
-  
+
   // Seed database utility
   resetDatabase: () => {
     saveData(STORAGE_KEYS.PRICING, DEFAULT_PRICING);

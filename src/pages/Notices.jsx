@@ -1,4 +1,4 @@
-﻿// Powered by OrbXech Design Studio
+// Powered by OrbXech Design Studio
 import React, { useState, useEffect } from 'react';
 import { db } from '../services/db';
 import { Search, Calendar, ChevronDown, ChevronUp, Printer } from 'lucide-react';
@@ -46,8 +46,8 @@ export default function Notices() {
           <div class="letter">
             <div class="header">
               <div>
-                <h2 style="margin: 0; color: #1E2022; font-size: 1.3rem; font-family:'Cormorant Garamond';">ROSE BRUINTJIES</h2>
-                <h4 style="margin: 0; color: #E55B13; font-size: 0.75rem; letter-spacing: 1px;">AFTER SCHOOL LEARNING CENTRE</h4>
+                <h2 style="margin: 0; color: #1E2022; font-size: 1.3rem; font-family:'Cormorant Garamond';">ROSE BREINTJIES</h2>
+                <h4 style="margin: 0; color: #E55B13; font-size: 0.75rem; letter-spacing: 1px;">AFTER SCHOOL LEARNING CENTER</h4>
               </div>
               <div style="text-align: right; font-size: 0.8rem; color:#666666;">
                 <strong>Date:</strong> ${new Date(notice.date).toLocaleDateString('en-ZA')}<br>
@@ -234,8 +234,8 @@ export default function Notices() {
                             <div className="notice-letter-logo">
                               <img src="/logo.png" alt="Rose B ALC" style={{ height: '48px', objectFit: 'contain' }} />
                               <div>
-                                <h3 style={{ fontSize: '1.2rem', lineHeight: '1.1', color: 'var(--primary)' }}>ROSE BRUINTJIES</h3>
-                                <span style={{ fontSize: '0.65rem', fontWeight: 700, color: 'var(--secondary)', letterSpacing: '0.05em' }}>AFTER SCHOOL LEARNING CENTRE</span>
+                                <h3 style={{ fontSize: '1.2rem', lineHeight: '1.1', color: 'var(--primary)' }}>ROSE BREINTJIES</h3>
+                                <span style={{ fontSize: '0.65rem', fontWeight: 700, color: 'var(--secondary)', letterSpacing: '0.05em' }}>AFTER SCHOOL LEARNING CENTER</span>
                               </div>
                             </div>
                             
@@ -275,6 +275,22 @@ export default function Notices() {
           )}
         </div>
       </section>
+
+      <style>{`
+        @media (max-width: 600px) {
+          .filters-wrapper {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            padding: 12px 16px !important;
+          }
+          .filters-wrapper > div:last-child {
+            width: 100% !important;
+          }
+          .filters-wrapper input {
+            width: 100% !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }

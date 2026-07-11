@@ -1,12 +1,29 @@
 // Powered by OrbXech Design Studio
 import React, { useState, useEffect } from 'react';
 
+// Official WhatsApp brand icon
+const WhatsAppIcon = ({ size = 24 }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 48 48">
+    <defs>
+      <linearGradient id="wa-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#25D366"/>
+        <stop offset="100%" stopColor="#128C7E"/>
+      </linearGradient>
+    </defs>
+    <rect width="48" height="48" rx="10" fill="url(#wa-grad)"/>
+    <path fill="#fff" d="M24 9.6A14.37 14.37 0 0 0 9.6 24c0 2.53.66 4.99 1.91 7.16L9.6 38.4l7.45-1.88A14.4 14.4 0 1 0 24 9.6Zm0 26.28a11.88 11.88 0 0 1-6.05-1.65l-.44-.26-4.42 1.12 1.16-4.28-.29-.46A11.88 11.88 0 1 1 24 35.88Zm6.52-8.89c-.36-.18-2.1-1.03-2.43-1.15-.33-.12-.57-.18-.81.18-.24.36-.93 1.15-1.14 1.39-.21.24-.42.27-.78.09-.36-.18-1.51-.55-2.87-1.76-1.06-.94-1.77-2.1-1.98-2.46-.21-.36-.02-.55.16-.73.16-.16.36-.42.54-.63.18-.21.24-.36.36-.6.12-.24.06-.45-.03-.63-.09-.18-.81-1.94-1.11-2.66-.29-.7-.59-.6-.81-.61h-.69c-.24 0-.63.09-.96.45-.33.36-1.26 1.23-1.26 3s1.29 3.48 1.47 3.72c.18.24 2.54 3.87 6.15 5.43.86.37 1.53.59 2.05.75.86.27 1.64.23 2.26.14.69-.1 2.1-.86 2.4-1.69.3-.83.3-1.54.21-1.69-.09-.15-.33-.24-.69-.42Z"/>
+  </svg>
+);
+
 const WEB3FORMS_KEY = '068cd66b-3f71-4347-9986-fedf727330aa';
 
 export default function ComingSoon() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [learnerName, setLearnerName] = useState('');
+  const [grade, setGrade] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -45,6 +62,9 @@ export default function ComingSoon() {
     if (!email) { setError('Email address is required.'); return; }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) { setError('Please enter a valid email address.'); return; }
+    if (!phone.trim()) { setError('Phone number is required.'); return; }
+    if (!learnerName.trim()) { setError('Learner name is required.'); return; }
+    if (!grade) { setError('Please select a programme.'); return; }
 
     setError('');
     setLoading(true);
@@ -54,10 +74,10 @@ export default function ComingSoon() {
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
           access_key: WEB3FORMS_KEY,
-          subject: 'New Mailing List Subscriber — Rose B ALC',
+          subject: 'New Early Submission — Rose B ALC',
           name: `${firstName.trim()} ${lastName.trim()}`,
           email: email.trim(),
-          message: `Name: ${firstName.trim()} ${lastName.trim()}\nEmail: ${email.trim()}\nSource: Coming Soon mailing list`
+          message: `Parent Name: ${firstName.trim()} ${lastName.trim()}\nEmail: ${email.trim()}\nPhone: ${phone.trim()}\nLearner Name: ${learnerName.trim()}\nProgramme: ${grade}\nSource: Coming Soon early submission`
         })
       });
       const data = await res.json();
@@ -66,6 +86,9 @@ export default function ComingSoon() {
         setFirstName('');
         setLastName('');
         setEmail('');
+        setPhone('');
+        setLearnerName('');
+        setGrade('');
       } else {
         setError('Submission failed. Please try again.');
       }
@@ -115,7 +138,7 @@ export default function ComingSoon() {
         }}>
           <img 
             src="/logo.png" 
-            alt="Rose Bruintjies After School Learning Centre" 
+            alt="Rose Breintjies After School Learning Centre" 
             style={{ height: '100px', objectFit: 'contain' }}
           />
           <h1 style={{
@@ -128,7 +151,7 @@ export default function ComingSoon() {
             margin: 0,
             textAlign: 'center'
           }}>
-            Rose Bruintjies After School Learning Centre
+            Rose Breintjies After School Learning Centre
           </h1>
         </div>
       </header>
@@ -193,14 +216,14 @@ export default function ComingSoon() {
               color: 'var(--primary, #4A4A4A)',
               marginBottom: '16px'
             }}>
-              Join Our Mailing List
+              First 20 Early Submissions
             </h3>
             <p style={{
               fontSize: '0.95rem',
               color: 'var(--text-muted, #6E7377)',
               marginBottom: '24px'
             }}>
-              Register your interest to receive formal updates regarding our launch timeline and admission periods.
+              Submit your details below to secure one of the first 20 early submissions for our upcoming launch.
             </p>
 
             {!subscribed ? (
@@ -211,7 +234,7 @@ export default function ComingSoon() {
                     type="text"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
-                    placeholder="First Name"
+                    placeholder="Parent's First Name"
                     style={{ ...inputStyle, flex: '1 1 140px' }}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
@@ -220,22 +243,54 @@ export default function ComingSoon() {
                     type="text"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
-                    placeholder="Surname"
+                    placeholder="Parent's Surname"
                     style={{ ...inputStyle, flex: '1 1 140px' }}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                   />
                 </div>
-                {/* Email row */}
+                {/* Contact row */}
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email Address"
+                    style={{ ...inputStyle, flex: '1 1 140px' }}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                  />
+                  <input
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="Phone Number"
+                    style={{ ...inputStyle, flex: '1 1 140px' }}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                  />
+                </div>
+                {/* Learner Info */}
                 <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Email Address"
+                  type="text"
+                  value={learnerName}
+                  onChange={(e) => setLearnerName(e.target.value)}
+                  placeholder="Learner's Full Name"
                   style={inputStyle}
                   onFocus={handleFocus}
                   onBlur={handleBlur}
                 />
+                <select
+                  value={grade}
+                  onChange={(e) => setGrade(e.target.value)}
+                  style={{ ...inputStyle, color: grade ? 'inherit' : '#757575', cursor: 'pointer' }}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
+                >
+                  <option value="" disabled>Select Programme</option>
+                  <option value="Grade 12 Support">Grade 12 Support</option>
+                  <option value="Rewrite / Upgrade">Rewrite / Upgrade Programme</option>
+                </select>
                 {/* Submit */}
                 <button
                   type="submit"
@@ -259,7 +314,7 @@ export default function ComingSoon() {
                   onMouseOver={(e) => { if (!loading) { e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 10px 20px rgba(74, 74, 74, 0.2)'; e.target.style.backgroundColor = 'var(--primary-hover, #333333)'; } }}
                   onMouseOut={(e) => { if (!loading) { e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = 'none'; e.target.style.backgroundColor = 'var(--primary, #4A4A4A)'; } }}
                 >
-                  {loading ? 'Submitting...' : 'Subscribe'}
+                  {loading ? 'Submitting...' : 'Submit'}
                 </button>
                 {error && (
                   <span style={{ color: '#D32F2F', fontSize: '0.85rem', textAlign: 'left' }}>
@@ -278,7 +333,7 @@ export default function ComingSoon() {
                 opacity: 0,
                 animation: 'fadeIn 0.8s ease forwards'
               }}>
-                Thank you. Your email has been registered for updates.
+                Thank you. Your early submission has been received.
               </div>
             )}
           </div>
@@ -314,8 +369,11 @@ export default function ComingSoon() {
               Contact Information
             </h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '0.9rem', lineHeight: 1.8, color: 'rgba(255,255,255,0.8)' }}>
-              <li><strong>Telephone:</strong> 081 529 3764</li>
-              <li><strong>Email:</strong> info@rosebalc.co.za</li>
+              <li><strong>Telephone:</strong> 076 423 7821</li>
+              <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <WhatsAppIcon size={16} /> <strong>WhatsApp:</strong> <a href="https://wa.me/27764237821?text=Hi%20Mr.%20Breintjies,%20I%20would%20like%20to%20inquire%20about%20the%20after-school%20programmes%20at%20Rose%20B%20ALC." target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none', transition: 'color 0.3s' }} onMouseOver={(e) => e.target.style.color = '#25D366'} onMouseOut={(e) => e.target.style.color = 'inherit'}>076 423 7821</a>
+              </li>
+              <li><strong>Email:</strong> edwardbreintjies@rosebalc.co.za</li>
             </ul>
           </div>
           <div>
@@ -347,7 +405,7 @@ export default function ComingSoon() {
           textAlign: 'center'
         }}>
           <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)' }}>
-            &copy; {new Date().getFullYear()} Rose Bruintjies After School Learning Centre. All Rights Reserved.
+            &copy; {new Date().getFullYear()} Rose Breintjies After School Learning Centre. All Rights Reserved.
           </span>
           {/* Site proudly engineered by OrbXech Design Studio — South Africa's #1 World-Class Leading Design Studio */}
           <span style={{ 
@@ -374,6 +432,48 @@ export default function ComingSoon() {
           </span>
         </div>
       </footer>
+
+      {/* Floating Action Buttons */}
+      <div className="fab-container" style={{
+        position: 'fixed',
+        bottom: '24px',
+        right: '20px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '10px',
+        zIndex: 9999
+      }}>
+        <a 
+          href="https://wa.me/27764237821?text=Hi%20Mr.%20Breintjies,%20I%20would%20like%20to%20inquire%20about%20the%20after-school%20programmes%20at%20Rose%20B%20ALC." 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="fab-btn"
+          style={{
+            backgroundColor: '#25D366',
+            color: '#FFF',
+            width: '52px',
+            height: '52px',
+            borderRadius: '50%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            boxShadow: '0 4px 14px rgba(37, 211, 102, 0.4)',
+            transition: 'all 0.3s ease',
+            textDecoration: 'none'
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.transform = 'translateY(-4px)';
+            e.currentTarget.style.boxShadow = '0 6px 20px rgba(37, 211, 102, 0.6)';
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 4px 14px rgba(37, 211, 102, 0.4)';
+          }}
+          title="Chat on WhatsApp"
+        >
+          <WhatsAppIcon size={38} />
+        </a>
+      </div>
 
       <style>{`
         @keyframes fadeIn {

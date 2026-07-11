@@ -1,4 +1,4 @@
-﻿// Powered by OrbXech Design Studio
+// Powered by OrbXech Design Studio
 import React from 'react';
 import { ShieldCheck, ScrollText } from 'lucide-react';
 
@@ -45,7 +45,7 @@ export default function Terms() {
             </div>
 
             <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', marginBottom: '24px' }}>
-              Last updated: July 2026. These terms govern the relationship between Rose Bruintjies After School Learning Centre (referred to as "Rose B ALC") and the parent, guardian, or adult learner applying for academic support.
+              Last updated: July 2026. These terms govern the relationship between Rose Breintjies After School Learning Center (referred to as "Rose B ALC") and the parent, guardian, or adult learner applying for academic support.
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -78,7 +78,7 @@ export default function Terms() {
               </div>
 
               <div>
-                <h4 style={{ color: 'var(--primary)', marginBottom: '8px' }}>5. Class Cancellations by the Centre</h4>
+                <h4 style={{ color: 'var(--primary)', marginBottom: '8px' }}>5. Class Cancellations by the Center</h4>
                 <p style={{ fontSize: '0.92rem', color: 'var(--text)' }}>
                   In the rare event that Rose B ALC has to cancel a class due to educator illness or force majeure (such as utility blackouts), a replacement class slot will be arranged at no additional cost.
                 </p>
@@ -101,7 +101,7 @@ export default function Terms() {
               <div>
                 <h4 style={{ color: 'var(--primary)', marginBottom: '8px' }}>8. Learner Code of Conduct</h4>
                 <p style={{ fontSize: '0.92rem', color: 'var(--text)' }}>
-                  Learners are expected to maintain respect, discipline, and academic honesty. Disruptive behavior, failure to complete homework, or academic dishonesty will result in disciplinary reviews and potential suspension from the centre.
+                  Learners are expected to maintain respect, discipline, and academic honesty. Disruptive behavior, failure to complete homework, or academic dishonesty will result in disciplinary reviews and potential suspension from the center.
                 </p>
               </div>
 

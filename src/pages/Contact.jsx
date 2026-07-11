@@ -1,6 +1,8 @@
-﻿// Powered by OrbXech Design Studio
+// Powered by OrbXech Design Studio
 import React, { useState } from 'react';
 import { Phone, Mail, MapPin, Clock, Send, CheckCircle } from 'lucide-react';
+
+const WEB3FORMS_KEY = '068cd66b-3f71-4347-9986-fedf727330aa';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -11,16 +13,41 @@ export default function Contact() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       setError('Please fill in all required fields (Name, Email, Message)');
       return;
     }
     setError('');
-    setSubmitted(true);
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    setLoading(true);
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: formData.subject ? `New Contact Message: ${formData.subject}` : 'New Contact Message — Rose B ALC',
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          message: `Name: ${formData.name.trim()}\nEmail: ${formData.email.trim()}\nSubject: ${formData.subject}\n\nMessage:\n${formData.message.trim()}`
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSubmitted(true);
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        setError('Submission failed. Please try again.');
+      }
+    } catch {
+      setError('Network error. Please check your connection.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -66,7 +93,7 @@ export default function Contact() {
                 <div>
                   <h4 style={{ fontSize: '1.1rem', marginBottom: '6px' }}>Phone Numbers</h4>
                   <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.45' }}>
-                    081 529 3764<br />
+                    076 423 7821<br />
                     011 555 6789 (Intake Hub)
                   </p>
                 </div>
@@ -79,7 +106,7 @@ export default function Contact() {
                 <div>
                   <h4 style={{ fontSize: '1.1rem', marginBottom: '6px' }}>Email Addresses</h4>
                   <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-                    info@rosebalc.co.za<br />
+                    edwardbreintjies@rosebalc.co.za<br />
                     admissions@rosebalc.co.za
                   </p>
                 </div>
@@ -92,9 +119,9 @@ export default function Contact() {
                 <div>
                   <h4 style={{ fontSize: '1.1rem', marginBottom: '6px' }}>Location</h4>
                   <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.5' }}>
-                    Rose Bruintjies ALC Main Hub<br />
-                    12 Pine Street, Rosebank<br />
-                    Johannesburg, 2196
+                    Rose Breintjies ALC Main Hub<br />
+                    12 Pine Street, Kariega<br />
+                    Eastern Cape, 6229
                   </p>
                 </div>
               </div>
@@ -106,9 +133,7 @@ export default function Contact() {
                 <div>
                   <h4 style={{ fontSize: '1.1rem', marginBottom: '6px' }}>Operating Hours</h4>
                   <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.45' }}>
-                    Monday - Friday: 14:00 - 18:00<br />
-                    Saturday: 08:30 - 13:00<br />
-                    Sundays & Public Holidays: Closed
+                    Saturday - Sunday
                   </p>
                 </div>
               </div>
@@ -214,9 +239,10 @@ export default function Contact() {
                   <button 
                     type="submit" 
                     className="btn btn-secondary"
-                    style={{ width: '100%', display: 'flex', gap: '8px', justifyContent: 'center' }}
+                    disabled={loading}
+                    style={{ width: '100%', display: 'flex', gap: '8px', justifyContent: 'center', opacity: loading ? 0.7 : 1 }}
                   >
-                    Send Message <Send size={16} />
+                    {loading ? 'Sending...' : 'Send Message'} {!loading && <Send size={16} />}
                   </button>
                 </form>
               )}
@@ -232,7 +258,7 @@ export default function Contact() {
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <h3>Our Physical Location</h3>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '6px' }}>
-              Located in a central, highly accessible area in Rosebank, Johannesburg.
+              Located in a central, highly accessible area in Kariega, Eastern Cape.
             </p>
           </div>
 
@@ -329,7 +355,7 @@ export default function Contact() {
               border: '1px solid var(--border-color)'
             }}>
               <strong>Address:</strong><br />
-              12 Pine Street, Rosebank, Johannesburg (Oxford Road intersection).
+              12 Pine Street, Kariega, Eastern Cape.
             </div>
           </div>
         </div>

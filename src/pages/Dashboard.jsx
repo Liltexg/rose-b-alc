@@ -1,4 +1,4 @@
-﻿// Powered by OrbXech Design Studio
+// Powered by OrbXech Design Studio
 import React, { useState, useEffect } from 'react';
 import { db } from '../services/db';
 import { 
@@ -27,7 +27,7 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
   const [appFilter, setAppFilter] = useState('All');
 
   // Notices states
-  const [noticeForm, setNoticeForm] = useState({ id: null, title: '', category: 'General', body: '', author: 'E. Bruintjies (Principal)' });
+  const [noticeForm, setNoticeForm] = useState({ id: null, title: '', category: 'General', body: '', author: 'E. Breintjies (Principal)' });
   const [isEditingNotice, setIsEditingNotice] = useState(false);
 
   // Gallery states
@@ -229,7 +229,7 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
       });
     }
 
-    setNoticeForm({ id: null, title: '', category: 'General', body: '', author: 'E. Bruintjies (Principal)' });
+    setNoticeForm({ id: null, title: '', category: 'General', body: '', author: 'E. Breintjies (Principal)' });
     reloadAllData();
   };
 
@@ -929,7 +929,7 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
                       className="form-control"
                       value={noticeForm.author}
                       onChange={(e) => setNoticeForm({ ...noticeForm, author: e.target.value })}
-                      placeholder="e.g. E. Bruintjies (Principal)"
+                      placeholder="e.g. E. Breintjies (Principal)"
                       required
                     />
                   </div>
@@ -956,7 +956,7 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
                         className="btn btn-outline"
                         onClick={() => {
                           setIsEditingNotice(false);
-                          setNoticeForm({ id: null, title: '', category: 'General', body: '', author: 'E. Bruintjies (Principal)' });
+                          setNoticeForm({ id: null, title: '', category: 'General', body: '', author: 'E. Breintjies (Principal)' });
                         }}
                       >
                         Cancel

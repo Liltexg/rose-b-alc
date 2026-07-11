@@ -1,7 +1,9 @@
-﻿// Powered by OrbXech Design Studio
+// Powered by OrbXech Design Studio
 import React, { useState, useRef, useEffect } from 'react';
 import { db } from '../services/db';
 import { AlertCircle, CheckCircle, ArrowRight, RotateCcw, FileSignature } from 'lucide-react';
+
+const WEB3FORMS_KEY = '068cd66b-3f71-4347-9986-fedf727330aa';
 
 export default function Admissions({ setCurrentPage }) {
   const [programme, setProgramme] = useState('Grade 12');
@@ -28,6 +30,7 @@ export default function Admissions({ setCurrentPage }) {
   const [canvasHasDrawing, setCanvasHasDrawing] = useState(false);
   const [formErrors, setFormErrors] = useState([]);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
   const [submittedDetails, setSubmittedDetails] = useState(null);
 
   const canvasRef = useRef(null);
@@ -147,7 +150,7 @@ export default function Admissions({ setCurrentPage }) {
     return errors.length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
       window.scrollTo({ top: 200, behavior: 'smooth' });
@@ -184,10 +187,62 @@ export default function Admissions({ setCurrentPage }) {
       signature: signatureRepresentation
     };
 
-    const saved = db.addApplication(applicationRecord);
-    setSubmittedDetails(saved);
-    setSubmitSuccess(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setSubmitLoading(true);
+
+    try {
+      const emailContent = `
+New Admission Application - ${programme}
+
+Applicant Details:
+Name: ${applicationRecord.learnerName} ${applicationRecord.learnerSurname}
+Phone: ${applicationRecord.learnerPhone || applicationRecord.parentContact}
+Address: ${applicationRecord.learnerAddress || applicationRecord.parentAddress}
+
+Programme: ${programme}
+Grade: ${applicationRecord.learnerGrade}
+Subjects: ${applicationRecord.learnerSubjects.join(', ')}
+
+Parent/Emergency Details:
+Name: ${applicationRecord.parentName} ${applicationRecord.parentSurname}
+Contact: ${applicationRecord.parentContact || applicationRecord.emergencyContact}
+
+Consents Given:
+Terms & Conditions: Yes
+Media/Photos: ${applicationRecord.consentPhotos ? 'Yes' : 'No'}
+Correct Information: Yes
+
+Signature: ${signatureType === 'type' ? applicationRecord.signature : 'Attached as Image Data'}
+      `;
+
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: `New Application: ${applicationRecord.learnerName} ${applicationRecord.learnerSurname} (${programme})`,
+          name: `${applicationRecord.learnerName} ${applicationRecord.learnerSurname}`,
+          email: formData.parentContact || formData.learnerPhone, // Fallback if no real email
+          message: emailContent
+        })
+      });
+
+      const data = await res.json();
+      
+      if (data.success) {
+        const saved = db.addApplication(applicationRecord);
+        setSubmittedDetails(saved);
+        setSubmitSuccess(true);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        setFormErrors(['Failed to send application. Please try again.']);
+        window.scrollTo({ top: 200, behavior: 'smooth' });
+      }
+    } catch {
+      setFormErrors(['Network error. Please check your connection.']);
+      window.scrollTo({ top: 200, behavior: 'smooth' });
+    } finally {
+      setSubmitLoading(false);
+    }
   };
 
   return (
@@ -306,7 +361,7 @@ export default function Admissions({ setCurrentPage }) {
             </div>
           ) : (
             /* Application Form Wizard */
-            <form onSubmit={handleSubmit} className="card" style={{ padding: '48px', borderTop: '4px solid var(--secondary)' }}>
+            <form onSubmit={handleSubmit} className="card admissions-form-card" style={{ padding: '48px', borderTop: '4px solid var(--secondary)' }}>
               
               {/* Errors container */}
               {formErrors.length > 0 && (
@@ -651,9 +706,10 @@ export default function Admissions({ setCurrentPage }) {
               <button 
                 type="submit" 
                 className="btn btn-secondary" 
-                style={{ width: '100%', display: 'flex', gap: '8px', justifyContent: 'center', padding: '14px' }}
+                disabled={submitLoading}
+                style={{ width: '100%', display: 'flex', gap: '8px', justifyContent: 'center', padding: '14px', opacity: submitLoading ? 0.7 : 1 }}
               >
-                Submit Application <ArrowRight size={16} />
+                {submitLoading ? 'Submitting...' : 'Submit Application'} {!submitLoading && <ArrowRight size={16} />}
               </button>
             </form>
           )}
@@ -666,6 +722,18 @@ export default function Admissions({ setCurrentPage }) {
           .sub-grid-mobile {
             grid-template-columns: 1fr !important;
             gap: 0 !important;
+          }
+          .admissions-form-card {
+            padding: 28px 20px !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .admissions-success-btns {
+            flex-direction: column !important;
+          }
+          .admissions-success-btns .btn {
+            width: 100% !important;
+            justify-content: center !important;
           }
         }
       `}</style>
