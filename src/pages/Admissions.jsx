@@ -11,10 +11,12 @@ export default function Admissions({ setCurrentPage }) {
     parentName: '',
     parentSurname: '',
     parentContact: '',
+    parentEmail: '',
     parentAddress: '',
     learnerName: '',
     learnerSurname: '',
     learnerPhone: '',
+    learnerEmail: '',
     learnerAddress: '',
     emergencyContact: '',
     learnerGrade: 'Grade 12',
@@ -121,10 +123,13 @@ export default function Admissions({ setCurrentPage }) {
   const validateForm = () => {
     const errors = [];
     
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (programme === 'Grade 12') {
       if (!formData.parentName.trim()) errors.push("Parent First Name is required");
       if (!formData.parentSurname.trim()) errors.push("Parent Surname is required");
       if (!formData.parentContact.trim()) errors.push("Parent Contact Number is required");
+      if (!formData.parentEmail.trim()) errors.push("Parent Email Address is required");
+      else if (!emailRegex.test(formData.parentEmail)) errors.push("Please enter a valid parent email address");
       if (!formData.parentAddress.trim()) errors.push("Parent Physical Address is required");
       if (!formData.learnerName.trim()) errors.push("Learner First Name is required");
       if (!formData.learnerSurname.trim()) errors.push("Learner Surname is required");
@@ -133,6 +138,8 @@ export default function Admissions({ setCurrentPage }) {
       if (!formData.learnerName.trim()) errors.push("Candidate First Name is required");
       if (!formData.learnerSurname.trim()) errors.push("Candidate Surname is required");
       if (!formData.learnerPhone.trim()) errors.push("Candidate Contact Number is required");
+      if (!formData.learnerEmail.trim()) errors.push("Candidate Email Address is required");
+      else if (!emailRegex.test(formData.learnerEmail)) errors.push("Please enter a valid candidate email address");
       if (!formData.learnerAddress.trim()) errors.push("Candidate Physical Address is required");
       if (!formData.emergencyContact.trim()) errors.push("Emergency Contact Details are required");
     }
@@ -173,10 +180,12 @@ export default function Admissions({ setCurrentPage }) {
       parentName: programme === 'Grade 12' ? formData.parentName : '',
       parentSurname: programme === 'Grade 12' ? formData.parentSurname : '',
       parentContact: programme === 'Grade 12' ? formData.parentContact : '',
+      parentEmail: programme === 'Grade 12' ? formData.parentEmail : '',
       parentAddress: programme === 'Grade 12' ? formData.parentAddress : '',
       learnerName: formData.learnerName,
       learnerSurname: formData.learnerSurname,
       learnerPhone: programme === 'Rewrite / Upgrade' ? formData.learnerPhone : '',
+      learnerEmail: programme === 'Rewrite / Upgrade' ? formData.learnerEmail : '',
       learnerAddress: programme === 'Rewrite / Upgrade' ? formData.learnerAddress : '',
       emergencyContact: programme === 'Rewrite / Upgrade' ? formData.emergencyContact : '',
       learnerGrade: programme === 'Grade 12' ? formData.learnerGrade : 'FET Rewrite',
@@ -190,38 +199,41 @@ export default function Admissions({ setCurrentPage }) {
     setSubmitLoading(true);
 
     try {
-      const emailContent = `
-New Admission Application - ${programme}
+      const applicantEmail = programme === 'Grade 12' ? formData.parentEmail : formData.learnerEmail;
+      const emailContent = `New Admission Application — ${programme}
 
-Applicant Details:
-Name: ${applicationRecord.learnerName} ${applicationRecord.learnerSurname}
-Phone: ${applicationRecord.learnerPhone || applicationRecord.parentContact}
-Address: ${applicationRecord.learnerAddress || applicationRecord.parentAddress}
-
-Programme: ${programme}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+APPLICANT DETAILS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Learner: ${applicationRecord.learnerName} ${applicationRecord.learnerSurname}
 Grade: ${applicationRecord.learnerGrade}
+Programme: ${programme}
 Subjects: ${applicationRecord.learnerSubjects.join(', ')}
 
-Parent/Emergency Details:
-Name: ${applicationRecord.parentName} ${applicationRecord.parentSurname}
-Contact: ${applicationRecord.parentContact || applicationRecord.emergencyContact}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${programme === 'Grade 12' ? 'PARENT / GUARDIAN DETAILS' : 'CANDIDATE CONTACT DETAILS'}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${programme === 'Grade 12'
+  ? `Name: ${formData.parentName} ${formData.parentSurname}\nPhone: ${formData.parentContact}\nEmail: ${formData.parentEmail}\nAddress: ${formData.parentAddress}`
+  : `Phone: ${formData.learnerPhone}\nEmail: ${formData.learnerEmail}\nAddress: ${formData.learnerAddress}\nEmergency Contact: ${formData.emergencyContact}`
+}
 
-Consents Given:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CONSENTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Terms & Conditions: Yes
 Media/Photos: ${applicationRecord.consentPhotos ? 'Yes' : 'No'}
-Correct Information: Yes
-
-Signature: ${signatureType === 'type' ? applicationRecord.signature : 'Attached as Image Data'}
-      `;
+Information Correct: Yes
+Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn — Image Data]'}`;
 
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
           access_key: WEB3FORMS_KEY,
-          subject: `New Application: ${applicationRecord.learnerName} ${applicationRecord.learnerSurname} (${programme})`,
+          subject: `New Application: ${applicationRecord.learnerName} ${applicationRecord.learnerSurname} — ${programme}`,
           name: `${applicationRecord.learnerName} ${applicationRecord.learnerSurname}`,
-          email: formData.parentContact || formData.learnerPhone, // Fallback if no real email
+          email: applicantEmail,
           message: emailContent
         })
       });
@@ -348,8 +360,8 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : 'Attached 
                     setSubmitSuccess(false);
                     setCanvasHasDrawing(false);
                     setFormData({
-                      parentName: '', parentSurname: '', parentContact: '', parentAddress: '',
-                      learnerName: '', learnerSurname: '', learnerPhone: '', learnerAddress: '',
+                      parentName: '', parentSurname: '', parentContact: '', parentEmail: '', parentAddress: '',
+                      learnerName: '', learnerSurname: '', learnerPhone: '', learnerEmail: '', learnerAddress: '',
                       emergencyContact: '', learnerGrade: 'Grade 12', learnerSubjects: [],
                       consentTerms: false, consentPhotos: false, consentCorrect: false
                     });
@@ -440,15 +452,27 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : 'Attached 
                     </div>
                   </div>
 
-                  <div className="form-group">
-                    <label className="form-label">Parent Contact Number*</label>
-                    <input 
-                      type="tel" 
-                      className="form-control" 
-                      value={formData.parentContact}
-                      onChange={(e) => setFormData({...formData, parentContact: e.target.value})}
-                      placeholder="082 123 4567"
-                    />
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} className="sub-grid-mobile">
+                    <div className="form-group">
+                      <label className="form-label">Parent Contact Number*</label>
+                      <input 
+                        type="tel" 
+                        className="form-control" 
+                        value={formData.parentContact}
+                        onChange={(e) => setFormData({...formData, parentContact: e.target.value})}
+                        placeholder="082 123 4567"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Parent Email Address*</label>
+                      <input 
+                        type="email" 
+                        className="form-control" 
+                        value={formData.parentEmail}
+                        onChange={(e) => setFormData({...formData, parentEmail: e.target.value})}
+                        placeholder="parent@email.com"
+                      />
+                    </div>
                   </div>
 
                   <div className="form-group">
@@ -549,15 +573,27 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : 'Attached 
                     </div>
                   </div>
 
-                  <div className="form-group">
-                    <label className="form-label">Candidate Contact Number*</label>
-                    <input 
-                      type="tel" 
-                      className="form-control" 
-                      value={formData.learnerPhone}
-                      onChange={(e) => setFormData({...formData, learnerPhone: e.target.value})}
-                      placeholder="073 987 6543"
-                    />
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} className="sub-grid-mobile">
+                    <div className="form-group">
+                      <label className="form-label">Candidate Contact Number*</label>
+                      <input 
+                        type="tel" 
+                        className="form-control" 
+                        value={formData.learnerPhone}
+                        onChange={(e) => setFormData({...formData, learnerPhone: e.target.value})}
+                        placeholder="073 987 6543"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Candidate Email Address*</label>
+                      <input 
+                        type="email" 
+                        className="form-control" 
+                        value={formData.learnerEmail}
+                        onChange={(e) => setFormData({...formData, learnerEmail: e.target.value})}
+                        placeholder="candidate@email.com"
+                      />
+                    </div>
                   </div>
 
                   <div className="form-group">
