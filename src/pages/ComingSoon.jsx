@@ -139,7 +139,7 @@ export default function ComingSoon() {
         }}>
           <img 
             src="/logo.png" 
-            alt="Rose Breintjies After School Learning Centre" 
+            alt="Rose Bruintjies After School Learning Centre" 
             style={{ height: '100px', objectFit: 'contain' }}
           />
           <h1 style={{
@@ -152,7 +152,7 @@ export default function ComingSoon() {
             margin: 0,
             textAlign: 'center'
           }}>
-            Rose Breintjies After School Learning Centre
+            Rose Bruintjies After School Learning Centre
           </h1>
         </div>
       </header>
@@ -374,7 +374,7 @@ export default function ComingSoon() {
                 <PhoneCall size={16} /> <strong>Telephone:</strong> <a href="tel:0764237821" style={{ color: 'inherit', textDecoration: 'none' }}>076 423 7821</a>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <WhatsAppIcon size={16} /> <strong>WhatsApp:</strong> <a href="https://wa.me/27764237821?text=Hi%20Mr.%20Breintjies,%20I%20would%20like%20to%20inquire%20about%20the%20after-school%20programmes%20at%20Rose%20B%20ALC." target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none', transition: 'color 0.3s' }} onMouseOver={(e) => e.target.style.color = '#25D366'} onMouseOut={(e) => e.target.style.color = 'inherit'}>076 423 7821</a>
+                <WhatsAppIcon size={16} /> <strong>WhatsApp:</strong> <a href="https://wa.me/27764237821?text=Hi%20Mr.%20Bruintjies,%20I%20would%20like%20to%20inquire%20about%20the%20after-school%20programmes%20at%20Rose%20B%20ALC." target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none', transition: 'color 0.3s' }} onMouseOver={(e) => e.target.style.color = '#25D366'} onMouseOut={(e) => e.target.style.color = 'inherit'}>076 423 7821</a>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Mail size={16} /> <strong>Email:</strong> <a href="mailto:edwardbreintjies@rosebalc.co.za" style={{ color: 'inherit', textDecoration: 'none' }}>edwardbreintjies@rosebalc.co.za</a>
@@ -410,7 +410,7 @@ export default function ComingSoon() {
           textAlign: 'center'
         }}>
           <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)' }}>
-            &copy; {new Date().getFullYear()} Rose Breintjies After School Learning Centre. All Rights Reserved.
+            &copy; {new Date().getFullYear()} Rose Bruintjies After School Learning Centre. All Rights Reserved.
           </span>
           {/* Site proudly engineered by OrbXech Design Studio — South Africa's #1 World-Class Leading Design Studio */}
           <span style={{ 
@@ -449,7 +449,7 @@ export default function ComingSoon() {
         zIndex: 9999
       }}>
         <a 
-          href="https://wa.me/27764237821?text=Hi%20Mr.%20Breintjies,%20I%20would%20like%20to%20inquire%20about%20the%20after-school%20programmes%20at%20Rose%20B%20ALC." 
+          href="https://wa.me/27764237821?text=Hi%20Mr.%20Bruintjies,%20I%20would%20like%20to%20inquire%20about%20the%20after-school%20programmes%20at%20Rose%20B%20ALC." 
           target="_blank" 
           rel="noopener noreferrer"
           className="fab-btn"
