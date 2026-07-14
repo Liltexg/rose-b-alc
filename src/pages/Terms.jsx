@@ -45,7 +45,7 @@ export default function Terms() {
             </div>
 
             <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', marginBottom: '24px' }}>
-              Last updated: July 2026. These terms govern the relationship between Rose Breintjies After School Learning Center (referred to as "Rose B ALC") and the parent, guardian, or adult learner applying for academic support.
+              Last updated: July 2026. These terms govern the relationship between Rose Bruintjies After School Learning Center (referred to as "Rose B ALC") and the parent, guardian, or adult learner applying for academic support.
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>

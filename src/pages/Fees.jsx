@@ -7,7 +7,11 @@ export default function Fees({ setCurrentPage }) {
   const [pricing, setPricing] = useState({});
 
   useEffect(() => {
-    setPricing(db.getPricing());
+    const fetchPricing = async () => {
+      const data = await db.getPricing();
+      setPricing(data);
+    };
+    fetchPricing();
   }, []);
 
   return (

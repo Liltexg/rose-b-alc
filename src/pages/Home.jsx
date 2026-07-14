@@ -26,9 +26,13 @@ export default function Home({ setCurrentPage, setMovieMode }) {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   useEffect(() => {
-    const allNotices = db.getNotices();
-    setLatestNotices(allNotices.slice(0, 3));
-    setPricing(db.getPricing());
+    const loadHomeData = async () => {
+      const allNotices = await db.getNotices();
+      setLatestNotices(allNotices.slice(0, 3));
+      const pricingData = await db.getPricing();
+      setPricing(pricingData);
+    };
+    loadHomeData();
 
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
@@ -375,7 +379,7 @@ export default function Home({ setCurrentPage, setMovieMode }) {
               <span className="story-metric-num">03</span>
               <h3 className="story-metric-title">Qualified Instruction</h3>
               <p className="story-metric-desc">
-                Led directly by Mr. E. Breintjies, combining 10 years of formal FET life sciences instruction with proven matric performance metrics.
+                Led directly by Mr. E. Bruintjies, combining 10 years of formal FET life sciences instruction with proven matric performance metrics.
               </p>
             </div>
           </div>
@@ -472,7 +476,7 @@ export default function Home({ setCurrentPage, setMovieMode }) {
               <div className="founder-editorial-frame">
                 <img 
                   src="/mr-breintjies.jpg" 
-                  alt="Founder Mr. Edward Breintjies" 
+                  alt="Founder Mr. Edward Bruintjies" 
                   className="founder-editorial-img"
                 />
               </div>
@@ -486,7 +490,7 @@ export default function Home({ setCurrentPage, setMovieMode }) {
             {/* Right Col - Story Narratives */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
               <span className="meta-tag">[ SEC. 03 / DIRECTOR PROFILE ]</span>
-              <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', marginBottom: '32px', fontWeight: 700 }}>Mr. Edward Breintjies</h2>
+              <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', marginBottom: '32px', fontWeight: 700 }}>Mr. Edward Bruintjies</h2>
               
               <blockquote className="founder-editorial-quote">
                 "We do not standardize the learner; we standardize the discipline. Given structured pacing and strict logical direction, intellectual acceleration becomes inevitable."

@@ -7,7 +7,11 @@ export default function About() {
   const [content, setContent] = useState({});
 
   useEffect(() => {
-    setContent(db.getContent());
+    const fetchContent = async () => {
+      const data = await db.getContent();
+      setContent(data);
+    };
+    fetchContent();
   }, []);
 
   const values = [
@@ -53,7 +57,7 @@ export default function About() {
                 lineHeight: '1.85',
                 marginBottom: '20px'
               }}>
-                {content.aboutStory || "Rose Breintjies After School Learning Centre was established to offer structural academic support for learners, helping them navigate standard curricula and build crucial skills."}
+                {content.aboutStory || "Rose Bruintjies After School Learning Centre was established to offer structural academic support for learners, helping them navigate standard curricula and build crucial skills."}
               </p>
               <p style={{
                 color: 'var(--text-muted)',
@@ -178,7 +182,7 @@ export default function About() {
               <div className="museum-frame" style={{ width: '100%' }}>
                 <img 
                   src="/mr-breintjies.jpg" 
-                  alt="Founder Mr. E. Breintjies" 
+                  alt="Founder Mr. E. Bruintjies" 
                   style={{ width: '100%', display: 'block', height: '320px', objectFit: 'cover' }}
                 />
               </div>
@@ -211,7 +215,7 @@ export default function About() {
             {/* Right Col - Details */}
             <div style={{ padding: '60px', borderTop: '1px solid var(--secondary)', borderLeft: '1px solid rgba(0,0,0,0.1)' }}>
               <span style={{ fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--text-muted)', display: 'block', marginBottom: '24px' }}>Biography</span>
-              <h2 style={{ fontSize: '2.5rem', marginBottom: '32px' }}>Mr. E. Breintjies</h2>
+              <h2 style={{ fontSize: '2.5rem', marginBottom: '32px' }}>Mr. E. Bruintjies</h2>
               
               <div style={{
                 borderLeft: '1px solid var(--accent)',
@@ -230,7 +234,7 @@ export default function About() {
                 fontSize: '1.05rem',
                 marginBottom: '40px'
               }}>
-                {content.founderBio || "Mr. E. Breintjies is a highly dedicated educator with 10 years of experience teaching Life Science."}
+                {content.founderBio || "Mr. E. Bruintjies is a highly dedicated educator with 10 years of experience teaching Life Science."}
               </p>
 
               <h4 style={{ marginBottom: '16px', color: 'var(--primary)' }}>Academic Focus Subjects:</h4>

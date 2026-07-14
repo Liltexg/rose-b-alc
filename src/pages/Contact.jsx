@@ -119,7 +119,7 @@ export default function Contact() {
                 <div>
                   <h4 style={{ fontSize: '1.1rem', marginBottom: '6px' }}>Location</h4>
                   <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.5' }}>
-                    Rose Breintjies ALC Main Hub<br />
+                    Rose Bruintjies ALC Main Hub<br />
                     12 Pine Street, Kariega<br />
                     Eastern Cape, 6229
                   </p>

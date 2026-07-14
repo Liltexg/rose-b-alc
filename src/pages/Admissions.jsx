@@ -241,7 +241,7 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn â€
       const data = await res.json();
       
       if (data.success) {
-        const saved = db.addApplication(applicationRecord);
+        const saved = await db.addApplication(applicationRecord);
         setSubmittedDetails(saved);
         setSubmitSuccess(true);
         window.scrollTo({ top: 0, behavior: 'smooth' });

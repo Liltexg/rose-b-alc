@@ -9,7 +9,11 @@ export default function Gallery() {
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
   useEffect(() => {
-    setImages(db.getGallery());
+    const fetchGallery = async () => {
+      const data = await db.getGallery();
+      setImages(data);
+    };
+    fetchGallery();
   }, []);
 
   const albums = ['All', 'Academic Support', 'Holiday Classes', 'Awards', 'Events', 'Learner Activities'];

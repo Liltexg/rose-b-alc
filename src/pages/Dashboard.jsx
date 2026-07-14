@@ -27,7 +27,7 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
   const [appFilter, setAppFilter] = useState('All');
 
   // Notices states
-  const [noticeForm, setNoticeForm] = useState({ id: null, title: '', category: 'General', body: '', author: 'E. Breintjies (Principal)' });
+  const [noticeForm, setNoticeForm] = useState({ id: null, title: '', category: 'General', body: '', author: 'E. Bruintjies (Principal)' });
   const [isEditingNotice, setIsEditingNotice] = useState(false);
 
   // Gallery states
@@ -55,13 +55,18 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
   };
 
   // Load data from db service
-  const reloadAllData = () => {
-    setApps(db.getApplications());
-    setNotices(db.getNotices());
-    const gall = db.getGallery();
+  const reloadAllData = async () => {
+    const appsData = await db.getApplications();
+    const noticesData = await db.getNotices();
+    const gall = await db.getGallery();
+    const pricingData = await db.getPricing();
+    const contentData = await db.getContent();
+
+    setApps(appsData);
+    setNotices(noticesData);
     setGallery(gall);
-    setPricing(db.getPricing());
-    setContent(db.getContent());
+    setPricing(pricingData);
+    setContent(contentData);
 
     // Extract unique albums
     const uniqueAlbums = [...new Set(gall.map(item => item.album))];
@@ -75,19 +80,19 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
   }, [isAuthenticated]);
 
   // ================= APPLICATION OPERATIONS =================
-  const updateAppStatus = (id, status) => {
-    db.updateApplicationStatus(id, status);
-    reloadAllData();
+  const updateAppStatus = async (id, status) => {
+    await db.updateApplicationStatus(id, status);
+    await reloadAllData();
     if (selectedApp?.id === id) {
       setSelectedApp(prev => ({ ...prev, status }));
     }
   };
 
-  const deleteApp = (id) => {
+  const deleteApp = async (id) => {
     if (window.confirm("Are you sure you want to delete this application? This action cannot be undone.")) {
-      db.deleteApplication(id);
+      await db.deleteApplication(id);
       setSelectedApp(null);
-      reloadAllData();
+      await reloadAllData();
     }
   };
 
@@ -205,7 +210,7 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
   });
 
   // ================= NOTICE OPERATIONS =================
-  const handleNoticeSubmit = (e) => {
+  const handleNoticeSubmit = async (e) => {
     e.preventDefault();
     if (!noticeForm.title.trim() || !noticeForm.body.trim()) {
       alert("Title and Body are required");
@@ -213,7 +218,7 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
     }
 
     if (isEditingNotice) {
-      db.updateNotice(noticeForm.id, {
+      await db.updateNotice(noticeForm.id, {
         title: noticeForm.title,
         category: noticeForm.category,
         body: noticeForm.body,
@@ -221,7 +226,7 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
       });
       setIsEditingNotice(false);
     } else {
-      db.addNotice({
+      await db.addNotice({
         title: noticeForm.title,
         category: noticeForm.category,
         body: noticeForm.body,
@@ -229,8 +234,8 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
       });
     }
 
-    setNoticeForm({ id: null, title: '', category: 'General', body: '', author: 'E. Breintjies (Principal)' });
-    reloadAllData();
+    setNoticeForm({ id: null, title: '', category: 'General', body: '', author: 'E. Bruintjies (Principal)' });
+    await reloadAllData();
   };
 
   const startEditNotice = (notice) => {
@@ -238,24 +243,24 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
     setIsEditingNotice(true);
   };
 
-  const deleteNotice = (id) => {
+  const deleteNotice = async (id) => {
     if (window.confirm("Are you sure you want to delete this notice letter?")) {
-      db.deleteNotice(id);
-      reloadAllData();
+      await db.deleteNotice(id);
+      await reloadAllData();
     }
   };
 
   // ================= GALLERY OPERATIONS =================
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     e.preventDefault();
     if (!galleryForm.url.trim() || !galleryForm.caption.trim()) {
       alert("URL and Caption are required");
       return;
     }
 
-    db.addGalleryImage(galleryForm);
+    await db.addGalleryImage(galleryForm);
     setGalleryForm({ album: 'Academic Support', url: '', caption: '' });
-    reloadAllData();
+    await reloadAllData();
   };
 
   // Custom Local File Reader for mock uploads (Reads local file as base64 dataURL)
@@ -273,10 +278,10 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
     }
   };
 
-  const deleteImage = (id) => {
+  const deleteImage = async (id) => {
     if (window.confirm("Delete this photo from the gallery album?")) {
-      db.deleteGalleryImage(id);
-      reloadAllData();
+      await db.deleteGalleryImage(id);
+      await reloadAllData();
     }
   };
 
@@ -290,12 +295,12 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
   };
 
   // ================= SETTINGS OPERATIONS =================
-  const handleSaveSettings = (e) => {
+  const handleSaveSettings = async (e) => {
     e.preventDefault();
-    db.savePricing(pricing);
-    db.saveContent(content);
+    await db.savePricing(pricing);
+    await db.saveContent(content);
     alert("System pricing configurations and static page contents successfully updated!");
-    reloadAllData();
+    await reloadAllData();
   };
 
   if (!isAuthenticated) {
@@ -929,7 +934,7 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
                       className="form-control"
                       value={noticeForm.author}
                       onChange={(e) => setNoticeForm({ ...noticeForm, author: e.target.value })}
-                      placeholder="e.g. E. Breintjies (Principal)"
+                      placeholder="e.g. E. Bruintjies (Principal)"
                       required
                     />
                   </div>
@@ -956,7 +961,7 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
                         className="btn btn-outline"
                         onClick={() => {
                           setIsEditingNotice(false);
-                          setNoticeForm({ id: null, title: '', category: 'General', body: '', author: 'E. Breintjies (Principal)' });
+                          setNoticeForm({ id: null, title: '', category: 'General', body: '', author: 'E. Bruintjies (Principal)' });
                         }}
                       >
                         Cancel

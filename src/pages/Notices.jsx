@@ -10,7 +10,11 @@ export default function Notices() {
   const [expandedNoticeId, setExpandedNoticeId] = useState('n-1');
 
   useEffect(() => {
-    setNotices(db.getNotices());
+    const fetchNotices = async () => {
+      const data = await db.getNotices();
+      setNotices(data);
+    };
+    fetchNotices();
   }, []);
 
   const categories = ['All', 'General', 'Academic', 'Events'];
@@ -46,7 +50,7 @@ export default function Notices() {
           <div class="letter">
             <div class="header">
               <div>
-                <h2 style="margin: 0; color: #1E2022; font-size: 1.3rem; font-family:'Cormorant Garamond';">ROSE BREINTJIES</h2>
+                <h2 style="margin: 0; color: #1E2022; font-size: 1.3rem; font-family:'Cormorant Garamond';">ROSE BRUINTJIES</h2>
                 <h4 style="margin: 0; color: #E55B13; font-size: 0.75rem; letter-spacing: 1px;">AFTER SCHOOL LEARNING CENTER</h4>
               </div>
               <div style="text-align: right; font-size: 0.8rem; color:#666666;">
@@ -234,7 +238,7 @@ export default function Notices() {
                             <div className="notice-letter-logo">
                               <img src="/logo.png" alt="Rose B ALC" style={{ height: '48px', objectFit: 'contain' }} />
                               <div>
-                                <h3 style={{ fontSize: '1.2rem', lineHeight: '1.1', color: 'var(--primary)' }}>ROSE BREINTJIES</h3>
+                                <h3 style={{ fontSize: '1.2rem', lineHeight: '1.1', color: 'var(--primary)' }}>ROSE BRUINTJIES</h3>
                                 <span style={{ fontSize: '0.65rem', fontWeight: 700, color: 'var(--secondary)', letterSpacing: '0.05em' }}>AFTER SCHOOL LEARNING CENTER</span>
                               </div>
                             </div>

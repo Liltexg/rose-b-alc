@@ -89,7 +89,7 @@ export default function Navbar({ currentPage, setCurrentPage }) {
                 color: 'var(--secondary)',
                 letterSpacing: '0.01em'
               }}>
-                ROSE BREINTJIES
+                ROSE BRUINTJIES
               </div>
               <div style={{
                 fontFamily: 'var(--font-body)',
@@ -254,7 +254,7 @@ export default function Navbar({ currentPage, setCurrentPage }) {
             <div onClick={() => handleNavClick('home')} style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
               <img src="/logo.png" alt="Rose B ALC" style={{ height: '40px', objectFit: 'contain' }} />
               <div>
-                <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1.1rem', color: 'var(--secondary)' }}>ROSE BREINTJIES</div>
+                <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1.1rem', color: 'var(--secondary)' }}>ROSE BRUINTJIES</div>
                 <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.55rem', color: 'var(--primary)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>AFTER SCHOOL LEARNING CENTER</div>
               </div>
             </div>

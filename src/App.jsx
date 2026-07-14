@@ -159,7 +159,7 @@ export default function App() {
           alignItems: 'center'
         }}>
           <span style={{ textAlign: 'left', lineHeight: '1.5' }}>
-            &copy; {new Date().getFullYear()} Rose Breintjies After School Learning Center. All Rights Reserved. | Powered by{' '}
+            &copy; {new Date().getFullYear()} Rose Bruintjies After School Learning Center. All Rights Reserved. | Powered by{' '}
             <a 
               href="https://www.orbxech.co.za" 
               target="_blank" 
@@ -188,7 +188,7 @@ export default function App() {
         zIndex: 9999
       }}>
         <a 
-          href="https://wa.me/27764237821?text=Hi%20Mr.%20Breintjies,%20I%20would%20like%20to%20inquire%20about%20the%20after-school%20programmes%20at%20Rose%20B%20ALC." 
+          href="https://wa.me/27764237821?text=Hi%20Mr.%20Bruintjies,%20I%20would%20like%20to%20inquire%20about%20the%20after-school%20programmes%20at%20Rose%20B%20ALC." 
           target="_blank" 
           rel="noopener noreferrer"
           className="fab-btn"
