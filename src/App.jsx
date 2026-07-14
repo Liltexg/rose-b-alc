@@ -1,6 +1,6 @@
 // Powered by OrbXech Design Studio
 import React, { useState } from "react";
-import { PhoneCall, Mail } from 'lucide-react';
+import { PhoneCall, Mail, KeyRound } from 'lucide-react';
 
 // Official WhatsApp brand icon
 const WhatsAppIcon = ({ size = 24 }) => (
@@ -26,6 +26,7 @@ import Notices from "./pages/Notices";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
 import Terms from "./pages/Terms";
+import Dashboard from "./pages/Dashboard";
 import ComingSoon from "./pages/ComingSoon";
 
 const SHOW_COMING_SOON = true;
@@ -33,6 +34,7 @@ const SHOW_COMING_SOON = true;
 export default function App() {
   const [currentPage, setCurrentPage] = useState("home");
   const [movieMode, setMovieMode] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   if (SHOW_COMING_SOON) {
     return <ComingSoon />;
@@ -60,6 +62,8 @@ export default function App() {
         return <Contact />;
       case "terms":
         return <Terms />;
+      case "dashboard":
+        return <Dashboard setCurrentPage={setCurrentPage} setIsAdminState={setIsAdmin} />;
       default:
         return <Home setCurrentPage={setCurrentPage} />;
     }
@@ -173,6 +177,24 @@ export default function App() {
           </span>
           <button onClick={() => setCurrentPage('terms')} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}>
             Terms &amp; Conditions
+          </button>
+          <button
+            onClick={() => setCurrentPage('dashboard')}
+            title="Staff Portal"
+            style={{
+              background: 'none',
+              border: 'none',
+              color: 'rgba(255,255,255,0.2)',
+              cursor: 'pointer',
+              padding: '4px',
+              display: 'flex',
+              alignItems: 'center',
+              transition: 'color 0.3s ease'
+            }}
+            onMouseOver={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.7)'}
+            onMouseOut={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.2)'}
+          >
+            <KeyRound size={13} />
           </button>
         </div>
       </footer>
