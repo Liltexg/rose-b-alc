@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, Phone, Mail, Clock } from 'lucide-react';
+import { Menu, X, Phone, Mail } from 'lucide-react';
 
 export default function Navbar({ currentPage, setCurrentPage }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,27 +23,7 @@ export default function Navbar({ currentPage, setCurrentPage }) {
 
   return (
     <header className="site-header">
-      {/* Top Utility Bar */}
-      <div className="nav-utility-bar">
-        <div className="nav-utility-container">
-          <div className="nav-utility-left">
-            <span className="nav-utility-item">
-              <Phone size={12} className="nav-utility-icon" />
-              <a href="tel:0764237821">076 423 7821</a>
-            </span>
-            <span className="nav-utility-item">
-              <Mail size={12} className="nav-utility-icon" />
-              <a href="mailto:edwardbreintjies@rosebalc.co.za">edwardbreintjies@rosebalc.co.za</a>
-            </span>
-          </div>
-          <div className="nav-utility-right hide-mobile">
-            <span className="nav-utility-item">
-              <Clock size={12} className="nav-utility-icon" />
-              Sat - Sun Support Available
-            </span>
-          </div>
-        </div>
-      </div>
+
 
       {/* Main Navigation Bar */}
       <div className="nav-main-bar">

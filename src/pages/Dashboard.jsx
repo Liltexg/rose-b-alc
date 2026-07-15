@@ -1,18 +1,19 @@
+// Powered by OrbXech Design Studio
 import React, { useState, useEffect } from 'react';
 import { db } from '../services/db';
-import { 
-  FileText, Bell, Image, Settings, Users, ArrowRight, Plus, 
-  Trash2, Edit, Save, Lock, LogOut, CheckCircle, Search, 
+import {
+  FileText, Bell, Image, Settings, Users, ArrowRight, Plus,
+  Trash2, Edit, Save, Lock, LogOut, CheckCircle, Search,
   Download, Printer, AlertTriangle, FileSpreadsheet, Mail, X
 } from 'lucide-react';
 
 export default function Dashboard({ setCurrentPage, setIsAdminState }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [email, setEmail] = useState('admin@rosebalc.co.za');
-  const [password, setPassword] = useState('ameera@brose');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
   const [loginLoading, setLoginLoading] = useState(false);
-  
+
   const [activeTab, setActiveTab] = useState('overview');
 
   // Database states
@@ -134,7 +135,7 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
       return {
         subject: `Application Accepted – ${name} | Rose B ALC`,
         body:
-`Dear ${contactName},
+          `Dear ${contactName},
 
 We are pleased to inform you that the application submitted for ${name} for the ${prog} programme at Rose B After School Learning Centre has been ACCEPTED.
 
@@ -153,7 +154,7 @@ edwardbreintjies@rosebalc.co.za`,
       return {
         subject: `Application Update – ${name} | Rose B ALC`,
         body:
-`Dear ${contactName},
+          `Dear ${contactName},
 
 Thank you for submitting an application for ${name} for the ${prog} programme at Rose B After School Learning Centre.
 
@@ -172,7 +173,7 @@ edwardbreintjies@rosebalc.co.za`,
     return {
       subject: `Application Under Review – ${name} | Rose B ALC`,
       body:
-`Dear ${contactName},
+        `Dear ${contactName},
 
 Thank you for applying to Rose B After School Learning Centre on behalf of ${name} for the ${prog} programme.
 
@@ -189,8 +190,8 @@ edwardbreintjies@rosebalc.co.za`,
 
   const openEmailModal = (app) => {
     const type = app.status === 'Accepted' ? 'accept'
-               : app.status === 'Rejected' ? 'reject'
-               : 'review';
+      : app.status === 'Rejected' ? 'reject'
+        : 'review';
     const template = getEmailTemplate(app, type);
     setEmailModal({ app, ...template, activeType: type });
   };
@@ -201,7 +202,7 @@ edwardbreintjies@rosebalc.co.za`,
     const recipientEmail = app.programme === 'Grade 12'
       ? (app.parentEmail || '')
       : (app.learnerEmail || '');
-    
+
     // Standard mailto protocol (Zoho Mail supports this if set as the browser's default email handler)
     const mailtoLink = `mailto:${recipientEmail}?subject=${encodeURIComponent(emailModal.subject)}&body=${encodeURIComponent(emailModal.body)}`;
     window.open(mailtoLink, '_blank');
@@ -267,10 +268,10 @@ edwardbreintjies@rosebalc.co.za`,
         'Subjects', 'Emergency Contact', 'Status'
       ];
       const headerBorder = {
-        top:    { style: 'thin', color: { argb: 'FF003366' } },
-        left:   { style: 'thin', color: { argb: 'FF003366' } },
+        top: { style: 'thin', color: { argb: 'FF003366' } },
+        left: { style: 'thin', color: { argb: 'FF003366' } },
         bottom: { style: 'thin', color: { argb: 'FF003366' } },
-        right:  { style: 'thin', color: { argb: 'FF003366' } },
+        right: { style: 'thin', color: { argb: 'FF003366' } },
       };
       headerTitles.forEach((title, i) => {
         const col = i + 1;
@@ -291,7 +292,7 @@ edwardbreintjies@rosebalc.co.za`,
         { width: 18 }, // Surname
         { width: 16 }, // Contact
         { width: 32 }, // Address
-        { width: 8  }, // Grade
+        { width: 8 }, // Grade
         { width: 28 }, // Subjects
         { width: 20 }, // Emergency
         { width: 16 }  // Status
@@ -308,7 +309,7 @@ edwardbreintjies@rosebalc.co.za`,
 
       const statusColors = {
         'Approved': { bg: 'FF059669', fg: 'FFFFFFFF' },
-        'Pending':  { bg: 'FFF59E0B', fg: 'FFFFFFFF' },
+        'Pending': { bg: 'FFF59E0B', fg: 'FFFFFFFF' },
         'Rejected': { bg: 'FFDC2626', fg: 'FFFFFFFF' }
       };
 
@@ -318,7 +319,7 @@ edwardbreintjies@rosebalc.co.za`,
         const contact = app.programme === 'Grade 12' ? app.parentContact : app.learnerPhone;
         const address = app.programme === 'Grade 12' ? app.parentAddress : app.learnerAddress;
         const subjects = Array.isArray(app.learnerSubjects) ? app.learnerSubjects.join(', ') : '';
-        
+
         const rowData = [
           app.id,
           dateStr,
@@ -339,15 +340,17 @@ edwardbreintjies@rosebalc.co.za`,
         rowData.forEach((val, ci) => {
           const cell = ws.getCell(rowNum, ci + 1);
           cell.value = val;
-          cell.font  = { size: 9, name: 'Calibri' };
-          cell.alignment = { vertical: 'middle', wrapText: true,
-            horizontal: ci === 10 ? 'center' : 'left' };
+          cell.font = { size: 9, name: 'Calibri' };
+          cell.alignment = {
+            vertical: 'middle', wrapText: true,
+            horizontal: ci === 10 ? 'center' : 'left'
+          };
           cell.border = cellBorder;
           // Status column coloring
           if (ci === 10 && statusColors[val]) {
             const sc = statusColors[val];
             cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: sc.bg } };
-            cell.font  = { size: 9, bold: true, color: { argb: sc.fg }, name: 'Calibri' };
+            cell.font = { size: 9, bold: true, color: { argb: sc.fg }, name: 'Calibri' };
           } else {
             cell.fill = rowFill;
           }
@@ -359,71 +362,71 @@ edwardbreintjies@rosebalc.co.za`,
       ws.getRow(summaryRow).height = 20;
       ws.mergeCells(`A${summaryRow}:K${summaryRow}`);
       const sumCell = ws.getCell(`A${summaryRow}`);
-      const pending  = apps.filter(a => a.status === 'Pending').length;
+      const pending = apps.filter(a => a.status === 'Pending').length;
       const approved = apps.filter(a => a.status === 'Approved').length;
       const rejected = apps.filter(a => a.status === 'Rejected').length;
       sumCell.value = `SUMMARY  —  Total: ${apps.length}   |   Pending: ${pending}   |   Approved: ${approved}   |   Rejected: ${rejected}`;
-      sumCell.font  = { bold: true, size: 9, color: { argb: 'FFFFFFFF' } };
+      sumCell.font = { bold: true, size: 9, color: { argb: 'FFFFFFFF' } };
       sumCell.alignment = { vertical: 'middle', horizontal: 'center' };
-      sumCell.fill  = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF003366' } };
+      sumCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF003366' } };
 
       // ── OLD-SCHOOL GRAY BOX STAMP (Canvas) ───────────────────────
       const sc = document.createElement('canvas');
-      sc.width  = 380;
+      sc.width = 380;
       sc.height = 200;
       const ctx = sc.getContext('2d');
       ctx.clearRect(0, 0, sc.width, sc.height);
 
       // Shadow for authenticity
-      ctx.shadowColor   = 'rgba(0,0,0,0.18)';
-      ctx.shadowBlur    = 6;
+      ctx.shadowColor = 'rgba(0,0,0,0.18)';
+      ctx.shadowBlur = 6;
       ctx.shadowOffsetX = 3;
       ctx.shadowOffsetY = 3;
 
       // Outer thick box
       ctx.strokeStyle = '#5a5a5a';
-      ctx.lineWidth   = 5;
+      ctx.lineWidth = 5;
       ctx.strokeRect(8, 8, 364, 184);
 
       ctx.shadowColor = 'transparent';
 
       // Inner thin box (double-border effect)
       ctx.strokeStyle = '#7a7a7a';
-      ctx.lineWidth   = 1.5;
+      ctx.lineWidth = 1.5;
       ctx.strokeRect(16, 16, 348, 168);
 
       // Top school name
       ctx.fillStyle = '#4a4a4a';
-      ctx.font      = 'bold 12px "Courier New", Courier, monospace';
+      ctx.font = 'bold 12px "Courier New", Courier, monospace';
       ctx.textAlign = 'center';
       ctx.fillText('ROSE B AFTER SCHOOL', 190, 42);
       ctx.fillText('LEARNING CENTER', 190, 58);
 
       // Separator
       ctx.strokeStyle = '#909090';
-      ctx.lineWidth   = 1;
+      ctx.lineWidth = 1;
       ctx.beginPath(); ctx.moveTo(30, 68); ctx.lineTo(350, 68); ctx.stroke();
 
       // VERIFIED
       ctx.fillStyle = '#3a3a3a';
-      ctx.font      = 'bold 26px "Courier New", Courier, monospace';
+      ctx.font = 'bold 26px "Courier New", Courier, monospace';
       ctx.fillText('V E R I F I E D', 190, 105);
 
       // Date
       const stampDate = new Date().toLocaleDateString('en-ZA',
         { year: 'numeric', month: 'long', day: 'numeric' });
       ctx.fillStyle = '#666666';
-      ctx.font      = '11px "Courier New", Courier, monospace';
+      ctx.font = '11px "Courier New", Courier, monospace';
       ctx.fillText(stampDate, 190, 128);
 
       // Separator
       ctx.strokeStyle = '#909090';
-      ctx.lineWidth   = 1;
+      ctx.lineWidth = 1;
       ctx.beginPath(); ctx.moveTo(30, 142); ctx.lineTo(350, 142); ctx.stroke();
 
       // Footer text
       ctx.fillStyle = '#777777';
-      ctx.font      = '9px "Courier New", Courier, monospace';
+      ctx.font = '9px "Courier New", Courier, monospace';
       ctx.fillText('OFFICIAL ELECTRONIC DOCUMENT', 190, 160);
       ctx.fillText('Rose B ALC  |  Authorised Export', 190, 176);
 
@@ -441,7 +444,7 @@ edwardbreintjies@rosebalc.co.za`,
 
       // ── DOWNLOAD ──────────────────────────────────────────────────
       const buffer = await workbook.xlsx.writeBuffer();
-      const blob   = new Blob([buffer], {
+      const blob = new Blob([buffer], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
       });
       const ts = new Date().toLocaleDateString('en-ZA').replace(/\//g, '-');
@@ -772,9 +775,9 @@ edwardbreintjies@rosebalc.co.za`,
 
   // Filter apps
   const filteredApps = apps.filter(app => {
-    const matchesSearch = app.learnerName.toLowerCase().includes(appSearch.toLowerCase()) || 
-                          app.learnerSurname.toLowerCase().includes(appSearch.toLowerCase()) || 
-                          app.id.toLowerCase().includes(appSearch.toLowerCase());
+    const matchesSearch = app.learnerName.toLowerCase().includes(appSearch.toLowerCase()) ||
+      app.learnerSurname.toLowerCase().includes(appSearch.toLowerCase()) ||
+      app.id.toLowerCase().includes(appSearch.toLowerCase());
     const matchesStatus = appFilter === 'All' || app.status === appFilter;
     return matchesSearch && matchesStatus;
   });
@@ -909,12 +912,12 @@ edwardbreintjies@rosebalc.co.za`,
             <form onSubmit={handleLogin}>
               <div className="form-group" style={{ marginBottom: '16px' }}>
                 <label className="form-label">Email Address</label>
-                <input 
-                  type="email" 
+                <input
+                  type="email"
                   className="form-control"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@rosebalc.co.za"
+                  placeholder="user@email.com"
                   required
                   autoComplete="email"
                 />
@@ -922,8 +925,8 @@ edwardbreintjies@rosebalc.co.za`,
 
               <div className="form-group" style={{ marginBottom: '24px' }}>
                 <label className="form-label">Password</label>
-                <input 
-                  type="password" 
+                <input
+                  type="password"
                   className="form-control"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -933,9 +936,9 @@ edwardbreintjies@rosebalc.co.za`,
                 />
               </div>
 
-              <button 
-                type="submit" 
-                className="btn btn-secondary" 
+              <button
+                type="submit"
+                className="btn btn-secondary"
                 disabled={loginLoading}
                 style={{ width: '100%', display: 'flex', gap: '6px', justifyContent: 'center', opacity: loginLoading ? 0.7 : 1 }}
               >
@@ -951,18 +954,18 @@ edwardbreintjies@rosebalc.co.za`,
   return (
     /* MAIN ADMIN DASHBOARD INTERFACE */
     <div className="animated dashboard-layout" style={{ display: 'flex', minHeight: '100vh' }}>
-      
+
       {/* Sidebar Nav */}
       <div className="dashboard-sidebar">
-        
+
         <div>
           {/* Logo */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '0 8px 32px', borderBottom: '1px solid rgba(255,255,255,0.05)', marginBottom: '32px' }}>
             <div className="sidebar-logo-container">
-              <img 
-                src="/logo.png" 
-                alt="Rose B ALC Logo" 
-                style={{ width: '48px', height: '48px', objectFit: 'contain', display: 'block' }} 
+              <img
+                src="/logo.png"
+                alt="Rose B ALC Logo"
+                style={{ width: '48px', height: '48px', objectFit: 'contain', display: 'block' }}
               />
             </div>
             <div>
@@ -973,35 +976,35 @@ edwardbreintjies@rosebalc.co.za`,
 
           {/* Nav list */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <button 
+            <button
               onClick={() => { setActiveTab('overview'); setSelectedApp(null); }}
               className={`pro-sidebar-nav-btn ${activeTab === 'overview' ? 'active' : ''}`}
             >
               <Settings size={18} /> Overview
             </button>
 
-            <button 
+            <button
               onClick={() => { setActiveTab('applications'); }}
               className={`pro-sidebar-nav-btn ${activeTab === 'applications' ? 'active' : ''}`}
             >
               <Users size={18} /> Applications ({apps.length})
             </button>
 
-            <button 
+            <button
               onClick={() => { setActiveTab('notices'); }}
               className={`pro-sidebar-nav-btn ${activeTab === 'notices' ? 'active' : ''}`}
             >
               <Bell size={18} /> Notices ({notices.length})
             </button>
 
-            <button 
+            <button
               onClick={() => { setActiveTab('gallery'); }}
               className={`pro-sidebar-nav-btn ${activeTab === 'gallery' ? 'active' : ''}`}
             >
               <Image size={18} /> Gallery ({gallery.length})
             </button>
 
-            <button 
+            <button
               onClick={() => { setActiveTab('settings'); }}
               className={`pro-sidebar-nav-btn ${activeTab === 'settings' ? 'active' : ''}`}
             >
@@ -1012,7 +1015,7 @@ edwardbreintjies@rosebalc.co.za`,
 
         {/* Logout Bottom */}
         <div>
-          <button 
+          <button
             onClick={handleLogout}
             className="pro-sidebar-nav-btn logout"
           >
@@ -1023,12 +1026,12 @@ edwardbreintjies@rosebalc.co.za`,
 
       {/* Main Content Area */}
       <div style={{ flexGrow: 1, padding: '40px', backgroundColor: '#F1F5F9', overflowY: 'auto' }} className="dashboard-content">
-        
+
         {/* ================= TAB 1: OVERVIEW ================= */}
         {activeTab === 'overview' && (
           <div className="animated">
             <h2 style={{ marginBottom: '24px' }}>Overview Dashboard</h2>
-            
+
             {/* Quick Metrics */}
             <div className="grid-3" style={{ marginBottom: '40px' }}>
               <div className="card" style={{ padding: '24px', display: 'flex', alignItems: 'center', gap: '20px' }}>
@@ -1064,27 +1067,27 @@ edwardbreintjies@rosebalc.co.za`,
 
             {/* Quick Actions & Recent */}
             <div style={{ display: 'grid', gridTemplateColumns: '40% 60%', gap: '32px' }} className="sub-grid-mobile">
-              
+
               {/* Quick Actions */}
               <div className="card" style={{ padding: '28px' }}>
                 <h3 style={{ fontSize: '1.25rem', marginBottom: '20px' }}>Quick Actions</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <button 
-                    className="btn btn-primary" 
+                  <button
+                    className="btn btn-primary"
                     style={{ width: '100%', justifyContent: 'flex-start', gap: '10px' }}
                     onClick={() => setActiveTab('notices')}
                   >
                     <Plus size={16} /> Create Notice Letter
                   </button>
-                  <button 
-                    className="btn btn-secondary" 
+                  <button
+                    className="btn btn-secondary"
                     style={{ width: '100%', justifyContent: 'flex-start', gap: '10px' }}
                     onClick={() => setActiveTab('applications')}
                   >
                     <Users size={16} /> Manage Applications
                   </button>
-                  <button 
-                    className="btn btn-outline" 
+                  <button
+                    className="btn btn-outline"
                     style={{ width: '100%', justifyContent: 'flex-start', gap: '10px' }}
                     onClick={() => setActiveTab('settings')}
                   >
@@ -1135,8 +1138,8 @@ edwardbreintjies@rosebalc.co.za`,
           <div className="animated">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
               <h2>Manage Applications ({filteredApps.length})</h2>
-              <button 
-                className="btn btn-outline" 
+              <button
+                className="btn btn-outline"
                 style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', fontSize: '0.85rem' }}
                 onClick={exportAppToExcel}
               >
@@ -1176,8 +1179,8 @@ edwardbreintjies@rosebalc.co.za`,
               </div>
 
               <div style={{ position: 'relative', width: '250px', marginLeft: 'auto' }}>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   placeholder="Search by name/id..."
                   className="form-control"
                   style={{ paddingLeft: '36px', paddingRight: '12px', fontSize: '0.85rem', padding: '8px 12px 8px 36px' }}
@@ -1190,7 +1193,7 @@ edwardbreintjies@rosebalc.co.za`,
 
             {/* Main Application Interface */}
             <div style={{ display: 'grid', gridTemplateColumns: selectedApp ? '50% 50%' : '1fr', gap: '24px' }} className="sub-grid-mobile">
-              
+
               {/* Applications Table */}
               <div className="card" style={{ padding: '20px', overflowX: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
@@ -1210,8 +1213,8 @@ edwardbreintjies@rosebalc.co.za`,
                       </tr>
                     ) : (
                       filteredApps.map(app => (
-                        <tr 
-                          key={app.id} 
+                        <tr
+                          key={app.id}
                           onClick={() => setSelectedApp(app)}
                           style={{
                             borderBottom: '1px solid var(--border-color)',
@@ -1242,7 +1245,7 @@ edwardbreintjies@rosebalc.co.za`,
                             }}>{app.status}</span>
                           </td>
                           <td style={{ padding: '12px 8px' }}>
-                            <button 
+                            <button
                               onClick={(e) => { e.stopPropagation(); deleteApp(app.id); }}
                               style={{ border: 'none', background: 'none', color: '#EF4444', cursor: 'pointer' }}
                             >
@@ -1264,8 +1267,8 @@ edwardbreintjies@rosebalc.co.za`,
                       <h3 style={{ fontSize: '1.25rem', margin: 0 }}>Application Profile</h3>
                       <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Reference ID: {selectedApp.id}</span>
                     </div>
-                    <button 
-                      className="tab-btn" 
+                    <button
+                      className="tab-btn"
                       style={{ padding: '2px 8px', borderBottom: 'none', margin: 0 }}
                       onClick={() => setSelectedApp(null)}
                     >
@@ -1277,7 +1280,7 @@ edwardbreintjies@rosebalc.co.za`,
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '0.88rem', marginBottom: '24px' }}>
                     <div><strong>Programme:</strong> <span>{selectedApp.programme}</span></div>
                     <div><strong>Learner:</strong> <span>{selectedApp.learnerName} {selectedApp.learnerSurname} ({selectedApp.learnerGrade})</span></div>
-                    
+
                     {selectedApp.programme === 'Grade 12' ? (
                       <>
                         <div><strong>Parent:</strong> <span>{selectedApp.parentName} {selectedApp.parentSurname}</span></div>
@@ -1294,9 +1297,9 @@ edwardbreintjies@rosebalc.co.za`,
                         <div><strong>Emergency Contact:</strong> <span>{selectedApp.emergencyContact}</span></div>
                       </>
                     )}
-                    
+
                     <div><strong>Submission Date:</strong> <span>{new Date(selectedApp.dateSubmitted).toLocaleString('en-ZA')}</span></div>
-                    
+
                     {/* Status selector */}
                     <div style={{ marginTop: '10px' }}>
                       <strong>Select Status Option:</strong>
@@ -1340,22 +1343,22 @@ edwardbreintjies@rosebalc.co.za`,
 
                   {/* Actions Row */}
                   <div style={{ display: 'flex', gap: '10px', borderTop: '1px solid var(--border-color)', paddingTop: '16px', flexWrap: 'wrap' }}>
-                    <button 
-                      className="btn btn-primary" 
+                    <button
+                      className="btn btn-primary"
                       style={{ padding: '8px 16px', fontSize: '0.82rem', flexGrow: 1, display: 'flex', gap: '6px', justifyContent: 'center' }}
                       onClick={() => printApp(selectedApp)}
                     >
                       <Printer size={14} /> Print Record
                     </button>
-                    <button 
-                      className="btn btn-secondary" 
+                    <button
+                      className="btn btn-secondary"
                       style={{ padding: '8px 16px', fontSize: '0.82rem', display: 'flex', gap: '6px', justifyContent: 'center', alignItems: 'center', flexGrow: 1 }}
                       onClick={() => openEmailModal(selectedApp)}
                     >
                       <Mail size={14} /> Email Applicant
                     </button>
-                    <button 
-                      className="btn btn-outline" 
+                    <button
+                      className="btn btn-outline"
                       style={{ padding: '8px 16px', fontSize: '0.82rem', color: '#EF4444', borderColor: '#EF4444' }}
                       onClick={() => deleteApp(selectedApp.id)}
                     >
@@ -1491,7 +1494,7 @@ edwardbreintjies@rosebalc.co.za`,
           <div className="animated">
             <h2>School Notice Correspondence</h2>
             <div style={{ display: 'grid', gridTemplateColumns: '40% 60%', gap: '32px', marginTop: '24px' }} className="sub-grid-mobile">
-              
+
               {/* Notice Creator Form */}
               <div className="card" style={{ padding: '28px' }}>
                 <h3 style={{ fontSize: '1.25rem', marginBottom: '20px' }}>
@@ -1500,8 +1503,8 @@ edwardbreintjies@rosebalc.co.za`,
                 <form onSubmit={handleNoticeSubmit}>
                   <div className="form-group">
                     <label className="form-label">Notice Title*</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       className="form-control"
                       value={noticeForm.title}
                       onChange={(e) => setNoticeForm({ ...noticeForm, title: e.target.value })}
@@ -1512,7 +1515,7 @@ edwardbreintjies@rosebalc.co.za`,
 
                   <div className="form-group">
                     <label className="form-label">Category*</label>
-                    <select 
+                    <select
                       className="form-control"
                       value={noticeForm.category}
                       onChange={(e) => setNoticeForm({ ...noticeForm, category: e.target.value })}
@@ -1525,8 +1528,8 @@ edwardbreintjies@rosebalc.co.za`,
 
                   <div className="form-group">
                     <label className="form-label">Author Sign-off*</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       className="form-control"
                       value={noticeForm.author}
                       onChange={(e) => setNoticeForm({ ...noticeForm, author: e.target.value })}
@@ -1537,7 +1540,7 @@ edwardbreintjies@rosebalc.co.za`,
 
                   <div className="form-group" style={{ marginBottom: '24px' }}>
                     <label className="form-label">Notice Body Contents*</label>
-                    <textarea 
+                    <textarea
                       className="form-control"
                       rows="6"
                       value={noticeForm.body}
@@ -1552,8 +1555,8 @@ edwardbreintjies@rosebalc.co.za`,
                       <Save size={16} /> {isEditingNotice ? "Save Changes" : "Publish Notice"}
                     </button>
                     {isEditingNotice && (
-                      <button 
-                        type="button" 
+                      <button
+                        type="button"
                         className="btn btn-outline"
                         onClick={() => {
                           setIsEditingNotice(false);
@@ -1595,23 +1598,23 @@ edwardbreintjies@rosebalc.co.za`,
                           overflow: 'hidden'
                         }}>{notice.body}</p>
                       </div>
-                      
+
                       <div style={{ display: 'flex', gap: '8px' }}>
-                        <button 
+                        <button
                           onClick={() => printNotice(notice)}
                           style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text)' }}
                           title="Print Notice"
                         >
                           <Printer size={16} />
                         </button>
-                        <button 
+                        <button
                           onClick={() => startEditNotice(notice)}
                           style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--primary)' }}
                           title="Edit Notice"
                         >
                           <Edit size={16} />
                         </button>
-                        <button 
+                        <button
                           onClick={() => deleteNotice(notice.id)}
                           style={{ border: 'none', background: 'none', cursor: 'pointer', color: '#EF4444' }}
                         >
@@ -1632,7 +1635,7 @@ edwardbreintjies@rosebalc.co.za`,
           <div className="animated">
             <h2>Gallery Album Manager</h2>
             <div style={{ display: 'grid', gridTemplateColumns: '40% 60%', gap: '32px', marginTop: '24px' }} className="sub-grid-mobile">
-              
+
               {/* Photo Uploader */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                 <div className="card" style={{ padding: '24px' }}>
@@ -1640,7 +1643,7 @@ edwardbreintjies@rosebalc.co.za`,
                   <form onSubmit={handleImageUpload}>
                     <div className="form-group">
                       <label className="form-label">Select Album*</label>
-                      <select 
+                      <select
                         className="form-control"
                         value={galleryForm.album}
                         onChange={(e) => setGalleryForm({ ...galleryForm, album: e.target.value })}
@@ -1654,8 +1657,8 @@ edwardbreintjies@rosebalc.co.za`,
                     {/* Local File Reader Input */}
                     <div className="form-group">
                       <label className="form-label">Upload Local Photo File*</label>
-                      <input 
-                        type="file" 
+                      <input
+                        type="file"
                         accept="image/*"
                         className="form-control"
                         onChange={handleFileChange}
@@ -1668,8 +1671,8 @@ edwardbreintjies@rosebalc.co.za`,
 
                     <div className="form-group">
                       <label className="form-label">Or Image URL*</label>
-                      <input 
-                        type="url" 
+                      <input
+                        type="url"
                         className="form-control"
                         placeholder="https://images.unsplash.com/..."
                         value={galleryForm.url}
@@ -1680,8 +1683,8 @@ edwardbreintjies@rosebalc.co.za`,
 
                     <div className="form-group" style={{ marginBottom: '20px' }}>
                       <label className="form-label">Photo Caption*</label>
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         className="form-control"
                         placeholder="Short caption describing the class activity"
                         value={galleryForm.caption}
@@ -1700,8 +1703,8 @@ edwardbreintjies@rosebalc.co.za`,
                 <div className="card" style={{ padding: '24px' }}>
                   <h3 style={{ fontSize: '1.1rem', marginBottom: '12px' }}>Create New Album</h3>
                   <form onSubmit={handleAddNewAlbum} style={{ display: 'flex', gap: '8px' }}>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       className="form-control"
                       placeholder="Album name"
                       value={newAlbumName}
@@ -1742,7 +1745,7 @@ edwardbreintjies@rosebalc.co.za`,
                       }}>
                         {img.album}
                       </div>
-                      <button 
+                      <button
                         onClick={() => deleteImage(img.id)}
                         style={{
                           position: 'absolute',
@@ -1771,30 +1774,30 @@ edwardbreintjies@rosebalc.co.za`,
         {activeTab === 'settings' && (
           <div className="animated" style={{ maxWidth: '800px' }}>
             <h2>System & Website Configuration</h2>
-            
+
             <form onSubmit={handleSaveSettings}>
               {/* Pricing settings */}
               <div className="card" style={{ padding: '28px', marginTop: '24px' }}>
                 <h3 style={{ fontSize: '1.25rem', marginBottom: '20px', color: 'var(--secondary)' }}>Tuition Fees & Pricing Structures</h3>
-                
+
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="sub-grid-mobile">
                   <div className="form-group">
                     <label className="form-label">Standard Hourly Rate (R)*</label>
-                    <input 
-                      type="number" 
+                    <input
+                      type="number"
                       className="form-control"
                       value={pricing.hourlyRate || ''}
-                      onChange={(e) => setPricing({...pricing, hourlyRate: parseInt(e.target.value) || 0})}
+                      onChange={(e) => setPricing({ ...pricing, hourlyRate: parseInt(e.target.value) || 0 })}
                       required
                     />
                   </div>
                   <div className="form-group">
                     <label className="form-label">Rewrite Monthly Installment (R)*</label>
-                    <input 
-                      type="number" 
+                    <input
+                      type="number"
                       className="form-control"
                       value={pricing.rewriteMonthly || ''}
-                      onChange={(e) => setPricing({...pricing, rewriteMonthly: parseInt(e.target.value) || 0})}
+                      onChange={(e) => setPricing({ ...pricing, rewriteMonthly: parseInt(e.target.value) || 0 })}
                       required
                     />
                   </div>
@@ -1803,21 +1806,21 @@ edwardbreintjies@rosebalc.co.za`,
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="sub-grid-mobile">
                   <div className="form-group">
                     <label className="form-label">Rewrite Once-Off Settlement (R)*</label>
-                    <input 
-                      type="number" 
+                    <input
+                      type="number"
                       className="form-control"
                       value={pricing.rewriteOnceOff || ''}
-                      onChange={(e) => setPricing({...pricing, rewriteOnceOff: parseInt(e.target.value) || 0})}
+                      onChange={(e) => setPricing({ ...pricing, rewriteOnceOff: parseInt(e.target.value) || 0 })}
                       required
                     />
                   </div>
                   <div className="form-group">
                     <label className="form-label">Activate Promotions Banner?</label>
                     <label className="form-checkbox" style={{ marginTop: '12px' }}>
-                      <input 
+                      <input
                         type="checkbox"
                         checked={pricing.promoBannerActive || false}
-                        onChange={(e) => setPricing({...pricing, promoBannerActive: e.target.checked})}
+                        onChange={(e) => setPricing({ ...pricing, promoBannerActive: e.target.checked })}
                         style={{ width: '18px', height: '18px', accentColor: 'var(--secondary)' }}
                       />
                       <span style={{ fontWeight: 600 }}>Yes, render promotions banner on homepage</span>
@@ -1827,11 +1830,11 @@ edwardbreintjies@rosebalc.co.za`,
 
                 <div className="form-group">
                   <label className="form-label">Promotion Banner Alert Text</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     className="form-control"
                     value={pricing.promoBannerText || ''}
-                    onChange={(e) => setPricing({...pricing, promoBannerText: e.target.value})}
+                    onChange={(e) => setPricing({ ...pricing, promoBannerText: e.target.value })}
                   />
                 </div>
               </div>
@@ -1839,52 +1842,52 @@ edwardbreintjies@rosebalc.co.za`,
               {/* Content settings */}
               <div className="card" style={{ padding: '28px', marginTop: '24px', marginBottom: '24px' }}>
                 <h3 style={{ fontSize: '1.25rem', marginBottom: '20px', color: 'var(--primary)' }}>Editable Website Text Elements</h3>
-                
+
                 <div className="form-group">
                   <label className="form-label">Our Story / Philosophy Text</label>
-                  <textarea 
+                  <textarea
                     className="form-control"
                     rows="4"
                     value={content.aboutStory || ''}
-                    onChange={(e) => setContent({...content, aboutStory: e.target.value})}
+                    onChange={(e) => setContent({ ...content, aboutStory: e.target.value })}
                   ></textarea>
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="sub-grid-mobile">
                   <div className="form-group">
                     <label className="form-label">Mission Statement</label>
-                    <textarea 
+                    <textarea
                       className="form-control"
                       rows="3"
                       value={content.aboutMission || ''}
-                      onChange={(e) => setContent({...content, aboutMission: e.target.value})}
+                      onChange={(e) => setContent({ ...content, aboutMission: e.target.value })}
                     ></textarea>
                   </div>
                   <div className="form-group">
                     <label className="form-label">Vision Statement</label>
-                    <textarea 
+                    <textarea
                       className="form-control"
                       rows="3"
                       value={content.aboutVision || ''}
-                      onChange={(e) => setContent({...content, aboutVision: e.target.value})}
+                      onChange={(e) => setContent({ ...content, aboutVision: e.target.value })}
                     ></textarea>
                   </div>
                 </div>
 
                 <div className="form-group">
                   <label className="form-label">Founder Profile Biography</label>
-                  <textarea 
+                  <textarea
                     className="form-control"
                     rows="4"
                     value={content.founderBio || ''}
-                    onChange={(e) => setContent({...content, founderBio: e.target.value})}
+                    onChange={(e) => setContent({ ...content, founderBio: e.target.value })}
                   ></textarea>
                 </div>
               </div>
 
-              <button 
-                type="submit" 
-                className="btn btn-secondary" 
+              <button
+                type="submit"
+                className="btn btn-secondary"
                 style={{ width: '100%', padding: '14px', display: 'flex', gap: '8px', justifyContent: 'center' }}
               >
                 <Save size={18} /> Save Website Configurations
