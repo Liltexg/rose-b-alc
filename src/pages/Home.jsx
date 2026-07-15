@@ -1,12 +1,10 @@
-// Powered by OrbXech Design Studio
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { db } from '../services/db';
 import { CheckCircle2, ArrowRight, Bell, FileText, Landmark, CalendarRange, GraduationCap } from 'lucide-react';
 
-export default function Home({ setCurrentPage, setMovieMode }) {
+export default function Home({ setCurrentPage }) {
   const [latestNotices, setLatestNotices] = useState([]);
   const [pricing, setPricing] = useState({});
-  const parallaxRef = useRef(null);
 
   const calculateTimeLeft = () => {
     const difference = +new Date("2026-08-31T00:00:00+02:00") - +new Date();
@@ -51,31 +49,9 @@ export default function Home({ setCurrentPage, setMovieMode }) {
       document.querySelectorAll('.reveal-hidden').forEach((el) => observer.observe(el));
     }, 100);
 
-    // Movie Mode Observer — triggers fullscreen when parallax section enters
-    const movieObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          // Enter movie mode
-          setMovieMode(true);
-          const el = document.documentElement;
-          if (el.requestFullscreen) el.requestFullscreen();
-          else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-        } else {
-          // Exit movie mode
-          setMovieMode(false);
-          if (document.fullscreenElement) {
-            document.exitFullscreen();
-          }
-        }
-      });
-    }, { threshold: 0.2 });
-
-    if (parallaxRef.current) movieObserver.observe(parallaxRef.current);
-
     return () => {
       clearInterval(timer);
       observer.disconnect();
-      movieObserver.disconnect();
     };
   }, []);
 
@@ -160,7 +136,7 @@ export default function Home({ setCurrentPage, setMovieMode }) {
       </section>
 
       {/* Cinematic Parallax Storytelling - Movie Mode Trigger */}
-      <section ref={parallaxRef} className="parallax-container" style={{ 
+      <section className="parallax-container" style={{ 
         backgroundImage: `url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop')` 
       }}>
         <div className="parallax-overlay"></div>

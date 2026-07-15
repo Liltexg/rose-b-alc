@@ -1,16 +1,17 @@
-// Powered by OrbXech Design Studio
 import React, { useState, useEffect } from 'react';
 import { db } from '../services/db';
 import { 
   FileText, Bell, Image, Settings, Users, ArrowRight, Plus, 
   Trash2, Edit, Save, Lock, LogOut, CheckCircle, Search, 
-  Download, Printer, AlertTriangle, FileSpreadsheet 
+  Download, Printer, AlertTriangle, FileSpreadsheet, Mail, X
 } from 'lucide-react';
 
 export default function Dashboard({ setCurrentPage, setIsAdminState }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [password, setPassword] = useState('admin123'); // Pre-filled for user convenience
+  const [email, setEmail] = useState('admin@rosebalc.co.za');
+  const [password, setPassword] = useState('ameera@brose');
   const [loginError, setLoginError] = useState('');
+  const [loginLoading, setLoginLoading] = useState(false);
   
   const [activeTab, setActiveTab] = useState('overview');
 
@@ -30,25 +31,49 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
   const [noticeForm, setNoticeForm] = useState({ id: null, title: '', category: 'General', body: '', author: 'E. Bruintjies (Principal)' });
   const [isEditingNotice, setIsEditingNotice] = useState(false);
 
+  // Email modal states
+  const [emailModal, setEmailModal] = useState(null); // null = closed, or { app, subject, body }
+
   // Gallery states
   const [galleryForm, setGalleryForm] = useState({ album: 'Academic Support', url: '', caption: '' });
   const [newAlbumName, setNewAlbumName] = useState('');
   const [availableAlbums, setAvailableAlbums] = useState([]);
 
+  // Check current session on load
+  useEffect(() => {
+    const checkUser = async () => {
+      try {
+        const user = await db.getCurrentUser();
+        if (user) {
+          setIsAuthenticated(true);
+          setIsAdminState(true);
+        }
+      } catch (err) {
+        console.error('Session check error:', err);
+      }
+    };
+    checkUser();
+  }, []);
+
   // Login handler
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (password === 'admin123') {
+    setLoginLoading(true);
+    setLoginError('');
+    try {
+      await db.signIn(email, password);
       setIsAuthenticated(true);
       setIsAdminState(true);
-      setLoginError('');
-    } else {
-      setLoginError('Invalid Administrator Password. Use the default: admin123');
+    } catch (err) {
+      setLoginError(err.message || 'Login failed. Please verify credentials.');
+    } finally {
+      setLoginLoading(false);
     }
   };
 
   // Logout handler
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await db.signOut();
     setIsAuthenticated(false);
     setIsAdminState(false);
     setSelectedApp(null);
@@ -96,103 +121,648 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
     }
   };
 
-  const exportAppToCSV = () => {
-    // Generate CSV contents
-    const headers = ["Application ID", "Date Submitted", "Programme", "Candidate Name", "Candidate Surname", "Phone/Contact", "Physical Address", "Grade", "Subjects", "Emergency Contact", "Status"];
-    const rows = apps.map(app => {
-      const contact = app.programme === 'Grade 12' ? app.parentContact : app.learnerPhone;
-      const address = app.programme === 'Grade 12' ? app.parentAddress : app.learnerAddress;
-      const subjects = app.learnerSubjects ? app.learnerSubjects.join('; ') : '';
-      return [
-        app.id,
-        new Date(app.dateSubmitted).toLocaleDateString('en-ZA'),
-        app.programme,
-        app.learnerName,
-        app.learnerSurname,
-        contact,
-        address.replace(/,/g, ' '),
-        app.learnerGrade,
-        subjects,
-        app.emergencyContact || 'N/A',
-        app.status
-      ];
-    });
+  // ================= EMAIL MODAL =================
+  const getEmailTemplate = (app, type) => {
+    const name = `${app.learnerName} ${app.learnerSurname}`;
+    const prog = app.programme;
+    const contact = app.programme === 'Grade 12' ? app.parentContact : app.learnerPhone;
+    const contactName = app.programme === 'Grade 12'
+      ? `${app.parentName} ${app.parentSurname}`
+      : name;
 
-    const csvContent = "data:text/csv;charset=utf-8," 
-      + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    if (type === 'accept') {
+      return {
+        subject: `Application Accepted – ${name} | Rose B ALC`,
+        body:
+`Dear ${contactName},
+
+We are pleased to inform you that the application submitted for ${name} for the ${prog} programme at Rose B After School Learning Centre has been ACCEPTED.
+
+Please contact us to arrange for the necessary paperwork and registration formalities at your earliest convenience.
+
+We look forward to welcoming ${app.learnerName} to our centre and supporting their academic journey.
+
+Warm regards,
+E. Bruintjies
+Principal – Rose B After School Learning Centre
+edwardbreintjies@rosebalc.co.za`,
+      };
+    }
+
+    if (type === 'reject') {
+      return {
+        subject: `Application Update – ${name} | Rose B ALC`,
+        body:
+`Dear ${contactName},
+
+Thank you for submitting an application for ${name} for the ${prog} programme at Rose B After School Learning Centre.
+
+After careful consideration, we regret to inform you that we are unable to accommodate the application at this time. This may be due to limited availability or programme capacity.
+
+We encourage you to reach out to us for future intake opportunities.
+
+Kind regards,
+E. Bruintjies
+Principal – Rose B After School Learning Centre
+edwardbreintjies@rosebalc.co.za`,
+      };
+    }
+
+    // reviewed / pending
+    return {
+      subject: `Application Under Review – ${name} | Rose B ALC`,
+      body:
+`Dear ${contactName},
+
+Thank you for applying to Rose B After School Learning Centre on behalf of ${name} for the ${prog} programme.
+
+We would like to inform you that the application is currently under review. We will be in contact with you shortly with a final decision.
+
+Should you have any queries in the meantime, please feel free to reach out.
+
+Kind regards,
+E. Bruintjies
+Principal – Rose B After School Learning Centre
+edwardbreintjies@rosebalc.co.za`,
+    };
+  };
+
+  const openEmailModal = (app) => {
+    const type = app.status === 'Accepted' ? 'accept'
+               : app.status === 'Rejected' ? 'reject'
+               : 'review';
+    const template = getEmailTemplate(app, type);
+    setEmailModal({ app, ...template, activeType: type });
+  };
+
+  const sendEmail = () => {
+    if (!emailModal) return;
+    const app = emailModal.app;
+    const recipientEmail = app.programme === 'Grade 12'
+      ? (app.parentEmail || '')
+      : (app.learnerEmail || '');
     
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `rose_b_alc_applications_${Date.now()}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // Standard mailto protocol (Zoho Mail supports this if set as the browser's default email handler)
+    const mailtoLink = `mailto:${recipientEmail}?subject=${encodeURIComponent(emailModal.subject)}&body=${encodeURIComponent(emailModal.body)}`;
+    window.open(mailtoLink, '_blank');
+  };
+
+  const exportAppToExcel = async () => {
+    try {
+      const ExcelJS = (await import('exceljs'));
+      const { saveAs } = (await import('file-saver'));
+
+      const workbook = new ExcelJS.Workbook();
+      workbook.creator = 'Rose B After School Learning Center';
+      workbook.created = new Date();
+      const ws = workbook.addWorksheet('Applications', {
+        pageSetup: { paperSize: 9, orientation: 'landscape', fitToPage: true, fitToWidth: 1 }
+      });
+
+      // ── SCHOOL LOGO ──────────────────────────────────────────────
+      const logoRes = await fetch('/logo.png');
+      const logoBuffer = await logoRes.arrayBuffer();
+      const logoId = workbook.addImage({ buffer: logoBuffer, extension: 'png' });
+
+      // Row 1: tall logo header row
+      ws.getRow(1).height = 70;
+      ws.mergeCells('A1:K1');
+      ws.addImage(logoId, { tl: { col: 0, row: 0 }, ext: { width: 130, height: 58 } });
+
+      // ── SCHOOL NAME HEADER ────────────────────────────────────────
+      ws.getRow(2).height = 30;
+      ws.mergeCells('A2:K2');
+      const nameCell = ws.getCell('A2');
+      nameCell.value = 'ROSE B AFTER SCHOOL LEARNING CENTER';
+      nameCell.font = { bold: true, size: 18, color: { argb: 'FF003366' }, name: 'Calibri' };
+      nameCell.alignment = { vertical: 'middle', horizontal: 'center' };
+      nameCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFE8EFF8' } };
+
+      ws.getRow(3).height = 20;
+      ws.mergeCells('A3:K3');
+      const subCell = ws.getCell('A3');
+      subCell.value = 'Official Student Applications Register';
+      subCell.font = { italic: true, size: 11, color: { argb: 'FF555555' } };
+      subCell.alignment = { vertical: 'middle', horizontal: 'center' };
+      subCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFE8EFF8' } };
+
+      ws.getRow(4).height = 16;
+      ws.mergeCells('A4:K4');
+      const dateCell = ws.getCell('A4');
+      dateCell.value = `Generated: ${new Date().toLocaleString('en-ZA')}   |   Total Records: ${apps.length}`;
+      dateCell.font = { size: 9, color: { argb: 'FF888888' } };
+      dateCell.alignment = { vertical: 'middle', horizontal: 'center' };
+      dateCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFE8EFF8' } };
+
+      // ── DIVIDER ROW ───────────────────────────────────────────────
+      ws.getRow(5).height = 4;
+      ws.mergeCells('A5:K5');
+      ws.getCell('A5').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF003366' } };
+
+      // ── COLUMN HEADERS ────────────────────────────────────────────
+      ws.getRow(6).height = 28;
+      const headerTitles = [
+        'App ID', 'Date Submitted', 'Programme', 'First Name',
+        'Surname', 'Contact', 'Physical Address', 'Grade',
+        'Subjects', 'Emergency Contact', 'Status'
+      ];
+      const headerBorder = {
+        top:    { style: 'thin', color: { argb: 'FF003366' } },
+        left:   { style: 'thin', color: { argb: 'FF003366' } },
+        bottom: { style: 'thin', color: { argb: 'FF003366' } },
+        right:  { style: 'thin', color: { argb: 'FF003366' } },
+      };
+      headerTitles.forEach((title, i) => {
+        const col = i + 1;
+        const cell = ws.getCell(6, col);
+        cell.value = title;
+        cell.font = { bold: true, color: { argb: 'FFFFFFFF' }, size: 10, name: 'Calibri' };
+        cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF003366' } };
+        cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+        cell.border = headerBorder;
+      });
+
+      // ── COLUMN WIDTHS ─────────────────────────────────────────────
+      ws.columns = [
+        { width: 14 }, // App ID
+        { width: 16 }, // Date
+        { width: 18 }, // Programme
+        { width: 18 }, // First Name
+        { width: 18 }, // Surname
+        { width: 16 }, // Contact
+        { width: 32 }, // Address
+        { width: 8  }, // Grade
+        { width: 28 }, // Subjects
+        { width: 20 }, // Emergency
+        { width: 16 }  // Status
+      ];
+
+      const whiteFill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFFFFFF' } };
+      const lightBlueFill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFF5F8FD' } };
+      const cellBorder = {
+        top: { style: 'thin', color: { argb: 'FFDDDDDD' } },
+        left: { style: 'thin', color: { argb: 'FFDDDDDD' } },
+        bottom: { style: 'thin', color: { argb: 'FFDDDDDD' } },
+        right: { style: 'thin', color: { argb: 'FFDDDDDD' } }
+      };
+
+      const statusColors = {
+        'Approved': { bg: 'FF059669', fg: 'FFFFFFFF' },
+        'Pending':  { bg: 'FFF59E0B', fg: 'FFFFFFFF' },
+        'Rejected': { bg: 'FFDC2626', fg: 'FFFFFFFF' }
+      };
+
+      apps.forEach((app, idx) => {
+        const rowNum = 7 + idx;
+        const dateStr = new Date(app.dateSubmitted).toLocaleDateString('en-ZA');
+        const contact = app.programme === 'Grade 12' ? app.parentContact : app.learnerPhone;
+        const address = app.programme === 'Grade 12' ? app.parentAddress : app.learnerAddress;
+        const subjects = Array.isArray(app.learnerSubjects) ? app.learnerSubjects.join(', ') : '';
+        
+        const rowData = [
+          app.id,
+          dateStr,
+          app.programme,
+          app.learnerName,
+          app.learnerSurname,
+          contact,
+          address ? address.replace(/,/g, ' ') : '',
+          app.learnerGrade,
+          subjects,
+          app.emergencyContact || 'N/A',
+          app.status,
+        ];
+        const isEven = idx % 2 === 0;
+        const rowFill = isEven ? whiteFill : lightBlueFill;
+        const row = ws.getRow(rowNum);
+        row.height = 18;
+        rowData.forEach((val, ci) => {
+          const cell = ws.getCell(rowNum, ci + 1);
+          cell.value = val;
+          cell.font  = { size: 9, name: 'Calibri' };
+          cell.alignment = { vertical: 'middle', wrapText: true,
+            horizontal: ci === 10 ? 'center' : 'left' };
+          cell.border = cellBorder;
+          // Status column coloring
+          if (ci === 10 && statusColors[val]) {
+            const sc = statusColors[val];
+            cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: sc.bg } };
+            cell.font  = { size: 9, bold: true, color: { argb: sc.fg }, name: 'Calibri' };
+          } else {
+            cell.fill = rowFill;
+          }
+        });
+      });
+
+      // ── SUMMARY FOOTER ────────────────────────────────────────────
+      const summaryRow = 7 + apps.length + 1;
+      ws.getRow(summaryRow).height = 20;
+      ws.mergeCells(`A${summaryRow}:K${summaryRow}`);
+      const sumCell = ws.getCell(`A${summaryRow}`);
+      const pending  = apps.filter(a => a.status === 'Pending').length;
+      const approved = apps.filter(a => a.status === 'Approved').length;
+      const rejected = apps.filter(a => a.status === 'Rejected').length;
+      sumCell.value = `SUMMARY  —  Total: ${apps.length}   |   Pending: ${pending}   |   Approved: ${approved}   |   Rejected: ${rejected}`;
+      sumCell.font  = { bold: true, size: 9, color: { argb: 'FFFFFFFF' } };
+      sumCell.alignment = { vertical: 'middle', horizontal: 'center' };
+      sumCell.fill  = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF003366' } };
+
+      // ── OLD-SCHOOL GRAY BOX STAMP (Canvas) ───────────────────────
+      const sc = document.createElement('canvas');
+      sc.width  = 380;
+      sc.height = 200;
+      const ctx = sc.getContext('2d');
+      ctx.clearRect(0, 0, sc.width, sc.height);
+
+      // Shadow for authenticity
+      ctx.shadowColor   = 'rgba(0,0,0,0.18)';
+      ctx.shadowBlur    = 6;
+      ctx.shadowOffsetX = 3;
+      ctx.shadowOffsetY = 3;
+
+      // Outer thick box
+      ctx.strokeStyle = '#5a5a5a';
+      ctx.lineWidth   = 5;
+      ctx.strokeRect(8, 8, 364, 184);
+
+      ctx.shadowColor = 'transparent';
+
+      // Inner thin box (double-border effect)
+      ctx.strokeStyle = '#7a7a7a';
+      ctx.lineWidth   = 1.5;
+      ctx.strokeRect(16, 16, 348, 168);
+
+      // Top school name
+      ctx.fillStyle = '#4a4a4a';
+      ctx.font      = 'bold 12px "Courier New", Courier, monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('ROSE B AFTER SCHOOL', 190, 42);
+      ctx.fillText('LEARNING CENTER', 190, 58);
+
+      // Separator
+      ctx.strokeStyle = '#909090';
+      ctx.lineWidth   = 1;
+      ctx.beginPath(); ctx.moveTo(30, 68); ctx.lineTo(350, 68); ctx.stroke();
+
+      // VERIFIED
+      ctx.fillStyle = '#3a3a3a';
+      ctx.font      = 'bold 26px "Courier New", Courier, monospace';
+      ctx.fillText('V E R I F I E D', 190, 105);
+
+      // Date
+      const stampDate = new Date().toLocaleDateString('en-ZA',
+        { year: 'numeric', month: 'long', day: 'numeric' });
+      ctx.fillStyle = '#666666';
+      ctx.font      = '11px "Courier New", Courier, monospace';
+      ctx.fillText(stampDate, 190, 128);
+
+      // Separator
+      ctx.strokeStyle = '#909090';
+      ctx.lineWidth   = 1;
+      ctx.beginPath(); ctx.moveTo(30, 142); ctx.lineTo(350, 142); ctx.stroke();
+
+      // Footer text
+      ctx.fillStyle = '#777777';
+      ctx.font      = '9px "Courier New", Courier, monospace';
+      ctx.fillText('OFFICIAL ELECTRONIC DOCUMENT', 190, 160);
+      ctx.fillText('Rose B ALC  |  Authorised Export', 190, 176);
+
+      const sd = sc.toDataURL('image/png').split(',')[1];
+      const sb = atob(sd);
+      const sBytes = new Uint8Array(sb.length);
+      for (let i = 0; i < sb.length; i++) sBytes[i] = sb.charCodeAt(i);
+      const stampId = workbook.addImage({ buffer: sBytes.buffer, extension: 'png' });
+
+      const stampRow = summaryRow + 2;
+      ws.addImage(stampId, {
+        tl: { col: 4, row: stampRow - 1 },
+        ext: { width: 280, height: 147 }
+      });
+
+      // ── DOWNLOAD ──────────────────────────────────────────────────
+      const buffer = await workbook.xlsx.writeBuffer();
+      const blob   = new Blob([buffer], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      });
+      const ts = new Date().toLocaleDateString('en-ZA').replace(/\//g, '-');
+      saveAs(blob, `RoseB_ALC_Applications_${ts}.xlsx`);
+    } catch (err) {
+      console.error('Failed to export to Excel:', err);
+      alert('Export failed. Please try again.');
+    }
   };
 
   const printApp = (app) => {
     const printWindow = window.open('', '_blank');
     printWindow.document.write(`
+      <!DOCTYPE html>
       <html>
         <head>
-          <title>Application Printout - ${app.learnerName} ${app.learnerSurname}</title>
+          <title>Application Record - ${app.learnerName} ${app.learnerSurname}</title>
           <style>
-            body { font-family: 'Inter', sans-serif; padding: 40px; color: #2B2B2B; line-height: 1.6; }
-            .badge { background: #B32025; color: white; padding: 4px 12px; border-radius: 99px; font-size: 0.8rem; font-weight: bold; }
-            .section-title { border-bottom: 2px solid #3B3B3B; padding-bottom: 8px; margin-top: 30px; color: #3B3B3B; font-size: 1.1rem; }
-            .field-row { display: grid; grid-template-columns: 200px 1fr; border-bottom: 1px solid #EEEEEE; padding: 8px 0; font-size: 0.95rem; }
-            .field-label { font-weight: bold; }
-            .signature-box { border: 1px solid #CCCCCC; padding: 16px; margin-top: 10px; min-height: 60px; font-style: italic; }
+            @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&display=swap');
+            @page { size: A4; margin: 0; }
+            body { 
+              font-family: 'Inter', sans-serif; 
+              padding: 20mm; 
+              color: #1a1a1a; 
+              line-height: 1.6; 
+              max-width: 100%; 
+              margin: 0 auto; 
+              background: #fff; 
+              position: relative; 
+              box-sizing: border-box;
+            }
+            .watermark {
+              position: fixed;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              opacity: 0.04;
+              width: 500px;
+              z-index: -2;
+              pointer-events: none;
+            }
+            .header-container { 
+              display: flex; 
+              align-items: center; 
+              border-bottom: 3px solid #7A1C20; 
+              padding-bottom: 24px; 
+              margin-bottom: 32px; 
+            }
+            .header-logo { 
+              width: 100px; 
+              height: 100px; 
+              object-fit: contain; 
+              margin-right: 24px; 
+            }
+            .header-text { flex-grow: 1; }
+            .header-text h2 { 
+              margin: 0 0 4px 0; 
+              color: #7A1C20; 
+              font-family: 'Cormorant Garamond', serif; 
+              font-size: 2.8rem; 
+              letter-spacing: 0.02em; 
+              font-weight: 700; 
+              text-transform: uppercase; 
+            }
+            .header-text p { 
+              margin: 0; 
+              color: #555; 
+              font-size: 1rem; 
+              letter-spacing: 1px; 
+              text-transform: uppercase; 
+              font-weight: 600; 
+            }
+            .status-badge { 
+              padding: 6px 16px; 
+              border-radius: 4px; 
+              font-size: 0.9rem; 
+              font-weight: 700; 
+              text-transform: uppercase; 
+              letter-spacing: 1px; 
+              border: 2px solid #1a1a1a; 
+            }
+            .section-title { 
+              border-bottom: 2px solid #7A1C20; 
+              padding-bottom: 6px; 
+              margin-top: 32px; 
+              margin-bottom: 16px; 
+              color: #7A1C20; 
+              font-size: 1.3rem; 
+              font-family: 'Cormorant Garamond', serif; 
+              text-transform: uppercase; 
+              letter-spacing: 1.5px; 
+              font-weight: 700; 
+            }
+            .field-row { 
+              display: grid; 
+              grid-template-columns: 240px 1fr; 
+              border-bottom: 1px solid #eee; 
+              padding: 12px 0; 
+              font-size: 1rem; 
+              align-items: center; 
+              page-break-inside: avoid; 
+            }
+            .field-label { 
+              font-weight: 600; 
+              color: #555; 
+              text-transform: uppercase; 
+              font-size: 0.85rem; 
+              letter-spacing: 0.05em; 
+            }
+            .field-value { font-weight: 500; color: #000; }
+            .signature-box { 
+              border: 1px solid #ccc; 
+              padding: 24px; 
+              margin-top: 16px; 
+              min-height: 80px; 
+              font-style: italic; 
+              background: #fff; 
+              border-radius: 4px; 
+              display: flex; 
+              align-items: center; 
+              justify-content: center; 
+              color: #555; 
+              page-break-inside: avoid; 
+            }
+            .signature-img { 
+              max-height: 80px; 
+              display: block; 
+              margin-top: 16px; 
+              page-break-inside: avoid; 
+            }
+            .footer-stamp { 
+              margin-top: 60px; 
+              padding-top: 20px; 
+              border-top: 1px solid #ccc; 
+              text-align: center; 
+              color: #555; 
+              font-size: 0.85rem; 
+              font-weight: 500; 
+              position: relative; 
+              page-break-inside: avoid; 
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+            }
+            .css-stamp-box {
+              width: 320px;
+              border: 5px solid #5a5a5a;
+              padding: 4px;
+              font-family: "Courier New", Courier, monospace;
+              color: #3a3a3a;
+              text-align: center;
+              background: transparent;
+            }
+            .css-stamp-inner {
+              border: 1.5px solid #7a7a7a;
+              padding: 12px;
+            }
+            .css-stamp-title {
+              font-size: 14px;
+              font-weight: bold;
+              color: #4a4a4a;
+              line-height: 1.2;
+            }
+            .css-stamp-separator {
+              border-top: 1px solid #909090;
+              margin: 8px auto;
+              width: 80%;
+            }
+            .css-stamp-verified {
+              font-size: 24px;
+              font-weight: bold;
+              margin: 10px 0;
+              letter-spacing: 2px;
+            }
+            .css-stamp-date {
+              font-size: 12px;
+              color: #666;
+              margin-bottom: 10px;
+            }
+            .css-stamp-footer {
+              font-size: 10px;
+              color: #777;
+              line-height: 1.2;
+            }
+            @media print { 
+              body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+              .header-text h2, .section-title { color: #000 !important; border-color: #000 !important; }
+              .header-container { border-color: #000 !important; }
+              .watermark { opacity: 0.04 !important; }
+            }
           </style>
         </head>
         <body>
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h2>Rose B ALC - Official Application Record</h2>
-            <span class="badge">${app.status}</span>
-          </div>
-          <div class="field-row">
-            <span class="field-label">Application ID:</span>
-            <span>${app.id}</span>
-          </div>
-          <div class="field-row">
-            <span class="field-label">Date Submitted:</span>
-            <span>${new Date(app.dateSubmitted).toLocaleString('en-ZA')}</span>
-          </div>
-          <div class="field-row">
-            <span class="field-label">Enrolled Programme:</span>
-            <span><strong>${app.programme}</strong></span>
+          <img src="/logo.png" class="watermark" alt="" />
+          <div class="header-container">
+            <img src="/logo.png" class="header-logo" alt="School Logo" />
+            <div class="header-text">
+              <h2>Rose B ALC</h2>
+              <p>Official Application Record • Confidential</p>
+            </div>
+            <div>
+              <span class="status-badge">${app.status}</span>
+            </div>
           </div>
 
-          <h3 class="section-title">Candidate details</h3>
-          <div class="field-row"><span class="field-label">First Name:</span><span>${app.learnerName}</span></div>
-          <div class="field-row"><span class="field-label">Surname:</span><span>${app.learnerSurname}</span></div>
-          <div class="field-row"><span class="field-label">Grade Level:</span><span>${app.learnerGrade}</span></div>
-          <div class="field-row"><span class="field-label">Tutoring Subjects:</span><span>${app.learnerSubjects.join(', ')}</span></div>
+          <div class="field-row">
+            <span class="field-label">Reference ID</span>
+            <span class="field-value" style="font-family: monospace; font-size: 1.1rem;">${app.id}</span>
+          </div>
+          <div class="field-row">
+            <span class="field-label">Date Submitted</span>
+            <span class="field-value">${new Date(app.dateSubmitted).toLocaleString('en-ZA')}</span>
+          </div>
+          <div class="field-row">
+            <span class="field-label">Enrolled Programme</span>
+            <span class="field-value"><strong style="font-size: 1.1rem;">${app.programme}</strong></span>
+          </div>
+
+          <h3 class="section-title">Candidate Details</h3>
+          <div class="field-row"><span class="field-label">First Name</span><span class="field-value">${app.learnerName}</span></div>
+          <div class="field-row"><span class="field-label">Surname</span><span class="field-value">${app.learnerSurname}</span></div>
+          <div class="field-row"><span class="field-label">Grade Level</span><span class="field-value">${app.learnerGrade}</span></div>
+          <div class="field-row"><span class="field-label">Tutoring Subjects</span><span class="field-value">${app.learnerSubjects.join(' • ')}</span></div>
 
           ${app.programme === 'Grade 12' ? `
             <h3 class="section-title">Parent / Guardian Information</h3>
-            <div class="field-row"><span class="field-label">Parent Name:</span><span>${app.parentName} ${app.parentSurname}</span></div>
-            <div class="field-row"><span class="field-label">Contact Number:</span><span>${app.parentContact}</span></div>
-            <div class="field-row"><span class="field-label">Physical Address:</span><span>${app.parentAddress}</span></div>
+            <div class="field-row"><span class="field-label">Full Name</span><span class="field-value">${app.parentName} ${app.parentSurname}</span></div>
+            <div class="field-row"><span class="field-label">Contact Number</span><span class="field-value">${app.parentContact}</span></div>
+            <div class="field-row"><span class="field-label">Physical Address</span><span class="field-value">${app.parentAddress}</span></div>
           ` : `
-            <h3 class="section-title">Contact & Emergency details</h3>
-            <div class="field-row"><span class="field-label">Candidate Contact:</span><span>${app.learnerPhone}</span></div>
-            <div class="field-row"><span class="field-label">Physical Address:</span><span>${app.learnerAddress}</span></div>
-            <div class="field-row"><span class="field-label">Emergency Contact:</span><span>${app.emergencyContact}</span></div>
+            <h3 class="section-title">Contact & Emergency Details</h3>
+            <div class="field-row"><span class="field-label">Candidate Contact</span><span class="field-value">${app.learnerPhone}</span></div>
+            <div class="field-row"><span class="field-label">Physical Address</span><span class="field-value">${app.learnerAddress}</span></div>
+            <div class="field-row"><span class="field-label">Emergency Contact</span><span class="field-value">${app.emergencyContact}</span></div>
           `}
 
           <h3 class="section-title">Legal Assents</h3>
-          <div class="field-row"><span class="field-label">Accepts Terms:</span><span>Yes (Checked)</span></div>
-          <div class="field-row"><span class="field-label">Marketing Photos Consent:</span><span>${app.consentPhotos ? 'Yes' : 'No'}</span></div>
-          <div class="field-row"><span class="field-label">Affirms Accuracy:</span><span>Yes (Checked)</span></div>
+          <div class="field-row"><span class="field-label">Accepts Terms & Conditions</span><span class="field-value">✓ Acknowledged</span></div>
+          <div class="field-row"><span class="field-label">Marketing Photos Consent</span><span class="field-value">${app.consentPhotos ? '✓ Consented' : '✗ Declined'}</span></div>
+          <div class="field-row"><span class="field-label">Affirms Information Accuracy</span><span class="field-value">✓ Verified</span></div>
           
-          <h3 class="section-title">Digital Signature</h3>
+          <h3 class="section-title">Digital Signature Validation</h3>
           ${app.signature.startsWith('data:image') ? `
-            <img src="${app.signature}" style="max-height: 80px; border: 1px solid #CCCCCC; display:block; margin-top:10px;" />
+            <img src="${app.signature}" class="signature-img" />
           ` : `
             <div class="signature-box">${app.signature}</div>
           `}
 
+          <div class="footer-stamp">
+            <div class="css-stamp-box">
+              <div class="css-stamp-inner">
+                <div class="css-stamp-title">ROSE B AFTER SCHOOL<br/>LEARNING CENTER</div>
+                <div class="css-stamp-separator"></div>
+                <div class="css-stamp-verified">V E R I F I E D</div>
+                <div class="css-stamp-date">${new Date().toLocaleDateString('en-ZA', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                <div class="css-stamp-separator"></div>
+                <div class="css-stamp-footer">OFFICIAL ELECTRONIC DOCUMENT<br/>Rose B ALC | Authorised Export</div>
+              </div>
+            </div>
+            <div style="margin-top: 20px;">
+              Document generated electronically from the Rose B ALC Administration System.<br/>
+              This is an official record. Do not alter or duplicate without authorization.
+            </div>
+          </div>
+
+          <script>
+            // Wait for images to load before printing
+            window.onload = () => {
+              setTimeout(() => {
+                window.print();
+              }, 500);
+            };
+            // Fallback if onload doesn't fire
+            setTimeout(() => {
+              window.print();
+            }, 1500);
+          </script>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+  };
+
+  const printNotice = (notice) => {
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>${notice.title}</title>
+          <style>
+            body { font-family: 'Inter', sans-serif; padding: 40px; color: #2B2B2B; line-height: 1.6; }
+            .letter { border: 1px solid #CCCCCC; padding: 40px; max-width: 700px; margin: 0 auto; position:relative; }
+            .letter::before { content:''; position:absolute; top:0; left:0; right:0; height:6px; background-color:#E55B13; }
+            .header { border-bottom: 3px double #1E2022; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; }
+            .title { text-align: center; text-transform: uppercase; font-size: 1.4rem; margin-bottom: 24px; text-decoration: underline; font-weight: bold; }
+            .body { white-space: pre-line; margin-bottom: 40px; font-size: 0.95rem; }
+            .footer { border-top: 1px solid #EEEEEE; padding-top: 20px; font-size: 0.9rem; color: #666666; display: flex; justify-content: space-between; }
+            @media print { 
+              body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="letter">
+            <div class="header">
+              <div>
+                <h2 style="margin: 0; color: #1E2022; font-size: 1.3rem; font-family:'Cormorant Garamond';">ROSE BRUINTJIES</h2>
+                <h4 style="margin: 0; color: #E55B13; font-size: 0.75rem; letter-spacing: 1px;">AFTER SCHOOL LEARNING CENTER</h4>
+              </div>
+              <div style="text-align: right; font-size: 0.8rem; color:#666666;">
+                <strong>Date:</strong> ${new Date(notice.date).toLocaleDateString('en-ZA')}<br>
+                <strong>Ref:</strong> NOTICE-${notice.id.toUpperCase()}
+              </div>
+            </div>
+            <div class="title">${notice.title}</div>
+            <div class="body">${notice.body}</div>
+            <div class="footer">
+              <div><strong>Issued by:</strong> ${notice.author}</div>
+              <div>Rose B ALC Board</div>
+            </div>
+          </div>
           <script>window.print();</script>
         </body>
       </html>
@@ -310,22 +880,14 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
         <div className="container" style={{ maxWidth: '420px' }}>
           <div className="card" style={{ borderTop: '6px solid var(--secondary)', padding: '40px' }}>
             <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-              <div style={{
-                width: '56px',
-                height: '56px',
-                backgroundColor: 'var(--primary)',
-                color: 'var(--accent)',
-                borderRadius: '50%',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginBottom: '16px'
-              }}>
-                <Lock size={26} />
-              </div>
+              <img
+                src="/logo.png"
+                alt="Rose B ALC Logo"
+                style={{ width: '110px', height: 'auto', objectFit: 'contain', marginBottom: '16px', display: 'block', margin: '0 auto 16px' }}
+              />
               <h2 style={{ fontSize: '1.6rem' }}>Staff Portal Login</h2>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '4px' }}>
-                Enter the administrator password to access the dashboard.
+                Sign in with your administrator email and password.
               </p>
             </div>
 
@@ -345,8 +907,21 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
             )}
 
             <form onSubmit={handleLogin}>
+              <div className="form-group" style={{ marginBottom: '16px' }}>
+                <label className="form-label">Email Address</label>
+                <input 
+                  type="email" 
+                  className="form-control"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="admin@rosebalc.co.za"
+                  required
+                  autoComplete="email"
+                />
+              </div>
+
               <div className="form-group" style={{ marginBottom: '24px' }}>
-                <label className="form-label">Administrator Password</label>
+                <label className="form-label">Password</label>
                 <input 
                   type="password" 
                   className="form-control"
@@ -354,18 +929,17 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter admin password"
                   required
+                  autoComplete="current-password"
                 />
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginTop: '6px' }}>
-                  Default Password: <strong>admin123</strong>
-                </span>
               </div>
 
               <button 
                 type="submit" 
                 className="btn btn-secondary" 
-                style={{ width: '100%', display: 'flex', gap: '6px', justifyContent: 'center' }}
+                disabled={loginLoading}
+                style={{ width: '100%', display: 'flex', gap: '6px', justifyContent: 'center', opacity: loginLoading ? 0.7 : 1 }}
               >
-                Sign In <ArrowRight size={16} />
+                {loginLoading ? 'Signing In...' : <><span>Sign In</span> <ArrowRight size={16} /></>}
               </button>
             </form>
           </div>
@@ -376,150 +950,60 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
 
   return (
     /* MAIN ADMIN DASHBOARD INTERFACE */
-    <div className="animated" style={{ display: 'flex', minHeight: '80vh' }} className="dashboard-layout">
+    <div className="animated dashboard-layout" style={{ display: 'flex', minHeight: '100vh' }}>
       
       {/* Sidebar Nav */}
-      <div style={{
-        width: '260px',
-        backgroundColor: 'var(--primary)',
-        color: 'var(--white)',
-        padding: '24px 12px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        flexShrink: 0
-      }} className="dashboard-sidebar">
+      <div className="dashboard-sidebar">
         
         <div>
           {/* Logo */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '0 12px 24px', borderBottom: '1px solid rgba(255,255,255,0.1)', marginBottom: '24px' }}>
-            <div style={{
-              width: '32px',
-              height: '38px',
-              backgroundColor: 'var(--secondary)',
-              border: '1px solid var(--accent)',
-              borderRadius: '0 0 8px 8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontWeight: 'bold',
-              color: 'var(--white)',
-              fontSize: '0.9rem'
-            }}>R</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '0 8px 32px', borderBottom: '1px solid rgba(255,255,255,0.05)', marginBottom: '32px' }}>
+            <div className="sidebar-logo-container">
+              <img 
+                src="/logo.png" 
+                alt="Rose B ALC Logo" 
+                style={{ width: '48px', height: '48px', objectFit: 'contain', display: 'block' }} 
+              />
+            </div>
             <div>
-              <h4 style={{ color: 'var(--white)', fontSize: '0.9rem', margin: 0 }}>Rose B ALC</h4>
-              <span style={{ color: 'var(--accent)', fontSize: '0.7rem', fontWeight: 600 }}>ADMIN PORTAL</span>
+              <h4 className="logo-text">Rose B ALC</h4>
+              <span className="logo-subtext">ADMIN PORTAL</span>
             </div>
           </div>
 
           {/* Nav list */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
             <button 
               onClick={() => { setActiveTab('overview'); setSelectedApp(null); }}
-              style={{
-                width: '100%',
-                padding: '12px 16px',
-                textAlign: 'left',
-                border: 'none',
-                background: activeTab === 'overview' ? 'rgba(255,255,255,0.1)' : 'none',
-                color: 'var(--white)',
-                cursor: 'pointer',
-                borderRadius: '8px',
-                fontSize: '0.92rem',
-                fontWeight: activeTab === 'overview' ? 700 : 500,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                transition: 'all var(--transition-fast)'
-              }}
+              className={`pro-sidebar-nav-btn ${activeTab === 'overview' ? 'active' : ''}`}
             >
               <Settings size={18} /> Overview
             </button>
 
             <button 
               onClick={() => { setActiveTab('applications'); }}
-              style={{
-                width: '100%',
-                padding: '12px 16px',
-                textAlign: 'left',
-                border: 'none',
-                background: activeTab === 'applications' ? 'rgba(255,255,255,0.1)' : 'none',
-                color: 'var(--white)',
-                cursor: 'pointer',
-                borderRadius: '8px',
-                fontSize: '0.92rem',
-                fontWeight: activeTab === 'applications' ? 700 : 500,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                transition: 'all var(--transition-fast)'
-              }}
+              className={`pro-sidebar-nav-btn ${activeTab === 'applications' ? 'active' : ''}`}
             >
               <Users size={18} /> Applications ({apps.length})
             </button>
 
             <button 
               onClick={() => { setActiveTab('notices'); }}
-              style={{
-                width: '100%',
-                padding: '12px 16px',
-                textAlign: 'left',
-                border: 'none',
-                background: activeTab === 'notices' ? 'rgba(255,255,255,0.1)' : 'none',
-                color: 'var(--white)',
-                cursor: 'pointer',
-                borderRadius: '8px',
-                fontSize: '0.92rem',
-                fontWeight: activeTab === 'notices' ? 700 : 500,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                transition: 'all var(--transition-fast)'
-              }}
+              className={`pro-sidebar-nav-btn ${activeTab === 'notices' ? 'active' : ''}`}
             >
               <Bell size={18} /> Notices ({notices.length})
             </button>
 
             <button 
               onClick={() => { setActiveTab('gallery'); }}
-              style={{
-                width: '100%',
-                padding: '12px 16px',
-                textAlign: 'left',
-                border: 'none',
-                background: activeTab === 'gallery' ? 'rgba(255,255,255,0.1)' : 'none',
-                color: 'var(--white)',
-                cursor: 'pointer',
-                borderRadius: '8px',
-                fontSize: '0.92rem',
-                fontWeight: activeTab === 'gallery' ? 700 : 500,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                transition: 'all var(--transition-fast)'
-              }}
+              className={`pro-sidebar-nav-btn ${activeTab === 'gallery' ? 'active' : ''}`}
             >
               <Image size={18} /> Gallery ({gallery.length})
             </button>
 
             <button 
               onClick={() => { setActiveTab('settings'); }}
-              style={{
-                width: '100%',
-                padding: '12px 16px',
-                textAlign: 'left',
-                border: 'none',
-                background: activeTab === 'settings' ? 'rgba(255,255,255,0.1)' : 'none',
-                color: 'var(--white)',
-                cursor: 'pointer',
-                borderRadius: '8px',
-                fontSize: '0.92rem',
-                fontWeight: activeTab === 'settings' ? 700 : 500,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                transition: 'all var(--transition-fast)'
-              }}
+              className={`pro-sidebar-nav-btn ${activeTab === 'settings' ? 'active' : ''}`}
             >
               <Settings size={18} /> Settings
             </button>
@@ -530,22 +1014,7 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
         <div>
           <button 
             onClick={handleLogout}
-            style={{
-              width: '100%',
-              padding: '12px 16px',
-              textAlign: 'left',
-              border: 'none',
-              background: 'rgba(179,32,37,0.15)',
-              color: '#FF6B6B',
-              cursor: 'pointer',
-              borderRadius: '8px',
-              fontSize: '0.92rem',
-              fontWeight: 700,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              transition: 'all var(--transition-fast)'
-            }}
+            className="pro-sidebar-nav-btn logout"
           >
             <LogOut size={18} /> Log Out
           </button>
@@ -669,9 +1138,9 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
               <button 
                 className="btn btn-outline" 
                 style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', fontSize: '0.85rem' }}
-                onClick={exportAppToCSV}
+                onClick={exportAppToExcel}
               >
-                <FileSpreadsheet size={16} /> Export to Excel (CSV)
+                <FileSpreadsheet size={16} /> Export to Excel
               </button>
             </div>
 
@@ -813,12 +1282,14 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
                       <>
                         <div><strong>Parent:</strong> <span>{selectedApp.parentName} {selectedApp.parentSurname}</span></div>
                         <div><strong>Contact:</strong> <span>{selectedApp.parentContact}</span></div>
+                        <div><strong>Email:</strong> <span>{selectedApp.parentEmail || 'N/A'}</span></div>
                         <div><strong>Address:</strong> <span>{selectedApp.parentAddress}</span></div>
                         <div><strong>Subjects Requested:</strong> <span>{selectedApp.learnerSubjects.join(', ')}</span></div>
                       </>
                     ) : (
                       <>
                         <div><strong>Contact:</strong> <span>{selectedApp.learnerPhone}</span></div>
+                        <div><strong>Email:</strong> <span>{selectedApp.learnerEmail || 'N/A'}</span></div>
                         <div><strong>Address:</strong> <span>{selectedApp.learnerAddress}</span></div>
                         <div><strong>Emergency Contact:</strong> <span>{selectedApp.emergencyContact}</span></div>
                       </>
@@ -868,13 +1339,20 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
                   </div>
 
                   {/* Actions Row */}
-                  <div style={{ display: 'flex', gap: '12px', borderTop: '1px solid var(--border-color)', paddingTop: '16px' }}>
+                  <div style={{ display: 'flex', gap: '10px', borderTop: '1px solid var(--border-color)', paddingTop: '16px', flexWrap: 'wrap' }}>
                     <button 
                       className="btn btn-primary" 
                       style={{ padding: '8px 16px', fontSize: '0.82rem', flexGrow: 1, display: 'flex', gap: '6px', justifyContent: 'center' }}
                       onClick={() => printApp(selectedApp)}
                     >
                       <Printer size={14} /> Print Record
+                    </button>
+                    <button 
+                      className="btn btn-secondary" 
+                      style={{ padding: '8px 16px', fontSize: '0.82rem', display: 'flex', gap: '6px', justifyContent: 'center', alignItems: 'center', flexGrow: 1 }}
+                      onClick={() => openEmailModal(selectedApp)}
+                    >
+                      <Mail size={14} /> Email Applicant
                     </button>
                     <button 
                       className="btn btn-outline" 
@@ -886,6 +1364,124 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
                   </div>
                 </div>
               )}
+            </div>
+          </div>
+        )}
+
+        {/* ================= EMAIL MODAL ================= */}
+        {emailModal && (
+          <div style={{
+            position: 'fixed', inset: 0, zIndex: 9999,
+            backgroundColor: 'rgba(15,23,42,0.7)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            backdropFilter: 'blur(4px)', padding: '20px'
+          }}>
+            <div className="animated" style={{
+              background: '#ffffff', borderRadius: '16px',
+              width: '100%', maxWidth: '640px', maxHeight: '90vh',
+              overflowY: 'auto', boxShadow: '0 25px 60px rgba(0,0,0,0.35)',
+              border: '1px solid var(--border-color)'
+            }}>
+
+              {/* Modal Header */}
+              <div style={{
+                padding: '24px 28px 20px',
+                borderBottom: '1px solid var(--border-color)',
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div style={{
+                    width: '40px', height: '40px', borderRadius: '10px',
+                    backgroundColor: 'rgba(122,28,32,0.1)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                  }}>
+                    <Mail size={18} color="var(--secondary)" />
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: '1.1rem', margin: 0 }}>Email Applicant</h3>
+                    <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: 0 }}>
+                      {emailModal.app.learnerName} {emailModal.app.learnerSurname} &mdash; {emailModal.app.programme}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setEmailModal(null)}
+                  style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: '4px' }}
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Template Selector */}
+              <div style={{ padding: '20px 28px 0' }}>
+                <p style={{ fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '10px' }}>Response Template</p>
+                <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', flexWrap: 'wrap' }}>
+                  {[
+                    { key: 'accept', label: '✓ Acceptance', color: '#059669', bg: '#D1FAE5' },
+                    { key: 'reject', label: '✗ Decline', color: '#B91C1C', bg: '#FEE2E2' },
+                    { key: 'review', label: '⧖ Under Review', color: '#1D4ED8', bg: '#DBEAFE' },
+                  ].map(({ key, label, color, bg }) => (
+                    <button
+                      key={key}
+                      onClick={() => {
+                        const t = getEmailTemplate(emailModal.app, key);
+                        setEmailModal(prev => ({ ...prev, ...t, activeType: key }));
+                      }}
+                      style={{
+                        padding: '6px 14px', borderRadius: '99px', border: '2px solid',
+                        fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer',
+                        transition: 'all 0.2s',
+                        backgroundColor: emailModal.activeType === key ? color : bg,
+                        borderColor: color,
+                        color: emailModal.activeType === key ? '#fff' : color,
+                      }}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Subject */}
+                <div style={{ marginBottom: '16px' }}>
+                  <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '8px' }}>Subject Line</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={emailModal.subject}
+                    onChange={(e) => setEmailModal(prev => ({ ...prev, subject: e.target.value }))}
+                    style={{ fontSize: '0.9rem' }}
+                  />
+                </div>
+
+                {/* Body */}
+                <div style={{ marginBottom: '24px' }}>
+                  <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '8px' }}>Email Body</label>
+                  <textarea
+                    className="form-control"
+                    rows={12}
+                    value={emailModal.body}
+                    onChange={(e) => setEmailModal(prev => ({ ...prev, body: e.target.value }))}
+                    style={{ fontSize: '0.88rem', lineHeight: '1.7', fontFamily: 'var(--font-body)', resize: 'vertical' }}
+                  />
+                </div>
+
+                <div style={{ display: 'flex', gap: '10px', paddingBottom: '28px' }}>
+                  <button
+                    className="btn btn-secondary"
+                    style={{ flexGrow: 1, display: 'flex', gap: '8px', justifyContent: 'center', alignItems: 'center' }}
+                    onClick={sendEmail}
+                  >
+                    <Mail size={15} /> Open in Zoho Mail
+                  </button>
+                  <button
+                    className="btn btn-outline"
+                    style={{ padding: '10px 20px' }}
+                    onClick={() => setEmailModal(null)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         )}
@@ -1002,8 +1598,16 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
                       
                       <div style={{ display: 'flex', gap: '8px' }}>
                         <button 
+                          onClick={() => printNotice(notice)}
+                          style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text)' }}
+                          title="Print Notice"
+                        >
+                          <Printer size={16} />
+                        </button>
+                        <button 
                           onClick={() => startEditNotice(notice)}
                           style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--primary)' }}
+                          title="Edit Notice"
                         >
                           <Edit size={16} />
                         </button>

@@ -1,4 +1,3 @@
-// Powered by OrbXech Design Studio
 import React, { useState, useEffect } from 'react';
 import { db } from '../services/db';
 import { X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';

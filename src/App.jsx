@@ -1,4 +1,3 @@
-// Powered by OrbXech Design Studio
 import React, { useState } from "react";
 import { PhoneCall, Mail, KeyRound } from 'lucide-react';
 
@@ -29,15 +28,19 @@ import Terms from "./pages/Terms";
 import Dashboard from "./pages/Dashboard";
 import ComingSoon from "./pages/ComingSoon";
 
-const SHOW_COMING_SOON = true;
+const SHOW_COMING_SOON = false;
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState("home");
-  const [movieMode, setMovieMode] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
   if (SHOW_COMING_SOON) {
     return <ComingSoon />;
+  }
+
+  // Admin Portal handles its own full-screen layout
+  if (currentPage === "dashboard") {
+    return <Dashboard setCurrentPage={setCurrentPage} setIsAdminState={setIsAdmin} />;
   }
 
   // Render current page component
@@ -45,7 +48,7 @@ export default function App() {
 
     switch (currentPage) {
       case "home":
-        return <Home setCurrentPage={setCurrentPage} setMovieMode={setMovieMode} />;
+        return <Home setCurrentPage={setCurrentPage} />;
       case "about":
         return <About />;
       case "programmes":
@@ -62,8 +65,6 @@ export default function App() {
         return <Contact />;
       case "terms":
         return <Terms />;
-      case "dashboard":
-        return <Dashboard setCurrentPage={setCurrentPage} setIsAdminState={setIsAdmin} />;
       default:
         return <Home setCurrentPage={setCurrentPage} />;
     }
@@ -71,17 +72,10 @@ export default function App() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <div style={{
-        transition: 'opacity 0.6s ease, transform 0.6s ease',
-        opacity: movieMode ? 0 : 1,
-        transform: movieMode ? 'translateY(-100%)' : 'translateY(0)',
-        pointerEvents: movieMode ? 'none' : 'auto'
-      }}>
-        <Navbar 
-          currentPage={currentPage} 
-          setCurrentPage={setCurrentPage} 
-        />
-      </div>
+      <Navbar 
+        currentPage={currentPage} 
+        setCurrentPage={setCurrentPage} 
+      />
       <main style={{ flex: 1 }}>
         {renderPage()}
       </main>
@@ -163,17 +157,7 @@ export default function App() {
           alignItems: 'center'
         }}>
           <span style={{ textAlign: 'left', lineHeight: '1.5' }}>
-            &copy; {new Date().getFullYear()} Rose Bruintjies After School Learning Center. All Rights Reserved. | Powered by{' '}
-            <a 
-              href="https://www.orbxech.co.za" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 600 }}
-              onMouseOver={(e) => e.target.style.textDecoration = 'underline'}
-              onMouseOut={(e) => e.target.style.textDecoration = 'none'}
-            >
-              OrbXech Design Studio
-            </a>
+            &copy; {new Date().getFullYear()} Rose Bruintjies After School Learning Center. All Rights Reserved.
           </span>
           <button onClick={() => setCurrentPage('terms')} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}>
             Terms &amp; Conditions

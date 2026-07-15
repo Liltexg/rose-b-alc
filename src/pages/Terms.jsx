@@ -1,4 +1,3 @@
-// Powered by OrbXech Design Studio
 import React from 'react';
 import { ShieldCheck, ScrollText } from 'lucide-react';
 

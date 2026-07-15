@@ -1,4 +1,3 @@
-// Powered by OrbXech Design Studio
 import React, { useEffect, useState } from 'react';
 import { db } from '../services/db';
 import { BookOpen, Compass, Award, Sparkles, ShieldCheck, Heart } from 'lucide-react';
@@ -57,7 +56,7 @@ export default function About() {
                 lineHeight: '1.85',
                 marginBottom: '20px'
               }}>
-                {content.aboutStory || "Rose Bruintjies After School Learning Centre was established to offer structural academic support for learners, helping them navigate standard curricula and build crucial skills."}
+                {content.aboutStory || "Rose Bruintjies After School Learning Centre (Rose B ALC) is named in honour of Rose Bruintjies, the grandmother who raised our founder Edward and gave him something she never had herself: an education. This centre is his answer to her faith, a place where every learner is given the structure, guidance, and endurance to unlock their full academic potential."}
               </p>
               <p style={{
                 color: 'var(--text-muted)',
@@ -68,7 +67,7 @@ export default function About() {
               </p>
             </div>
             
-            {/* Museum framed image with Wix Overlap */}
+            {/* Museum framed image with border frame */}
             <div className="museum-frame about-museum-frame" style={{ 
               width: '100%', 
               marginTop: '-40px', 
@@ -167,6 +166,70 @@ export default function About() {
         </div>
       </section>
 
+      {/* Endurance Pull-Quote Banner */}
+      <section style={{
+        backgroundColor: 'var(--primary)',
+        padding: '80px 0',
+        borderTop: '1px solid rgba(0,0,0,0.1)',
+        borderBottom: '1px solid rgba(0,0,0,0.1)',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        {/* decorative large number */}
+        <div style={{
+          position: 'absolute',
+          right: '-20px',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          fontSize: '18rem',
+          fontWeight: 900,
+          color: 'rgba(255,255,255,0.04)',
+          lineHeight: 1,
+          pointerEvents: 'none',
+          userSelect: 'none'
+        }}>E</div>
+
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{ maxWidth: '780px' }}>
+            <span style={{
+              fontSize: '0.65rem',
+              letterSpacing: '0.25em',
+              textTransform: 'uppercase',
+              color: 'var(--secondary)',
+              display: 'block',
+              marginBottom: '28px'
+            }}>
+              Faculty of Education, Nelson Mandela Metropolitan University
+            </span>
+            <blockquote style={{
+              fontSize: 'clamp(1.6rem, 4vw, 2.6rem)',
+              fontWeight: 700,
+              color: 'var(--white)',
+              lineHeight: 1.35,
+              margin: '0 0 32px 0',
+              borderLeft: '4px solid var(--secondary)',
+              paddingLeft: '32px'
+            }}>
+              "Endurance is the key to success."
+            </blockquote>
+            <p style={{
+              color: 'rgba(255,255,255,0.65)',
+              fontSize: '1rem',
+              lineHeight: '1.75',
+              paddingLeft: '36px',
+              maxWidth: '600px'
+            }}>
+              Many believe that education is the key to solving life's problems, but lived experience teaches us that it is endurance that carries you through hardship to reach it. This truth is the heartbeat of everything we do at Rose B ALC.
+            </p>
+            <div style={{ paddingLeft: '36px', marginTop: '28px' }}>
+              <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.45)', letterSpacing: '0.1em' }}>
+                Edward Bruintjies, Founder &amp; Principal
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Meet the Founder - Detailed Academic Section */}
       <section className="section-alt" style={{ borderTop: '1px solid var(--border-color)' }}>
         <div className="container">
@@ -200,14 +263,9 @@ export default function About() {
                   gap: '10px',
                   lineHeight: '1.5'
                 }}>
-                  {content.founderQualifications && content.founderQualifications.map((qual, idx) => (
-                    <li key={idx}>{qual}</li>
-                  )) || (
-                    <>
-                      <li>BEd (FET) Life Sciences</li>
-                      <li>10 years experience teaching Life Science</li>
-                    </>
-                  )}
+                  <li>Bachelor of Education (B.Ed) - FET Specialization</li>
+                  <li>10 Years Classroom Teaching Experience</li>
+                  <li>3 Years as Jenn Tutor</li>
                 </ul>
               </div>
             </div>
@@ -225,7 +283,7 @@ export default function About() {
                 color: 'var(--primary)',
                 marginBottom: '32px'
               }}>
-                "Every learner has a unique cognitive makeup. Our job is not to force them into a mold, but to provide the structure, dedication, and clear guidance they need to unlock their academic capability."
+                "Endurance is the key to success. Many believe that education alone solves life's problems, but it is endurance that carries you through the hardship to reach it. That is what we teach here."
               </div>
 
               <p style={{
@@ -234,7 +292,7 @@ export default function About() {
                 fontSize: '1.05rem',
                 marginBottom: '40px'
               }}>
-                {content.founderBio || "Mr. E. Bruintjies is a highly dedicated educator with 10 years of experience teaching Life Science."}
+                {content.founderBio || "Edward Bruintjies graduated with a Bachelor of Education (B.Ed) in Further Education and Training (FET) from Nelson Mandela Metropolitan University. His journey was marked by loss, perseverance, and an unshakeable belief that endurance is the key to success. He founded Rose B ALC to honour his grandmother Rose, who raised him and gave him the greatest gift she never had herself: an education."}
               </p>
 
               <h4 style={{ marginBottom: '16px', color: 'var(--primary)' }}>Academic Focus Subjects:</h4>

@@ -1,4 +1,3 @@
-// Powered by OrbXech Design Studio
 import React, { useState, useRef, useEffect } from 'react';
 import { db } from '../services/db';
 import { AlertCircle, CheckCircle, ArrowRight, RotateCcw, FileSignature } from 'lucide-react';
@@ -43,23 +42,24 @@ export default function Admissions({ setCurrentPage }) {
       const canvas = canvasRef.current;
       canvas.width = canvas.parentElement.clientWidth || 400;
       canvas.height = 150;
-      
+
       const ctx = canvas.getContext('2d');
       ctx.strokeStyle = '#1E2022';
       ctx.lineWidth = 2;
       ctx.lineCap = 'round';
       ctxRef.current = ctx;
-      
+
       ctx.fillStyle = '#FFFFFF';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
   }, [signatureType, submitSuccess]);
 
   const subjectOptions = [
-    "Life Sciences",
-    "Physical Sciences",
-    "Mathematics",
-    "English First Additional Language (FAL)"
+    { label: "Life Sciences", available: true },
+    { label: "Mathematical Literacy", available: false },
+    { label: "Mathematics", available: false },
+    { label: "Physical Sciences", available: false },
+    { label: "English First Additional Language (FAL)", available: false }
   ];
 
   const handleSubjectChange = (subject) => {
@@ -122,7 +122,7 @@ export default function Admissions({ setCurrentPage }) {
 
   const validateForm = () => {
     const errors = [];
-    
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (programme === 'Grade 12') {
       if (!formData.parentName.trim()) errors.push("Parent First Name is required");
@@ -130,7 +130,7 @@ export default function Admissions({ setCurrentPage }) {
       if (!formData.parentContact.trim()) errors.push("Parent Contact Number is required");
       if (!formData.parentEmail.trim()) errors.push("Parent Email Address is required");
       else if (!emailRegex.test(formData.parentEmail)) errors.push("Please enter a valid parent email address");
-      if (!formData.parentAddress.trim()) errors.push("Parent Physical Address is required");
+
       if (!formData.learnerName.trim()) errors.push("Learner First Name is required");
       if (!formData.learnerSurname.trim()) errors.push("Learner Surname is required");
       if (formData.learnerSubjects.length === 0) errors.push("Select at least one subject for tutoring");
@@ -214,9 +214,9 @@ Subjects: ${applicationRecord.learnerSubjects.join(', ')}
 ${programme === 'Grade 12' ? 'PARENT / GUARDIAN DETAILS' : 'CANDIDATE CONTACT DETAILS'}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${programme === 'Grade 12'
-  ? `Name: ${formData.parentName} ${formData.parentSurname}\nPhone: ${formData.parentContact}\nEmail: ${formData.parentEmail}\nAddress: ${formData.parentAddress}`
-  : `Phone: ${formData.learnerPhone}\nEmail: ${formData.learnerEmail}\nAddress: ${formData.learnerAddress}\nEmergency Contact: ${formData.emergencyContact}`
-}
+          ? `Name: ${formData.parentName} ${formData.parentSurname}\nPhone: ${formData.parentContact}\nEmail: ${formData.parentEmail}\nAddress: ${formData.parentAddress}`
+          : `Phone: ${formData.learnerPhone}\nEmail: ${formData.learnerEmail}\nAddress: ${formData.learnerAddress}\nEmergency Contact: ${formData.emergencyContact}`
+        }
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 CONSENTS
@@ -239,7 +239,7 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn �
       });
 
       const data = await res.json();
-      
+
       if (data.success) {
         const saved = await db.addApplication(applicationRecord);
         setSubmittedDetails(saved);
@@ -283,7 +283,7 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn �
 
       <section className="section">
         <div className="container" style={{ maxWidth: '800px' }}>
-          
+
           {submitSuccess ? (
             /* Success confirmation card */
             <div className="card animated" style={{
@@ -304,13 +304,13 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn �
               }}>
                 <CheckCircle size={36} />
               </div>
-              
+
               <h2 style={{ marginBottom: '16px', fontSize: '2.2rem' }}>Application Submitted</h2>
               <p style={{ color: 'var(--text)', fontSize: '1.05rem', marginBottom: '8px', fontWeight: 600 }}>
                 Thank you, {submittedDetails?.programme === 'Grade 12' ? submittedDetails.parentName : submittedDetails?.learnerName}.
               </p>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', marginBottom: '32px', lineHeight: '1.65' }}>
-                Your application for the <strong>{submittedDetails?.programme}</strong> is successfully received. 
+                Your application for the <strong>{submittedDetails?.programme}</strong> is successfully received.
                 Our admissions hub will review and contact you within 2 working days.
               </p>
 
@@ -348,14 +348,14 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn �
               </div>
 
               <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
-                <button 
-                  className="btn btn-primary" 
+                <button
+                  className="btn btn-primary"
                   onClick={() => setCurrentPage('home')}
                 >
                   Return Home
                 </button>
-                <button 
-                  className="btn btn-outline" 
+                <button
+                  className="btn btn-outline"
                   onClick={() => {
                     setSubmitSuccess(false);
                     setCanvasHasDrawing(false);
@@ -374,7 +374,7 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn �
           ) : (
             /* Application Form Wizard */
             <form onSubmit={handleSubmit} className="card admissions-form-card" style={{ padding: '48px', borderTop: '4px solid var(--secondary)' }}>
-              
+
               {/* Errors container */}
               {formErrors.length > 0 && (
                 <div style={{
@@ -401,20 +401,20 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn �
                 <span className="form-label">Choose Enrolling Programme*</span>
                 <div style={{ display: 'flex', gap: '24px', marginTop: '12px' }}>
                   <label className="form-radio">
-                    <input 
-                      type="radio" 
-                      name="programme" 
-                      checked={programme === 'Grade 12'} 
+                    <input
+                      type="radio"
+                      name="programme"
+                      checked={programme === 'Grade 12'}
                       onChange={() => setProgramme('Grade 12')}
                       style={{ accentColor: 'var(--secondary)', width: '18px', height: '18px' }}
                     />
                     <span style={{ fontWeight: programme === 'Grade 12' ? 700 : 400 }}>Grade 12 Support</span>
                   </label>
                   <label className="form-radio">
-                    <input 
-                      type="radio" 
-                      name="programme" 
-                      checked={programme === 'Rewrite / Upgrade'} 
+                    <input
+                      type="radio"
+                      name="programme"
+                      checked={programme === 'Rewrite / Upgrade'}
                       onChange={() => setProgramme('Rewrite / Upgrade')}
                       style={{ accentColor: 'var(--secondary)', width: '18px', height: '18px' }}
                     />
@@ -432,22 +432,22 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn �
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} className="sub-grid-mobile">
                     <div className="form-group">
                       <label className="form-label">Parent First Name*</label>
-                      <input 
-                        type="text" 
-                        className="form-control" 
+                      <input
+                        type="text"
+                        className="form-control"
                         value={formData.parentName}
-                        onChange={(e) => setFormData({...formData, parentName: e.target.value})}
-                        placeholder="John"
+                        onChange={(e) => setFormData({ ...formData, parentName: e.target.value })}
+                        placeholder="Sarah"
                       />
                     </div>
                     <div className="form-group">
                       <label className="form-label">Parent Surname*</label>
-                      <input 
-                        type="text" 
-                        className="form-control" 
+                      <input
+                        type="text"
+                        className="form-control"
                         value={formData.parentSurname}
-                        onChange={(e) => setFormData({...formData, parentSurname: e.target.value})}
-                        placeholder="Dube"
+                        onChange={(e) => setFormData({ ...formData, parentSurname: e.target.value })}
+                        placeholder="Carelse"
                       />
                     </div>
                   </div>
@@ -455,36 +455,27 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn �
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} className="sub-grid-mobile">
                     <div className="form-group">
                       <label className="form-label">Parent Contact Number*</label>
-                      <input 
-                        type="tel" 
-                        className="form-control" 
+                      <input
+                        type="tel"
+                        className="form-control"
                         value={formData.parentContact}
-                        onChange={(e) => setFormData({...formData, parentContact: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, parentContact: e.target.value })}
                         placeholder="082 123 4567"
                       />
                     </div>
                     <div className="form-group">
                       <label className="form-label">Parent Email Address*</label>
-                      <input 
-                        type="email" 
-                        className="form-control" 
+                      <input
+                        type="email"
+                        className="form-control"
                         value={formData.parentEmail}
-                        onChange={(e) => setFormData({...formData, parentEmail: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, parentEmail: e.target.value })}
                         placeholder="parent@email.com"
                       />
                     </div>
                   </div>
 
-                  <div className="form-group">
-                    <label className="form-label">Physical Address*</label>
-                    <textarea 
-                      className="form-control" 
-                      rows="2"
-                      value={formData.parentAddress}
-                      onChange={(e) => setFormData({...formData, parentAddress: e.target.value})}
-                      placeholder="Street name, suburb, city"
-                    ></textarea>
-                  </div>
+
 
                   <h4 style={{ color: 'var(--secondary)', marginTop: '32px', marginBottom: '20px', borderBottom: '1px solid var(--border-color)', paddingBottom: '8px' }}>
                     Learner Information
@@ -492,32 +483,32 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn �
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} className="sub-grid-mobile">
                     <div className="form-group">
                       <label className="form-label">Learner First Name*</label>
-                      <input 
-                        type="text" 
-                        className="form-control" 
+                      <input
+                        type="text"
+                        className="form-control"
                         value={formData.learnerName}
-                        onChange={(e) => setFormData({...formData, learnerName: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, learnerName: e.target.value })}
                         placeholder="Sipho"
                       />
                     </div>
                     <div className="form-group">
                       <label className="form-label">Learner Surname*</label>
-                      <input 
-                        type="text" 
-                        className="form-control" 
+                      <input
+                        type="text"
+                        className="form-control"
                         value={formData.learnerSurname}
-                        onChange={(e) => setFormData({...formData, learnerSurname: e.target.value})}
-                        placeholder="Dube"
+                        onChange={(e) => setFormData({ ...formData, learnerSurname: e.target.value })}
+                        placeholder="Fortuin"
                       />
                     </div>
                   </div>
 
                   <div className="form-group">
                     <label className="form-label">Grade level*</label>
-                    <select 
-                      className="form-control" 
+                    <select
+                      className="form-control"
                       value={formData.learnerGrade}
-                      onChange={(e) => setFormData({...formData, learnerGrade: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, learnerGrade: e.target.value })}
                     >
                       <option value="Grade 12">Grade 12 (Matric)</option>
                       <option value="Grade 11">Grade 11 (FET Entry)</option>
@@ -529,17 +520,41 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn �
                     <label className="form-label">Select Subjects Requiring Support (Select all)*</label>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '10px' }}>
                       {subjectOptions.map((subj, idx) => (
-                        <label key={idx} className="form-checkbox" style={{ fontWeight: 500 }}>
-                          <input 
-                            type="checkbox" 
-                            checked={formData.learnerSubjects.includes(subj)}
-                            onChange={() => handleSubjectChange(subj)}
+                        <label key={idx} className="form-checkbox" style={{
+                          fontWeight: 500,
+                          opacity: subj.available ? 1 : 0.55,
+                          cursor: subj.available ? 'pointer' : 'not-allowed'
+                        }}>
+                          <input
+                            type="checkbox"
+                            checked={formData.learnerSubjects.includes(subj.label)}
+                            onChange={() => subj.available && handleSubjectChange(subj.label)}
+                            disabled={!subj.available}
                             style={{ width: '16px', height: '16px' }}
                           />
-                          <span>{subj}</span>
+                          <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            {subj.label}
+                            {!subj.available && (
+                              <span style={{
+                                fontSize: '0.62rem',
+                                fontWeight: 700,
+                                letterSpacing: '0.08em',
+                                textTransform: 'uppercase',
+                                backgroundColor: 'var(--secondary)',
+                                color: 'var(--white)',
+                                padding: '2px 8px',
+                                borderRadius: '4px'
+                              }}>
+                                Coming Soon
+                              </span>
+                            )}
+                          </span>
                         </label>
                       ))}
                     </div>
+                    <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '10px' }}>
+                      Coming soon subjects are not yet available. You will be notified when they open for enrolment.
+                    </p>
                   </div>
                 </div>
               )}
@@ -553,21 +568,21 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn �
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} className="sub-grid-mobile">
                     <div className="form-group">
                       <label className="form-label">Candidate First Name*</label>
-                      <input 
-                        type="text" 
-                        className="form-control" 
+                      <input
+                        type="text"
+                        className="form-control"
                         value={formData.learnerName}
-                        onChange={(e) => setFormData({...formData, learnerName: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, learnerName: e.target.value })}
                         placeholder="Amanda"
                       />
                     </div>
                     <div className="form-group">
                       <label className="form-label">Candidate Surname*</label>
-                      <input 
-                        type="text" 
-                        className="form-control" 
+                      <input
+                        type="text"
+                        className="form-control"
                         value={formData.learnerSurname}
-                        onChange={(e) => setFormData({...formData, learnerSurname: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, learnerSurname: e.target.value })}
                         placeholder="Naidoo"
                       />
                     </div>
@@ -576,174 +591,273 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn �
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} className="sub-grid-mobile">
                     <div className="form-group">
                       <label className="form-label">Candidate Contact Number*</label>
-                      <input 
-                        type="tel" 
-                        className="form-control" 
+                      <input
+                        type="tel"
+                        className="form-control"
                         value={formData.learnerPhone}
-                        onChange={(e) => setFormData({...formData, learnerPhone: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, learnerPhone: e.target.value })}
                         placeholder="073 987 6543"
                       />
                     </div>
                     <div className="form-group">
                       <label className="form-label">Candidate Email Address*</label>
-                      <input 
-                        type="email" 
-                        className="form-control" 
+                      <input
+                        type="email"
+                        className="form-control"
                         value={formData.learnerEmail}
-                        onChange={(e) => setFormData({...formData, learnerEmail: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, learnerEmail: e.target.value })}
                         placeholder="candidate@email.com"
                       />
                     </div>
                   </div>
 
-                  <div className="form-group">
-                    <label className="form-label">Physical Address*</label>
-                    <textarea 
-                      className="form-control" 
-                      rows="2"
-                      value={formData.learnerAddress}
-                      onChange={(e) => setFormData({...formData, learnerAddress: e.target.value})}
-                      placeholder="Street name, suburb, city"
-                    ></textarea>
-                  </div>
+
 
                   <div className="form-group">
-                    <label className="form-label">Emergency Contact Name & Phone*</label>
-                    <input 
-                      type="text" 
-                      className="form-control" 
+                    <label className="form-label">Emergency Contact Name &amp; Phone*</label>
+                    <input
+                      type="text"
+                      className="form-control"
                       value={formData.emergencyContact}
-                      onChange={(e) => setFormData({...formData, emergencyContact: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, emergencyContact: e.target.value })}
                       placeholder="Devi Naidoo (Mother) - 083 456 7890"
                     />
                   </div>
                 </div>
               )}
-
-              {/* ================= CONSENTS ================= */}
-              <h4 style={{ color: 'var(--secondary)', marginTop: '36px', marginBottom: '20px', borderBottom: '1px solid var(--border-color)', paddingBottom: '8px' }}>
-                Consent & Contract
-              </h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '28px' }}>
-                <label className="form-checkbox">
-                  <input 
-                    type="checkbox" 
-                    checked={formData.consentTerms}
-                    onChange={(e) => setFormData({...formData, consentTerms: e.target.checked})}
-                    style={{ width: '16px', height: '16px' }}
-                  />
-                  <span>I accept the <a onClick={() => setCurrentPage('terms')} style={{ cursor: 'pointer' }}>Terms and Conditions</a> (six-month commitment, billing rules, no-refunds).*</span>
-                </label>
-
-                <label className="form-checkbox">
-                  <input 
-                    type="checkbox" 
-                    checked={formData.consentPhotos}
-                    onChange={(e) => setFormData({...formData, consentPhotos: e.target.checked})}
-                    style={{ width: '16px', height: '16px' }}
-                  />
-                  <span>I give permission for Rose B ALC to use photos of the learner for marketing and notices.</span>
-                </label>
-
-                <label className="form-checkbox">
-                  <input 
-                    type="checkbox" 
-                    checked={formData.consentCorrect}
-                    onChange={(e) => setFormData({...formData, consentCorrect: e.target.checked})}
-                    style={{ width: '16px', height: '16px' }}
-                  />
-                  <span>I confirm the information provided is correct.*</span>
-                </label>
-              </div>
-
-              {/* ================= DIGITAL SIGNATURE ================= */}
-              <div className="form-group" style={{ marginBottom: '40px' }}>
-                <span className="form-label">Digital Signature Assent*</span>
-                
-                {/* Toggle option */}
-                <div style={{ display: 'flex', gap: '16px', margin: '8px 0 16px' }}>
-                  <button 
-                    type="button" 
-                    className={`btn ${signatureType === 'draw' ? 'btn-primary' : 'btn-outline'}`}
-                    style={{ padding: '8px 18px', fontSize: '0.78rem' }}
-                    onClick={() => setSignatureType('draw')}
-                  >
-                    Draw Signature
-                  </button>
-                  <button 
-                    type="button" 
-                    className={`btn ${signatureType === 'type' ? 'btn-primary' : 'btn-outline'}`}
-                    style={{ padding: '8px 18px', fontSize: '0.78rem' }}
-                    onClick={() => setSignatureType('type')}
-                  >
-                    Type Signature
-                  </button>
+              <div style={{
+                marginTop: '48px',
+                border: '1px solid var(--border-color)',
+                borderTop: '3px solid var(--primary)'
+              }}>
+                {/* Contract Header */}
+                <div style={{
+                  backgroundColor: 'var(--primary)',
+                  color: 'var(--white)',
+                  padding: '20px 28px',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                  gap: '8px'
+                }}>
+                  <div>
+                    <div style={{ fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', opacity: 0.7, marginBottom: '4px' }}>Rose Bruintjies After School Learning Centre</div>
+                    <div style={{ fontSize: '1rem', fontWeight: 700, letterSpacing: '0.05em' }}>ENROLMENT AGREEMENT AND CONSENT DECLARATION</div>
+                  </div>
+                  <div style={{ fontSize: '0.7rem', opacity: 0.6, textAlign: 'right' }}>
+                    <div>Document Ref: RB-ALC/ENR</div>
+                    <div>Rev. 2025.1</div>
+                  </div>
                 </div>
 
-                {signatureType === 'draw' ? (
-                  <div style={{ position: 'relative' }}>
-                    <div style={{
-                      border: '1px solid var(--border-color)',
-                      borderRadius: 'var(--radius-sm)',
-                      overflow: 'hidden',
-                      backgroundColor: '#FFFFFF',
-                      touchAction: 'none'
-                    }}>
-                      <canvas
-                        ref={canvasRef}
-                        onMouseDown={startDrawing}
-                        onMouseMove={draw}
-                        onMouseUp={stopDrawing}
-                        onMouseLeave={stopDrawing}
-                        onTouchStart={startDrawing}
-                        onTouchMove={draw}
-                        onTouchEnd={stopDrawing}
-                        style={{ display: 'block', width: '100%', cursor: 'crosshair' }}
+                {/* Preamble */}
+                <div style={{ padding: '24px 28px', borderBottom: '1px solid var(--border-color)', backgroundColor: 'var(--bg-alt)' }}>
+                  <p style={{ fontSize: '0.82rem', lineHeight: '1.75', color: 'var(--text-muted)', margin: 0 }}>
+                    This Agreement is entered into between <strong style={{ color: 'var(--text)' }}>Rose Bruintjies After School Learning Centre</strong> (hereinafter referred to as "the Centre") and the parent/guardian and/or learner completing this application form (hereinafter referred to as "the Applicant"). By submitting this application, the Applicant agrees to be bound by the terms and conditions set out herein.
+                  </p>
+                </div>
+
+                {/* Clauses */}
+                <div style={{ padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: '20px', borderBottom: '1px solid var(--border-color)' }}>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '32px 1fr', gap: '12px', alignItems: 'start' }}>
+                    <span style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--secondary)', paddingTop: '2px' }}>1.</span>
+                    <div>
+                      <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Commitment Period</div>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.7', margin: 0 }}>
+                        The Applicant acknowledges and agrees to a minimum enrolment commitment of six (6) consecutive months from the date of acceptance. Early withdrawal does not negate outstanding fees accrued during the committed term.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '32px 1fr', gap: '12px', alignItems: 'start' }}>
+                    <span style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--secondary)', paddingTop: '2px' }}>2.</span>
+                    <div>
+                      <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Payment and Billing</div>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.7', margin: 0 }}>
+                        Tuition fees are due on or before the 1st of each calendar month. The Centre reserves the right to suspend access to sessions in the event that payment is not received within seven (7) days of the due date. A written reminder will be issued before suspension is enacted.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '32px 1fr', gap: '12px', alignItems: 'start' }}>
+                    <span style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--secondary)', paddingTop: '2px' }}>3.</span>
+                    <div>
+                      <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Refund Policy</div>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.7', margin: 0 }}>
+                        All fees paid are non-refundable once a session has commenced. In the event of a documented medical emergency, the Centre may, at its sole discretion, consider a credit carried forward to a future billing period.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '32px 1fr', gap: '12px', alignItems: 'start' }}>
+                    <span style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--secondary)', paddingTop: '2px' }}>4.</span>
+                    <div>
+                      <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Use of Photographic Material</div>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.7', margin: 0 }}>
+                        The Applicant consents to the Centre capturing and using photographs and/or video recordings of the learner for lawful academic, promotional, and institutional communication purposes, including but not limited to newsletters, the Centre's website, and social media platforms.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '32px 1fr', gap: '12px', alignItems: 'start' }}>
+                    <span style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--secondary)', paddingTop: '2px' }}>5.</span>
+                    <div>
+                      <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Accuracy of Information</div>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.7', margin: 0 }}>
+                        The Applicant warrants that all information submitted in this application is true, accurate, and complete to the best of their knowledge. Any material misrepresentation may result in the immediate cancellation of the enrolment without refund.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '32px 1fr', gap: '12px', alignItems: 'start' }}>
+                    <span style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--secondary)', paddingTop: '2px' }}>6.</span>
+                    <div>
+                      <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Governing Law</div>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.7', margin: 0 }}>
+                        This Agreement shall be governed by and construed in accordance with the laws of the Republic of South Africa. Any dispute arising from this Agreement shall be subject to the jurisdiction of the Magistrates Court of the relevant district.
+                      </p>
+                    </div>
+                  </div>
+
+                </div>
+
+                {/* Acknowledgement Checkboxes */}
+                <div style={{ padding: '20px 28px', backgroundColor: 'var(--bg-alt)', borderBottom: '1px solid var(--border-color)' }}>
+                  <div style={{ fontSize: '0.68rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--text-muted)', marginBottom: '14px' }}>Applicant Acknowledgements</div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <label className="form-checkbox" style={{ fontSize: '0.8rem' }}>
+                      <input
+                        type="checkbox"
+                        checked={formData.consentTerms}
+                        onChange={(e) => setFormData({ ...formData, consentTerms: e.target.checked })}
+                        style={{ width: '15px', height: '15px', flexShrink: 0 }}
                       />
+                      <span>I have read, understood, and agree to all terms set out in Clauses 1, 2, and 3 above, including the six-month commitment period, monthly billing obligations, and the non-refund policy. <strong>*</strong></span>
+                    </label>
+                    <label className="form-checkbox" style={{ fontSize: '0.8rem' }}>
+                      <input
+                        type="checkbox"
+                        checked={formData.consentPhotos}
+                        onChange={(e) => setFormData({ ...formData, consentPhotos: e.target.checked })}
+                        style={{ width: '15px', height: '15px', flexShrink: 0 }}
+                      />
+                      <span>I grant consent for the use of photographic material as described in Clause 4 of this Agreement.</span>
+                    </label>
+                    <label className="form-checkbox" style={{ fontSize: '0.8rem' }}>
+                      <input
+                        type="checkbox"
+                        checked={formData.consentCorrect}
+                        onChange={(e) => setFormData({ ...formData, consentCorrect: e.target.checked })}
+                        style={{ width: '15px', height: '15px', flexShrink: 0 }}
+                      />
+                      <span>I confirm under Clause 5 that all information submitted in this application is accurate and complete to the best of my knowledge. <strong>*</strong></span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Execution Block */}
+                <div style={{ padding: '24px 28px' }}>
+                  <div style={{ fontSize: '0.68rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--text-muted)', marginBottom: '16px' }}>Execution</div>
+                  <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', lineHeight: '1.7', marginBottom: '20px' }}>
+                    By signing below, the Applicant confirms that they have read this Agreement in full, understand its contents, and agree to be bound by its terms. This electronic signature shall have the same legal force and effect as a handwritten signature.
+                  </p>
+
+                  {/* Signature toggle */}
+                  <div style={{ display: 'flex', gap: '12px', marginBottom: '16px' }}>
+                    <button
+                      type="button"
+                      className={`btn ${signatureType === 'draw' ? 'btn-primary' : 'btn-outline'}`}
+                      style={{ padding: '8px 16px', fontSize: '0.75rem' }}
+                      onClick={() => setSignatureType('draw')}
+                    >
+                      Draw Signature
+                    </button>
+                    <button
+                      type="button"
+                      className={`btn ${signatureType === 'type' ? 'btn-primary' : 'btn-outline'}`}
+                      style={{ padding: '8px 16px', fontSize: '0.75rem' }}
+                      onClick={() => setSignatureType('type')}
+                    >
+                      Type Signature
+                    </button>
+                  </div>
+
+                  {signatureType === 'draw' ? (
+                    <div style={{ position: 'relative' }}>
+                      <div style={{
+                        border: '1px solid var(--border-color)',
+                        borderRadius: 'var(--radius-sm)',
+                        overflow: 'hidden',
+                        backgroundColor: '#FFFFFF',
+                        touchAction: 'none'
+                      }}>
+                        <canvas
+                          ref={canvasRef}
+                          onMouseDown={startDrawing}
+                          onMouseMove={draw}
+                          onMouseUp={stopDrawing}
+                          onMouseLeave={stopDrawing}
+                          onTouchStart={startDrawing}
+                          onTouchMove={draw}
+                          onTouchEnd={stopDrawing}
+                          style={{ display: 'block', width: '100%', cursor: 'crosshair' }}
+                        />
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px' }}>
+                        <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Sign within the box using your mouse or touchpad.</span>
+                        <button
+                          type="button"
+                          onClick={clearCanvas}
+                          style={{
+                            background: 'none', border: 'none',
+                            color: 'var(--secondary)', cursor: 'pointer',
+                            display: 'flex', alignItems: 'center',
+                            gap: '4px', fontSize: '0.75rem', fontWeight: 600
+                          }}
+                        >
+                          <RotateCcw size={12} /> Clear
+                        </button>
+                      </div>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px' }}>
-                      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Use mouse or touch pad to sign inside the border.</span>
-                      <button 
-                        type="button" 
-                        onClick={clearCanvas}
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          color: 'var(--secondary)',
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '4px',
-                          fontSize: '0.78rem',
-                          fontWeight: 600
-                        }}
-                      >
-                        <RotateCcw size={12} /> Clear Canvas
-                      </button>
+                  ) : (
+                    <div>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={typedSignature}
+                        onChange={(e) => setTypedSignature(e.target.value)}
+                        placeholder="Type full legal name (e.g. Amelia Rose Fortuin)"
+                        style={{ fontStyle: 'italic', fontFamily: 'var(--font-heading)' }}
+                      />
+                      <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block', marginTop: '6px' }}>
+                        Entering your full legal name constitutes a binding electronic signature under this Agreement.
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Signature line divider */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginTop: '28px' }}>
+                    <div>
+                      <div style={{ borderBottom: '1px solid var(--text-muted)', height: '32px' }} />
+                      <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginTop: '6px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Signature of Parent / Guardian / Applicant</div>
+                    </div>
+                    <div>
+                      <div style={{ borderBottom: '1px solid var(--text-muted)', height: '32px', display: 'flex', alignItems: 'flex-end', paddingBottom: '4px' }}>
+                        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{new Date().toLocaleDateString('en-ZA', { day: '2-digit', month: 'long', year: 'numeric' })}</span>
+                      </div>
+                      <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginTop: '6px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Date</div>
                     </div>
                   </div>
-                ) : (
-                  <div>
-                    <input 
-                      type="text" 
-                      className="form-control"
-                      value={typedSignature}
-                      onChange={(e) => setTypedSignature(e.target.value)}
-                      placeholder="Type full legal name (e.g. John Albert Dube)"
-                      style={{ fontStyle: 'italic', fontFamily: 'var(--font-heading)' }}
-                    />
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginTop: '4px' }}>
-                      Typing your name serves as a binding electronic affirmation.
-                    </span>
-                  </div>
-                )}
+                </div>
               </div>
 
-              <button 
-                type="submit" 
-                className="btn btn-secondary" 
+              <button
+                type="submit"
+                className="btn btn-secondary"
                 disabled={submitLoading}
-                style={{ width: '100%', display: 'flex', gap: '8px', justifyContent: 'center', padding: '14px', opacity: submitLoading ? 0.7 : 1 }}
+                style={{ width: '100%', display: 'flex', gap: '8px', justifyContent: 'center', padding: '14px', marginTop: '24px', opacity: submitLoading ? 0.7 : 1 }}
               >
                 {submitLoading ? 'Submitting...' : 'Submit Application'} {!submitLoading && <ArrowRight size={16} />}
               </button>

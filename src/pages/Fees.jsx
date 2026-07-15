@@ -1,4 +1,3 @@
-// Powered by OrbXech Design Studio
 import React, { useEffect, useState } from 'react';
 import { db } from '../services/db';
 import { Check, ShieldAlert, ChevronRight } from 'lucide-react';
@@ -54,11 +53,11 @@ export default function Fees({ setCurrentPage }) {
                 display: 'inline-block',
                 marginBottom: '12px'
               }}>Special Introductory Offer</span>
-              
+
               <h3 style={{ color: 'var(--white)', fontSize: '1.65rem', marginBottom: '8px' }}>
                 First 20 Upgrade Applicants
               </h3>
-              
+
               <p style={{
                 color: 'var(--white)',
                 fontWeight: 500,
@@ -78,7 +77,7 @@ export default function Fees({ setCurrentPage }) {
       <section className="section">
         <div className="container" style={{ maxWidth: '1000px' }}>
           <div className="grid-2">
-            
+
             {/* Standard Tuition Card */}
             <div className="card" style={{
               display: 'flex',
@@ -91,9 +90,9 @@ export default function Fees({ setCurrentPage }) {
                 <span className="tag tag-secondary" style={{ marginBottom: '16px', display: 'inline-block' }}>
                   Standard Support
                 </span>
-                
+
                 <h3 style={{ fontSize: '1.6rem', marginBottom: '20px' }}>Standard Tuition</h3>
-                
+
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginBottom: '24px' }}>
                   <span style={{ fontSize: '2.8rem', fontWeight: 700, color: 'var(--primary)', fontFamily: 'var(--font-heading)' }}>
                     R{pricing.hourlyRate || 50}
@@ -122,8 +121,8 @@ export default function Fees({ setCurrentPage }) {
                 </ul>
               </div>
 
-              <button 
-                className="btn btn-outline" 
+              <button
+                className="btn btn-outline"
                 style={{ width: '100%' }}
                 onClick={() => setCurrentPage('admissions')}
               >
@@ -143,14 +142,14 @@ export default function Fees({ setCurrentPage }) {
               <span className="tag tag-accent" style={{ position: 'absolute', top: '24px', right: '28px' }}>
                 BEST VALUE
               </span>
-              
+
               <div>
                 <span className="tag tag-secondary" style={{ marginBottom: '16px', display: 'inline-block' }}>
                   NSC Upgrade
                 </span>
-                
+
                 <h3 style={{ fontSize: '1.6rem', marginBottom: '20px' }}>Rewrite Programme</h3>
-                
+
                 {/* UJ styled matrix card */}
                 <div style={{
                   backgroundColor: 'var(--bg-alt)',
@@ -201,7 +200,7 @@ export default function Fees({ setCurrentPage }) {
                   gap: '12px',
                   marginBottom: '32px'
                 }}>
-                  {["Complete curriculum coverage", "Paper 1 & 2 diagnostic assessments", "Save up to R2300 with once-off"].map((f, idx) => (
+                  {["Complete curriculum coverage", "Paper 1 & 2 diagnostic assessments", "Save up to R1300 with once-off"].map((f, idx) => (
                     <li key={idx} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.88rem' }}>
                       <Check size={15} style={{ color: 'var(--accent-hover)' }} />
                       <span>{f}</span>
@@ -210,8 +209,8 @@ export default function Fees({ setCurrentPage }) {
                 </ul>
               </div>
 
-              <button 
-                className="btn btn-secondary" 
+              <button
+                className="btn btn-secondary"
                 style={{ width: '100%' }}
                 onClick={() => setCurrentPage('admissions')}
               >
@@ -236,7 +235,7 @@ export default function Fees({ setCurrentPage }) {
             }}>
               <ShieldAlert size={20} style={{ color: 'var(--secondary)' }} /> Important Billing Policies
             </h4>
-            
+
             <div style={{
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
@@ -267,7 +266,7 @@ export default function Fees({ setCurrentPage }) {
               paddingTop: '24px',
               textAlign: 'center'
             }}>
-              <button 
+              <button
                 style={{
                   background: 'none',
                   border: 'none',

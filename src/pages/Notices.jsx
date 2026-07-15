@@ -1,4 +1,3 @@
-// Powered by OrbXech Design Studio
 import React, { useState, useEffect } from 'react';
 import { db } from '../services/db';
 import { Search, Calendar, ChevronDown, ChevronUp, Printer } from 'lucide-react';

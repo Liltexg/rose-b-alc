@@ -67,7 +67,8 @@ CREATE TABLE IF NOT EXISTS applications (
     consent_photos BOOLEAN NOT NULL,
     consent_correct BOOLEAN NOT NULL,
     signature TEXT NOT NULL,
-    status TEXT NOT NULL DEFAULT 'Pending'
+    status TEXT NOT NULL DEFAULT 'Pending',
+    source TEXT DEFAULT NULL
 );
 
 -- Enable RLS (Row Level Security) - optional but recommended, or keep public for simplicity during initial deployment.

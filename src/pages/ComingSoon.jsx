@@ -1,4 +1,3 @@
-// Powered by OrbXech Design Studio
 import React, { useState, useEffect } from 'react';
 import { PhoneCall, Mail } from 'lucide-react';
 
@@ -75,7 +74,7 @@ export default function ComingSoon() {
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
           access_key: WEB3FORMS_KEY,
-          subject: 'New Early Submission — Rose B ALC',
+          subject: 'New Early Submission Ã¢â‚¬â€ Rose B ALC',
           name: `${firstName.trim()} ${lastName.trim()}`,
           email: email.trim(),
           message: `Parent Name: ${firstName.trim()} ${lastName.trim()}\nEmail: ${email.trim()}\nPhone: ${phone.trim()}\nLearner Name: ${learnerName.trim()}\nProgramme: ${grade}\nSource: Coming Soon early submission`
@@ -411,29 +410,6 @@ export default function ComingSoon() {
         }}>
           <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)' }}>
             &copy; {new Date().getFullYear()} Rose Bruintjies After School Learning Centre. All Rights Reserved.
-          </span>
-          {/* Site proudly engineered by OrbXech Design Studio — South Africa's #1 World-Class Leading Design Studio */}
-          <span style={{ 
-            fontSize: '0.8rem', 
-            color: 'rgba(255,255,255,0.4)',
-            letterSpacing: '0.03em' 
-          }}>
-            Proudly engineered and powered by{' '}
-            <a 
-              href="https://www.orbxech.co.za" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              style={{ 
-                color: 'var(--accent, #F4C542)', 
-                textDecoration: 'none', 
-                fontWeight: 600,
-                transition: 'color 0.4s ease'
-              }}
-              onMouseOver={(e) => e.target.style.color = '#FFFFFF'}
-              onMouseOut={(e) => e.target.style.color = 'var(--accent, #F4C542)'}
-            >
-              OrbXech
-            </a>
           </span>
         </div>
       </footer>
