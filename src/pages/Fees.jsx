@@ -78,7 +78,7 @@ export default function Fees({ setCurrentPage }) {
         <div className="container" style={{ maxWidth: '1000px' }}>
           <div className="grid-2">
 
-            {/* Standard Tuition Card */}
+            {/* Grade 12 Support Card */}
             <div className="card" style={{
               display: 'flex',
               flexDirection: 'column',
@@ -88,20 +88,20 @@ export default function Fees({ setCurrentPage }) {
             }}>
               <div>
                 <span className="tag tag-secondary" style={{ marginBottom: '16px', display: 'inline-block' }}>
-                  Standard Support
+                  Grade 12 Support
                 </span>
 
-                <h3 style={{ fontSize: '1.6rem', marginBottom: '20px' }}>Standard Tuition</h3>
+                <h3 style={{ fontSize: '1.6rem', marginBottom: '20px' }}>Academic Support Programme</h3>
 
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginBottom: '24px' }}>
                   <span style={{ fontSize: '2.8rem', fontWeight: 700, color: 'var(--primary)', fontFamily: 'var(--font-heading)' }}>
-                    R{pricing.hourlyRate || 50}
+                    R{pricing.rewriteMonthly || 800}
                   </span>
-                  <span style={{ color: 'var(--text-muted)', fontWeight: 500, fontSize: '0.9rem' }}>/ hour</span>
+                  <span style={{ color: 'var(--text-muted)', fontWeight: 500, fontSize: '0.9rem' }}>/ month</span>
                 </div>
 
                 <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '28px', lineHeight: '1.65' }}>
-                  Ideal for regular after-school homework consolidation, topic explanation revision, and continuous study.
+                  Structured monthly after-school support for Grade 12 learners, focusing on CAPS curriculum mastery, mock exams, and continuous academic performance.
                 </p>
 
                 <ul style={{
@@ -112,7 +112,7 @@ export default function Fees({ setCurrentPage }) {
                   gap: '12px',
                   marginBottom: '32px'
                 }}>
-                  {["Pay only for attended hours", "Grade-specific support", "CAPS ATP synchronization", "Direct educator feedback"].map((f, idx) => (
+                  {["Fixed monthly tuition fee", "Grade 12 CAPS ATP synchronization", "Weekly topic revision & exam prep", "Direct educator feedback & progress reports"].map((f, idx) => (
                     <li key={idx} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.88rem' }}>
                       <Check size={15} style={{ color: 'var(--secondary)' }} />
                       <span>{f}</span>
@@ -126,7 +126,7 @@ export default function Fees({ setCurrentPage }) {
                 style={{ width: '100%' }}
                 onClick={() => setCurrentPage('admissions')}
               >
-                Apply for Support
+                Apply for Grade 12 Support
               </button>
             </div>
 

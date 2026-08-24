@@ -953,6 +953,7 @@ edwardbreintjies@rosebalc.co.za`,
 
   return (
     /* MAIN ADMIN DASHBOARD INTERFACE */
+    <>
     <div className="animated dashboard-layout" style={{ display: 'flex', minHeight: '100vh' }}>
 
       {/* Sidebar Nav */}
@@ -1024,8 +1025,35 @@ edwardbreintjies@rosebalc.co.za`,
         </div>
       </div>
 
+      {/* ===== MOBILE TOP BAR (visible < 768px) ===== */}
+      <div style={{
+        display: 'none',
+        position: 'sticky',
+        top: 0,
+        zIndex: 100,
+        background: 'linear-gradient(90deg, #1e293b 0%, #0f172a 100%)',
+        borderBottom: '1px solid rgba(255,255,255,0.07)',
+        padding: '12px 16px',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }} className="dash-mobile-topbar">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <img src="/logo.png" alt="Rose B ALC" style={{ height: '32px', objectFit: 'contain', filter: 'drop-shadow(0 1px 4px rgba(0,0,0,0.4))' }} />
+          <div>
+            <div style={{ color: '#fff', fontFamily: 'var(--font-heading)', fontSize: '1rem', fontWeight: 600, lineHeight: 1 }}>Rose B ALC</div>
+            <div style={{ color: 'var(--accent)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase' }}>Admin Portal</div>
+          </div>
+        </div>
+        <button
+          onClick={handleLogout}
+          style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.3)', color: '#fca5a5', padding: '6px 14px', borderRadius: '8px', fontSize: '0.75rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
+        >
+          <LogOut size={13} /> Logout
+        </button>
+      </div>
+
       {/* Main Content Area */}
-      <div style={{ flexGrow: 1, padding: '40px', backgroundColor: '#F1F5F9', overflowY: 'auto' }} className="dashboard-content">
+      <div style={{ flexGrow: 1, padding: '40px', backgroundColor: '#F1F5F9', overflowY: 'auto', overflowX: 'hidden', boxSizing: 'border-box' }} className="dashboard-content">
 
         {/* ================= TAB 1: OVERVIEW ================= */}
         {activeTab === 'overview' && (
@@ -1066,7 +1094,7 @@ edwardbreintjies@rosebalc.co.za`,
             </div>
 
             {/* Quick Actions & Recent */}
-            <div style={{ display: 'grid', gridTemplateColumns: '40% 60%', gap: '32px' }} className="sub-grid-mobile">
+            <div style={{ display: 'grid', gridTemplateColumns: '40% 60%', gap: '32px' }} className="sub-grid-mobile" data-mobile-cols="1">
 
               {/* Quick Actions */}
               <div className="card" style={{ padding: '28px' }}>
@@ -1139,7 +1167,7 @@ edwardbreintjies@rosebalc.co.za`,
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
               <h2>Manage Applications ({filteredApps.length})</h2>
               <button
-                className="btn btn-outline"
+                className="btn btn-outline dash-export-btn"
                 style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', fontSize: '0.85rem' }}
                 onClick={exportAppToExcel}
               >
@@ -1148,7 +1176,7 @@ edwardbreintjies@rosebalc.co.za`,
             </div>
 
             {/* Filters bar */}
-            <div style={{
+            <div className="dash-filter-bar" style={{
               display: 'flex',
               gap: '16px',
               backgroundColor: 'var(--white)',
@@ -1159,7 +1187,7 @@ edwardbreintjies@rosebalc.co.za`,
               alignItems: 'center',
               flexWrap: 'wrap'
             }}>
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              <div className="dash-status-btns" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                 {['All', 'Pending', 'Reviewed', 'Accepted', 'Rejected'].map(status => (
                   <button
                     key={status}
@@ -1178,7 +1206,7 @@ edwardbreintjies@rosebalc.co.za`,
                 ))}
               </div>
 
-              <div style={{ position: 'relative', width: '250px', marginLeft: 'auto' }}>
+              <div className="dash-search-box" style={{ position: 'relative', width: '250px', marginLeft: 'auto' }}>
                 <input
                   type="text"
                   placeholder="Search by name/id..."
@@ -1192,10 +1220,10 @@ edwardbreintjies@rosebalc.co.za`,
             </div>
 
             {/* Main Application Interface */}
-            <div style={{ display: 'grid', gridTemplateColumns: selectedApp ? '50% 50%' : '1fr', gap: '24px' }} className="sub-grid-mobile">
+            <div style={{ display: 'grid', gridTemplateColumns: selectedApp ? '1fr' : '1fr', gap: '24px' }}>
 
               {/* Applications Table */}
-              <div className="card" style={{ padding: '20px', overflowX: 'auto' }}>
+              <div className="card dash-table-scroll-wrap" style={{ padding: '20px', overflowX: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
                   <thead>
                     <tr style={{ borderBottom: '2px solid var(--border-color)', paddingBottom: '8px' }}>
@@ -1261,7 +1289,7 @@ edwardbreintjies@rosebalc.co.za`,
 
               {/* Application Details Panel */}
               {selectedApp && (
-                <div className="card animated" style={{ padding: '28px', borderTop: '6px solid var(--secondary)', position: 'sticky', top: '90px' }}>
+                <div className="card animated app-detail-panel" style={{ padding: '28px', borderTop: '6px solid var(--secondary)', position: 'sticky', top: '90px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px', marginBottom: '20px' }}>
                     <div>
                       <h3 style={{ fontSize: '1.25rem', margin: 0 }}>Application Profile</h3>
@@ -1303,7 +1331,7 @@ edwardbreintjies@rosebalc.co.za`,
                     {/* Status selector */}
                     <div style={{ marginTop: '10px' }}>
                       <strong>Select Status Option:</strong>
-                      <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                      <div className="app-status-selector" style={{ display: 'flex', gap: '8px', marginTop: '8px', flexWrap: 'wrap' }}>
                         {['Pending', 'Reviewed', 'Accepted', 'Rejected'].map(st => (
                           <button
                             key={st}
@@ -1898,6 +1926,48 @@ edwardbreintjies@rosebalc.co.za`,
 
       </div>
     </div>
+
+      {/* ===== MOBILE BOTTOM TAB BAR (visible < 768px) ===== */}
+      <nav className="dash-bottom-tabs" aria-label="Dashboard navigation">
+        <div className="dash-bottom-tabs-inner">
+          <button
+            className={`dash-tab-btn ${activeTab === 'overview' ? 'active' : ''}`}
+            onClick={() => { setActiveTab('overview'); setSelectedApp(null); }}
+          >
+            <Settings size={20} />
+            Overview
+          </button>
+          <button
+            className={`dash-tab-btn ${activeTab === 'applications' ? 'active' : ''}`}
+            onClick={() => setActiveTab('applications')}
+          >
+            <Users size={20} />
+            <span>Apps ({apps.length})</span>
+          </button>
+          <button
+            className={`dash-tab-btn ${activeTab === 'notices' ? 'active' : ''}`}
+            onClick={() => setActiveTab('notices')}
+          >
+            <Bell size={20} />
+            Notices
+          </button>
+          <button
+            className={`dash-tab-btn ${activeTab === 'gallery' ? 'active' : ''}`}
+            onClick={() => setActiveTab('gallery')}
+          >
+            <Image size={20} />
+            Gallery
+          </button>
+          <button
+            className={`dash-tab-btn ${activeTab === 'settings' ? 'active' : ''}`}
+            onClick={() => setActiveTab('settings')}
+          >
+            <Settings size={20} />
+            Settings
+          </button>
+        </div>
+      </nav>
+    </>
   );
 }
 

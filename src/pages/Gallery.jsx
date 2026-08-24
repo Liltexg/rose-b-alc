@@ -7,10 +7,17 @@ export default function Gallery() {
   const [activeAlbum, setActiveAlbum] = useState('All');
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
+  const HANDS_ON_PHOTOS = [
+    { id: 'h1', album: 'Learner Activities', url: '/life-sciences-hands-on-1.png', caption: 'Grade 12 Life Sciences Meiosis Practical Exercise' },
+    { id: 'h2', album: 'Academic Support', url: '/life-sciences-hands-on-2.png', caption: 'Interactive Cell Division Yellow Workbook Exercises' },
+    { id: 'h3', album: 'Learner Activities', url: '/life-sciences-hands-on-3.png', caption: 'Chromosome Phase Mapping Practical Board Activity' },
+  ];
+
   useEffect(() => {
     const fetchGallery = async () => {
       const data = await db.getGallery();
-      setImages(data);
+      const combined = [...HANDS_ON_PHOTOS, ...data.filter(d => !d.url.includes('life-sciences-hands-on'))];
+      setImages(combined);
     };
     fetchGallery();
   }, []);

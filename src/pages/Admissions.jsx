@@ -2,7 +2,26 @@ import React, { useState, useRef, useEffect } from 'react';
 import { db } from '../services/db';
 import { AlertCircle, CheckCircle, ArrowRight, RotateCcw, FileSignature } from 'lucide-react';
 
+import easternCapeSchools from '../data/easternCapeSchools.json';
+
 const WEB3FORMS_KEY = '068cd66b-3f71-4347-9986-fedf727330aa';
+
+const NATIONAL_EXTRA_SCHOOLS = [
+  "Spine Road High School (Mitchells Plain)",
+  "Lentegeur High School (Mitchells Plain)",
+  "Rocklands High School (Mitchells Plain)",
+  "Glendale Secondary School (Mitchells Plain)",
+  "Hoërskool Jan van Riebeeck (Cape Town)",
+  "Rondebosch Boys' High School (Cape Town)",
+  "Wynberg Boys' High School (Cape Town)"
+];
+
+// Combine Master List dataset + National High Schools
+const SA_HIGH_SCHOOLS = Array.from(new Set([
+  ...easternCapeSchools,
+  ...NATIONAL_EXTRA_SCHOOLS,
+  "Other (Specify Below)"
+]));
 
 export default function Admissions({ setCurrentPage }) {
   const [programme, setProgramme] = useState('Grade 12');
@@ -19,6 +38,9 @@ export default function Admissions({ setCurrentPage }) {
     learnerAddress: '',
     emergencyContact: '',
     learnerGrade: 'Grade 12',
+    currentSchool: '',
+    customSchool: '',
+    languageOfInstruction: 'English',
     learnerSubjects: [],
     consentTerms: false,
     consentPhotos: false,
@@ -133,6 +155,10 @@ export default function Admissions({ setCurrentPage }) {
 
       if (!formData.learnerName.trim()) errors.push("Learner First Name is required");
       if (!formData.learnerSurname.trim()) errors.push("Learner Surname is required");
+      if (!formData.currentSchool.trim()) errors.push("Please select the learner's current High School");
+      if (formData.currentSchool === 'Other (Specify Below)' && !formData.customSchool.trim()) {
+        errors.push("Please specify the high school name");
+      }
       if (formData.learnerSubjects.length === 0) errors.push("Select at least one subject for tutoring");
     } else {
       if (!formData.learnerName.trim()) errors.push("Candidate First Name is required");
@@ -144,6 +170,7 @@ export default function Admissions({ setCurrentPage }) {
       if (!formData.emergencyContact.trim()) errors.push("Emergency Contact Details are required");
     }
 
+    if (!formData.languageOfInstruction) errors.push("Please select the preferred Language of Instruction");
     if (!formData.consentTerms) errors.push("You must accept the Terms and Conditions to proceed");
     if (!formData.consentCorrect) errors.push("You must confirm that the provided information is correct");
 
@@ -175,6 +202,10 @@ export default function Admissions({ setCurrentPage }) {
       signatureRepresentation = typedSignature;
     }
 
+    const schoolName = programme === 'Grade 12'
+      ? (formData.currentSchool === 'Other (Specify Below)' ? formData.customSchool : formData.currentSchool)
+      : 'N/A (FET Rewrite Candidate)';
+
     const applicationRecord = {
       programme,
       parentName: programme === 'Grade 12' ? formData.parentName : '',
@@ -189,6 +220,8 @@ export default function Admissions({ setCurrentPage }) {
       learnerAddress: programme === 'Rewrite / Upgrade' ? formData.learnerAddress : '',
       emergencyContact: programme === 'Rewrite / Upgrade' ? formData.emergencyContact : '',
       learnerGrade: programme === 'Grade 12' ? formData.learnerGrade : 'FET Rewrite',
+      currentSchool: schoolName,
+      languageOfInstruction: formData.languageOfInstruction,
       learnerSubjects: programme === 'Grade 12' ? formData.learnerSubjects : ['Matric Rewrite Syllabus'],
       consentTerms: formData.consentTerms,
       consentPhotos: formData.consentPhotos,
@@ -208,6 +241,8 @@ APPLICANT DETAILS
 Learner: ${applicationRecord.learnerName} ${applicationRecord.learnerSurname}
 Grade: ${applicationRecord.learnerGrade}
 Programme: ${programme}
+Current High School: ${schoolName}
+Language of Instruction: ${formData.languageOfInstruction}
 Subjects: ${applicationRecord.learnerSubjects.join(', ')}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -219,12 +254,12 @@ ${programme === 'Grade 12'
         }
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-CONSENTS
+CONSENTS & SIGNATURE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Terms & Conditions: Yes
 Media/Photos: ${applicationRecord.consentPhotos ? 'Yes' : 'No'}
 Information Correct: Yes
-Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn — Image Data]'}`;
+Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn Signature Image]'}`;
 
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
@@ -262,7 +297,7 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn �
       {/* Page Header */}
       <section style={{
         backgroundColor: 'var(--bg-alt)',
-        padding: '60px 0',
+        padding: '60px 0 40px 0',
         borderBottom: '3px double var(--primary)',
         textAlign: 'center'
       }}>
@@ -275,9 +310,21 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn �
             letterSpacing: '0.08em',
             display: 'block',
             marginBottom: '6px'
-          }}>Admissions</span>
-          <h1 style={{ fontSize: '2.8rem', margin: 0, color: 'var(--primary)' }}>Online Application</h1>
-          <div style={{ width: '40px', height: '2px', backgroundColor: 'var(--secondary)', margin: '12px auto 0' }}></div>
+          }}>2027 Candidate Intake</span>
+          <h1 style={{ fontSize: '2.8rem', margin: 0, color: 'var(--primary)' }}>Online Application & Registration</h1>
+          <div style={{ width: '40px', height: '2px', backgroundColor: 'var(--secondary)', margin: '12px auto 24px' }}></div>
+          
+          {/* Featured Study Group Photo */}
+          <div style={{ maxWidth: '720px', margin: '0 auto', borderRadius: 'var(--radius-card)', overflow: 'hidden', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-card)' }}>
+            <img 
+              src="/admissions-2027-students.jpg" 
+              alt="2027 Admissions Study Group & Practical Session" 
+              style={{ width: '100%', height: '320px', objectFit: 'cover', display: 'block' }}
+            />
+            <div style={{ padding: '12px', backgroundColor: 'var(--white)', fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500 }}>
+              Small-Group Learning & Dedicated Matric Preparation • Kariega Facility
+            </div>
+          </div>
         </div>
       </section>
 
@@ -516,6 +563,41 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn �
                     </select>
                   </div>
 
+                  {/* Current High School Field (SA Master List Dataset Lookup) */}
+                  <div className="form-group">
+                    <label className="form-label">Current High School Attending* (Type to search 1,500+ SA High Schools)</label>
+                    <input
+                      type="text"
+                      list="sa-schools-datalist"
+                      className="form-control"
+                      value={formData.currentSchool}
+                      onChange={(e) => setFormData({ ...formData, currentSchool: e.target.value })}
+                      placeholder="Start typing school name (e.g. Brandwag, Limekhaya, Muir College...)"
+                    />
+                    <datalist id="sa-schools-datalist">
+                      {SA_HIGH_SCHOOLS.map((sch, idx) => (
+                        <option key={idx} value={sch} />
+                      ))}
+                    </datalist>
+                    <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '6px' }}>
+                      Selected school name will be recorded on your application record. If your school is not listed, type its full name above.
+                    </p>
+                  </div>
+
+                  {/* Language of Instruction Field */}
+                  <div className="form-group">
+                    <label className="form-label">Preferred Language of Instruction*</label>
+                    <select
+                      className="form-control"
+                      value={formData.languageOfInstruction}
+                      onChange={(e) => setFormData({ ...formData, languageOfInstruction: e.target.value })}
+                    >
+                      <option value="English">English</option>
+                      <option value="Afrikaans">Afrikaans</option>
+                      <option value="Bilingual (English & Afrikaans)">Bilingual (English & Afrikaans)</option>
+                    </select>
+                  </div>
+
                   <div className="form-group">
                     <label className="form-label">Select Subjects Requiring Support (Select all)*</label>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '10px' }}>
@@ -622,6 +704,20 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn �
                       onChange={(e) => setFormData({ ...formData, emergencyContact: e.target.value })}
                       placeholder="Devi Naidoo (Mother) - 083 456 7890"
                     />
+                  </div>
+
+                  {/* Language of Instruction Field */}
+                  <div className="form-group">
+                    <label className="form-label">Preferred Language of Instruction*</label>
+                    <select
+                      className="form-control"
+                      value={formData.languageOfInstruction}
+                      onChange={(e) => setFormData({ ...formData, languageOfInstruction: e.target.value })}
+                    >
+                      <option value="English">English</option>
+                      <option value="Afrikaans">Afrikaans</option>
+                      <option value="Bilingual (English & Afrikaans)">Bilingual (English & Afrikaans)</option>
+                    </select>
                   </div>
                 </div>
               )}

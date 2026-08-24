@@ -114,7 +114,7 @@ export default function Home({ setCurrentPage }) {
           zIndex: 2
         }}></div>        <div className="container hero-container-mobile" style={{ position: 'relative', zIndex: 3, padding: '120px 40px 60px 40px' }}>
           <div className="reveal-hidden hero-meta-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '80px' }}>
-            <span style={{ fontSize: '0.75rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>[ Est. 2011 ]</span>
+            <span style={{ fontSize: '0.75rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>[ Est. 2026 ]</span>
             <span style={{ fontSize: '0.75rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>[ Kariega, SA ]</span>
           </div>
           
@@ -173,7 +173,7 @@ export default function Home({ setCurrentPage }) {
             >
               <div 
                 className="cinematic-card-bg"
-                style={{ backgroundImage: `url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=800&auto=format&fit=crop')` }}
+                style={{ backgroundImage: `url('/admissions-2027-students.jpg')` }}
               ></div>
               <div className="cinematic-card-overlay" style={{ backgroundColor: 'rgba(122, 28, 32, 0.85)' }}></div>
               <div className="cinematic-card-content">
@@ -371,7 +371,7 @@ export default function Home({ setCurrentPage }) {
             <div className="sticky-widescreen-media">
               <div 
                 className="widescreen-media-bg"
-                style={{ backgroundImage: `url('https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1200&auto=format&fit=crop')` }}
+                style={{ backgroundImage: `url('/life-sciences-hands-on-1.png')` }}
               ></div>
               <div className="widescreen-media-overlay"></div>
               <div className="widescreen-media-content">
@@ -433,6 +433,56 @@ export default function Home({ setCurrentPage }) {
               </div>
             </div>
 
+          </div>
+        </div>
+      </section>
+
+      {/* Hands-On Curriculum Showcase (Real Workbook Photos) */}
+      <section style={{ backgroundColor: 'var(--white)', padding: '100px 0', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
+        <div className="container">
+          <div style={{ marginBottom: '60px', textAlign: 'center' }}>
+            <span className="meta-tag">[ REAL LEARNING IN ACTION ]</span>
+            <h2 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 700, margin: '8px 0 16px' }}>
+              Hands-On Life Sciences Practical Work
+            </h2>
+            <p style={{ color: 'var(--text-muted)', maxWidth: '640px', margin: '0 auto', fontSize: '1.05rem' }}>
+              Students actively engage with CAPS-aligned Meiosis diagrams, chromosome pairing exercises, and structured practical workbooks.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }} className="quick-links-grid">
+            <div className="museum-frame" style={{ borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
+              <img 
+                src="/life-sciences-hands-on-1.png" 
+                alt="Meiosis diagram practical activity" 
+                style={{ width: '100%', height: '260px', objectFit: 'cover', display: 'block' }}
+              />
+              <div style={{ padding: '16px 12px 8px', textAlign: 'center' }}>
+                <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--primary)' }}>Chromosome Division Exercises</span>
+              </div>
+            </div>
+
+            <div className="museum-frame" style={{ borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
+              <img 
+                src="/life-sciences-hands-on-2.png" 
+                alt="Student interactive workbook grid" 
+                style={{ width: '100%', height: '260px', objectFit: 'cover', display: 'block' }}
+              />
+              <div style={{ padding: '16px 12px 8px', textAlign: 'center' }}>
+                <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--primary)' }}>Yellow Workbook Practical Sheets</span>
+              </div>
+            </div>
+
+            <div className="museum-frame" style={{ borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
+              <img 
+                src="/life-sciences-hands-on-3.png" 
+                alt="Meiosis I & II diagram cutout mapping" 
+                style={{ width: '100%', height: '260px', objectFit: 'cover', display: 'block' }}
+              />
+              <div style={{ padding: '16px 12px 8px', textAlign: 'center' }}>
+                <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--primary)' }}>Green Board Phase Mapping</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
