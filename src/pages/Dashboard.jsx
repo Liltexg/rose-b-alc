@@ -1969,11 +1969,11 @@ edwardbreintjies@rosebalc.co.za`,
                 </div>
 
                 {/* Printable Sheet Simulation */}
-                <div style={{ padding: '32px 24px', flexGrow: 1, backgroundColor: '#cbd5e1' }}>
-                  <div style={{
+                <div className="sheet-simulation-wrapper" style={{ padding: '24px 16px', flexGrow: 1, backgroundColor: '#cbd5e1' }}>
+                  <div className="notice-letter" style={{
                     backgroundColor: '#ffffff',
                     boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
-                    padding: '40px',
+                    padding: '36px',
                     maxWidth: '750px',
                     margin: '0 auto',
                     borderRadius: '2px',
@@ -1988,14 +1988,14 @@ edwardbreintjies@rosebalc.co.za`,
                     }}></div>
 
                     {/* Letterhead Header */}
-                    <div style={{
+                    <div className="lh-header-block" style={{
                       display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
-                      borderBottom: '2px solid #7A1C20', paddingBottom: '16px', marginBottom: '24px'
+                      borderBottom: '2px solid #7A1C20', paddingBottom: '16px', marginBottom: '24px', flexWrap: 'wrap', gap: '16px'
                     }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                        <img src="/logo.png" alt="Rose B ALC" style={{ width: '75px', height: '75px', objectFit: 'contain' }} />
+                      <div className="lh-left-block" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                        <img src="/logo.png" alt="Rose B ALC" className="lh-logo-img" style={{ width: '70px', height: '70px', objectFit: 'contain', flexShrink: 0 }} />
                         <div>
-                          <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.4rem', fontWeight: 700, color: '#7A1C20', margin: 0, textTransform: 'uppercase' }}>
+                          <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.1rem, 3.5vw, 1.4rem)', fontWeight: 700, color: '#7A1C20', margin: 0, textTransform: 'uppercase' }}>
                             Rose Bruintjies After School Learning Center
                           </h1>
                           <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#555', textTransform: 'uppercase', letterSpacing: '1px', marginTop: '2px' }}>
@@ -2006,7 +2006,7 @@ edwardbreintjies@rosebalc.co.za`,
                           </div>
                         </div>
                       </div>
-                      <div style={{ textAlign: 'right', fontSize: '0.72rem', color: '#444', lineHeight: 1.5, borderLeft: '2px solid #D4AF37', paddingLeft: '12px' }}>
+                      <div className="lh-right-block" style={{ textAlign: 'right', fontSize: '0.72rem', color: '#444', lineHeight: 1.5, borderLeft: '2px solid #D4AF37', paddingLeft: '12px' }}>
                         <div><strong style={{ color: '#7A1C20' }}>Tel / WhatsApp:</strong> 076 423 7821</div>
                         <div><strong style={{ color: '#7A1C20' }}>Email:</strong> edwardbreintjies@rosebalc.co.za</div>
                         <div><strong style={{ color: '#7A1C20' }}>Location:</strong> Kariega, Eastern Cape</div>

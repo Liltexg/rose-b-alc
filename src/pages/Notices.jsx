@@ -389,7 +389,7 @@ export default function Notices() {
 
                     {/* Notice Letter Box (Body) */}
                     {isExpanded && (
-                      <div style={{ padding: '36px', backgroundColor: 'var(--bg-alt)' }} className="animated">
+                      <div className="notice-letter-wrapper" style={{ padding: '36px', backgroundColor: 'var(--bg-alt)' }}>
                         <div className="notice-letter" style={{ boxShadow: 'var(--shadow-md)', borderRadius: 'var(--radius-sm)', padding: '40px', backgroundColor: '#ffffff' }}>
                           {/* Top Accent Bar */}
                           <div style={{
@@ -399,14 +399,14 @@ export default function Notices() {
                           }}></div>
 
                           {/* Letterhead Header */}
-                          <div style={{
+                          <div className="lh-header-block" style={{
                             display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
                             borderBottom: '2px solid #7A1C20', paddingBottom: '16px', marginBottom: '24px', flexWrap: 'wrap', gap: '16px'
                           }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                              <img src="/logo.png" alt="Rose B ALC" style={{ width: '70px', height: '70px', objectFit: 'contain' }} />
+                            <div className="lh-left-block" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                              <img src="/logo.png" alt="Rose B ALC" className="lh-logo-img" style={{ width: '70px', height: '70px', objectFit: 'contain', flexShrink: 0 }} />
                               <div>
-                                <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.4rem', fontWeight: 700, color: '#7A1C20', margin: 0, textTransform: 'uppercase' }}>
+                                <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.1rem, 3.5vw, 1.4rem)', fontWeight: 700, color: '#7A1C20', margin: 0, textTransform: 'uppercase' }}>
                                   Rose Bruintjies After School Learning Center
                                 </h3>
                                 <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#555', textTransform: 'uppercase', letterSpacing: '1px', marginTop: '2px' }}>
@@ -417,7 +417,7 @@ export default function Notices() {
                                 </div>
                               </div>
                             </div>
-                            <div style={{ textAlign: 'right', fontSize: '0.75rem', color: '#444', lineHeight: 1.5, borderLeft: '2px solid #D4AF37', paddingLeft: '12px' }}>
+                            <div className="lh-right-block" style={{ textAlign: 'right', fontSize: '0.75rem', color: '#444', lineHeight: 1.5, borderLeft: '2px solid #D4AF37', paddingLeft: '12px' }}>
                               <div><strong style={{ color: '#7A1C20' }}>Tel / WhatsApp:</strong> 076 423 7821</div>
                               <div><strong style={{ color: '#7A1C20' }}>Email:</strong> edwardbreintjies@rosebalc.co.za</div>
                               <div><strong style={{ color: '#7A1C20' }}>Location:</strong> Kariega, Eastern Cape</div>
@@ -427,7 +427,7 @@ export default function Notices() {
                           </div>
 
                           {/* Notice Meta Bar */}
-                          <div style={{
+                          <div className="notice-meta-bar" style={{
                             display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                             backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderLeft: '4px solid #D4AF37',
                             padding: '10px 16px', marginBottom: '24px', fontSize: '0.82rem', flexWrap: 'wrap', gap: '8px'
@@ -437,12 +437,12 @@ export default function Notices() {
                           </div>
 
                           {/* Letter Title */}
-                          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.6rem', fontWeight: 700, color: '#7A1C20', marginBottom: '16px', textTransform: 'uppercase', borderBottom: '1px solid #e2e8f0', paddingBottom: '8px' }}>
+                          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.2rem, 4vw, 1.6rem)', fontWeight: 700, color: '#7A1C20', marginBottom: '16px', textTransform: 'uppercase', borderBottom: '1px solid #e2e8f0', paddingBottom: '8px' }}>
                             {notice.title}
                           </h2>
 
                           {/* Letter Content */}
-                          <div style={{ fontSize: '0.95rem', lineHeight: '1.8', color: '#334155', whiteSpace: 'pre-line', minHeight: '200px', marginBottom: '30px' }}>
+                          <div style={{ fontSize: '0.95rem', lineHeight: '1.8', color: '#334155', whiteSpace: 'pre-line', minHeight: '180px', marginBottom: '30px', wordBreak: 'break-word' }}>
                             {notice.body}
                           </div>
 
@@ -459,7 +459,7 @@ export default function Notices() {
                           </div>
 
                           {/* Letterhead Footer */}
-                          <div style={{
+                          <div className="letterhead-footer-block" style={{
                             marginTop: '32px', borderTop: '2px solid #7A1C20', paddingTop: '10px',
                             fontSize: '0.68rem', color: '#64748b', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px'
                           }}>
@@ -489,7 +489,7 @@ export default function Notices() {
       </section>
 
       <style>{`
-        @media (max-width: 600px) {
+        @media (max-width: 640px) {
           .filters-wrapper {
             flex-direction: column !important;
             align-items: flex-start !important;
@@ -500,6 +500,47 @@ export default function Notices() {
           }
           .filters-wrapper input {
             width: 100% !important;
+          }
+          .notice-letter-wrapper {
+            padding: 12px !important;
+          }
+          .notice-letter {
+            padding: 20px 14px !important;
+          }
+          .lh-header-block {
+            flex-direction: column !important;
+            gap: 16px !important;
+          }
+          .lh-left-block {
+            flex-direction: row !important;
+            align-items: center !important;
+            gap: 12px !important;
+          }
+          .lh-logo-img {
+            width: 54px !important;
+            height: 54px !important;
+          }
+          .lh-right-block {
+            text-align: left !important;
+            border-left: none !important;
+            border-top: 2px solid #D4AF37 !important;
+            padding-left: 0 !important;
+            padding-top: 10px !important;
+            width: 100% !important;
+          }
+          .notice-meta-bar {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 6px !important;
+          }
+          .letterhead-footer-block {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 8px !important;
+            text-align: left !important;
+          }
+          .letterhead-footer-block > div {
+            text-align: left !important;
           }
         }
       `}</style>
