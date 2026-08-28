@@ -537,266 +537,277 @@ edwardbreintjies@rosebalc.co.za`,
       <!DOCTYPE html>
       <html>
         <head>
-          <title>Application Record - ${app.learnerName} ${app.learnerSurname}</title>
+          <title>Official Record - ${app.learnerName} ${app.learnerSurname} | Rose B ALC</title>
           <style>
-            @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&display=swap');
-            @page { size: A4; margin: 0; }
+            @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap');
+            @page { size: A4; margin: 15mm 15mm 20mm 15mm; }
             body { 
               font-family: 'Inter', sans-serif; 
-              padding: 20mm; 
               color: #1a1a1a; 
-              line-height: 1.6; 
-              max-width: 100%; 
-              margin: 0 auto; 
+              line-height: 1.5; 
               background: #fff; 
-              position: relative; 
+              margin: 0; 
+              padding: 0; 
               box-sizing: border-box;
             }
-            .watermark {
-              position: fixed;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%);
-              opacity: 0.04;
-              width: 500px;
-              z-index: -2;
-              pointer-events: none;
+            .letterhead-top-bar {
+              height: 6px;
+              background: linear-gradient(90deg, #7A1C20 0%, #7A1C20 70%, #D4AF37 70%, #D4AF37 100%);
+              margin-bottom: 20px;
             }
-            .header-container { 
-              display: flex; 
-              align-items: center; 
-              border-bottom: 3px solid #7A1C20; 
-              padding-bottom: 24px; 
-              margin-bottom: 32px; 
-            }
-            .header-logo { 
-              width: 100px; 
-              height: 100px; 
-              object-fit: contain; 
-              margin-right: 24px; 
-            }
-            .header-text { flex-grow: 1; }
-            .header-text h2 { 
-              margin: 0 0 4px 0; 
-              color: #7A1C20; 
-              font-family: 'Cormorant Garamond', serif; 
-              font-size: 2.8rem; 
-              letter-spacing: 0.02em; 
-              font-weight: 700; 
-              text-transform: uppercase; 
-            }
-            .header-text p { 
-              margin: 0; 
-              color: #555; 
-              font-size: 1rem; 
-              letter-spacing: 1px; 
-              text-transform: uppercase; 
-              font-weight: 600; 
-            }
-            .status-badge { 
-              padding: 6px 16px; 
-              border-radius: 4px; 
-              font-size: 0.9rem; 
-              font-weight: 700; 
-              text-transform: uppercase; 
-              letter-spacing: 1px; 
-              border: 2px solid #1a1a1a; 
-            }
-            .section-title { 
-              border-bottom: 2px solid #7A1C20; 
-              padding-bottom: 6px; 
-              margin-top: 32px; 
-              margin-bottom: 16px; 
-              color: #7A1C20; 
-              font-size: 1.3rem; 
-              font-family: 'Cormorant Garamond', serif; 
-              text-transform: uppercase; 
-              letter-spacing: 1.5px; 
-              font-weight: 700; 
-            }
-            .field-row { 
-              display: grid; 
-              grid-template-columns: 240px 1fr; 
-              border-bottom: 1px solid #eee; 
-              padding: 12px 0; 
-              font-size: 1rem; 
-              align-items: center; 
-              page-break-inside: avoid; 
-            }
-            .field-label { 
-              font-weight: 600; 
-              color: #555; 
-              text-transform: uppercase; 
-              font-size: 0.85rem; 
-              letter-spacing: 0.05em; 
-            }
-            .field-value { font-weight: 500; color: #000; }
-            .signature-box { 
-              border: 1px solid #ccc; 
-              padding: 24px; 
-              margin-top: 16px; 
-              min-height: 80px; 
-              font-style: italic; 
-              background: #fff; 
-              border-radius: 4px; 
-              display: flex; 
-              align-items: center; 
-              justify-content: center; 
-              color: #555; 
-              page-break-inside: avoid; 
-            }
-            .signature-img { 
-              max-height: 80px; 
-              display: block; 
-              margin-top: 16px; 
-              page-break-inside: avoid; 
-            }
-            .footer-stamp { 
-              margin-top: 60px; 
-              padding-top: 20px; 
-              border-top: 1px solid #ccc; 
-              text-align: center; 
-              color: #555; 
-              font-size: 0.85rem; 
-              font-weight: 500; 
-              position: relative; 
-              page-break-inside: avoid; 
+            .letterhead-header {
               display: flex;
-              flex-direction: column;
-              align-items: center;
+              justify-content: space-between;
+              align-items: flex-start;
+              border-bottom: 2px solid #7A1C20;
+              padding-bottom: 16px;
+              margin-bottom: 24px;
             }
-            .css-stamp-box {
+            .lh-left {
+              display: flex;
+              align-items: center;
+              gap: 16px;
+            }
+            .lh-logo {
+              width: 85px;
+              height: 85px;
+              object-fit: contain;
+            }
+            .lh-company-title {
+              font-family: 'Cormorant Garamond', serif;
+              font-size: 1.65rem;
+              font-weight: 700;
+              color: #7A1C20;
+              margin: 0;
+              line-height: 1.1;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+            }
+            .lh-company-sub {
+              font-size: 0.75rem;
+              font-weight: 600;
+              color: #555;
+              text-transform: uppercase;
+              letter-spacing: 1px;
+              margin-top: 4px;
+            }
+            .lh-director {
+              font-size: 0.75rem;
+              color: #333;
+              margin-top: 4px;
+              font-weight: 500;
+            }
+            .lh-right {
+              text-align: right;
+              font-size: 0.75rem;
+              color: #444;
+              line-height: 1.6;
+              border-left: 2px solid #D4AF37;
+              padding-left: 14px;
+            }
+            .lh-right strong {
+              color: #7A1C20;
+            }
+            .doc-badge-row {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              background: #f8fafc;
+              border: 1px solid #e2e8f0;
+              border-left: 4px solid #7A1C20;
+              padding: 10px 16px;
+              border-radius: 4px;
+              margin-bottom: 24px;
+            }
+            .doc-title {
+              font-family: 'Cormorant Garamond', serif;
+              font-size: 1.25rem;
+              font-weight: 700;
+              color: #7A1C20;
+              margin: 0;
+              text-transform: uppercase;
+              letter-spacing: 1px;
+            }
+            .status-badge {
+              padding: 4px 14px;
+              border-radius: 4px;
+              font-size: 0.8rem;
+              font-weight: 700;
+              text-transform: uppercase;
+              letter-spacing: 1px;
+              border: 1.5px solid #1a1a1a;
+            }
+            .section-title {
+              border-bottom: 1.5px solid #7A1C20;
+              padding-bottom: 4px;
+              margin-top: 24px;
+              margin-bottom: 12px;
+              color: #7A1C20;
+              font-size: 1.05rem;
+              font-family: 'Cormorant Garamond', serif;
+              text-transform: uppercase;
+              letter-spacing: 1.5px;
+              font-weight: 700;
+            }
+            .field-row {
+              display: grid;
+              grid-template-columns: 220px 1fr;
+              border-bottom: 1px dashed #e2e8f0;
+              padding: 8px 0;
+              font-size: 0.9rem;
+              align-items: center;
+              page-break-inside: avoid;
+            }
+            .field-label {
+              font-weight: 600;
+              color: #64748b;
+              text-transform: uppercase;
+              font-size: 0.75rem;
+              letter-spacing: 0.05em;
+            }
+            .field-value { font-weight: 600; color: #0f172a; }
+            .signature-img { max-height: 70px; display: block; margin-top: 12px; }
+            .signature-box {
+              border: 1px dashed #cbd5e1;
+              padding: 16px;
+              margin-top: 12px;
+              font-style: italic;
+              background: #f8fafc;
+              border-radius: 4px;
+              text-align: center;
+              color: #334155;
+            }
+            .stamp-box {
               width: 320px;
-              border: 5px solid #5a5a5a;
-              padding: 4px;
+              border: 4px double #5a5a5a;
+              padding: 10px;
               font-family: "Courier New", Courier, monospace;
               color: #3a3a3a;
               text-align: center;
-              background: transparent;
+              margin: 24px auto 0;
             }
-            .css-stamp-inner {
-              border: 1.5px solid #7a7a7a;
-              padding: 12px;
+            .stamp-title { font-size: 12px; font-weight: bold; color: #222; }
+            .stamp-sep { border-top: 1px solid #888; margin: 6px auto; width: 85%; }
+            .stamp-verified { font-size: 20px; font-weight: bold; letter-spacing: 3px; color: #7A1C20; margin: 4px 0; }
+            .stamp-date { font-size: 11px; color: #555; }
+            .stamp-footer { font-size: 9px; color: #666; }
+            .letterhead-footer {
+              margin-top: 40px;
+              border-top: 2px solid #7A1C20;
+              padding-top: 12px;
+              font-size: 0.7rem;
+              color: #64748b;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
             }
-            .css-stamp-title {
-              font-size: 14px;
-              font-weight: bold;
-              color: #4a4a4a;
-              line-height: 1.2;
+            .letterhead-bottom-bar {
+              height: 4px;
+              background: #7A1C20;
+              margin-top: 8px;
             }
-            .css-stamp-separator {
-              border-top: 1px solid #909090;
-              margin: 8px auto;
-              width: 80%;
-            }
-            .css-stamp-verified {
-              font-size: 24px;
-              font-weight: bold;
-              margin: 10px 0;
-              letter-spacing: 2px;
-            }
-            .css-stamp-date {
-              font-size: 12px;
-              color: #666;
-              margin-bottom: 10px;
-            }
-            .css-stamp-footer {
-              font-size: 10px;
-              color: #777;
-              line-height: 1.2;
-            }
-            @media print { 
+            @media print {
               body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-              .header-text h2, .section-title { color: #000 !important; border-color: #000 !important; }
-              .header-container { border-color: #000 !important; }
-              .watermark { opacity: 0.04 !important; }
             }
           </style>
         </head>
         <body>
-          <img src="/logo.png" class="watermark" alt="" />
-          <div class="header-container">
-            <img src="/logo.png" class="header-logo" alt="School Logo" />
-            <div class="header-text">
-              <h2>Rose B ALC</h2>
-              <p>Official Application Record • Confidential</p>
+          <div class="letterhead-top-bar"></div>
+
+          <div class="letterhead-header">
+            <div class="lh-left">
+              <img src="/logo.png" class="lh-logo" alt="Rose B ALC Logo" />
+              <div>
+                <h1 class="lh-company-title">Rose Bruintjies After School Learning Center</h1>
+                <div class="lh-company-sub">CAPS-Aligned Life Sciences & Academic Upgrade Center</div>
+                <div class="lh-director"><strong>Founder & Director:</strong> Mr. Edward Breintjies (B.Ed FET)</div>
+              </div>
             </div>
-            <div>
-              <span class="status-badge">${app.status}</span>
+            <div class="lh-right">
+              <div><strong>Tel / WhatsApp:</strong> 076 423 7821</div>
+              <div><strong>Email:</strong> edwardbreintjies@rosebalc.co.za</div>
+              <div><strong>Address:</strong> Kariega, Eastern Cape, 6229</div>
+              <div><strong>CIPC Reg No:</strong> 2026/611870/07</div>
+              <div><strong>SARS Tax Ref:</strong> 9161805297</div>
             </div>
           </div>
 
-          <div class="field-row">
-            <span class="field-label">Reference ID</span>
-            <span class="field-value" style="font-family: monospace; font-size: 1.1rem;">${app.id}</span>
-          </div>
-          <div class="field-row">
-            <span class="field-label">Date Submitted</span>
-            <span class="field-value">${new Date(app.dateSubmitted).toLocaleString('en-ZA')}</span>
-          </div>
-          <div class="field-row">
-            <span class="field-label">Enrolled Programme</span>
-            <span class="field-value"><strong style="font-size: 1.1rem;">${app.programme}</strong></span>
+          <div class="doc-badge-row">
+            <div>
+              <h2 class="doc-title">Official Student Application Record</h2>
+              <div style="font-size: 0.75rem; color: #64748b; margin-top: 2px;">
+                Ref ID: <strong style="font-family: monospace; color: #0f172a;">${app.id}</strong> | Date: <strong>${new Date(app.dateSubmitted).toLocaleString('en-ZA')}</strong>
+              </div>
+            </div>
+            <div>
+              <span class="status-badge" style="
+                background-color: ${app.status === 'Accepted' || app.status === 'Approved' ? '#dcfce7' : app.status === 'Rejected' ? '#fee2e2' : '#fef3c7'};
+                color: ${app.status === 'Accepted' || app.status === 'Approved' ? '#15803d' : app.status === 'Rejected' ? '#b91c1c' : '#b45309'};
+                border-color: ${app.status === 'Accepted' || app.status === 'Approved' ? '#15803d' : app.status === 'Rejected' ? '#b91c1c' : '#b45309'};
+              ">${app.status}</span>
+            </div>
           </div>
 
           <h3 class="section-title">Candidate Details</h3>
-          <div class="field-row"><span class="field-label">First Name</span><span class="field-value">${app.learnerName}</span></div>
-          <div class="field-row"><span class="field-label">Surname</span><span class="field-value">${app.learnerSurname}</span></div>
-          <div class="field-row"><span class="field-label">Grade Level</span><span class="field-value">${app.learnerGrade}</span></div>
-          <div class="field-row"><span class="field-label">Tutoring Subjects</span><span class="field-value">${app.learnerSubjects.join(' • ')}</span></div>
+          <div class="field-row"><span class="field-label">Candidate Name</span><span class="field-value">${app.learnerName} ${app.learnerSurname}</span></div>
+          <div class="field-row"><span class="field-label">Enrolled Programme</span><span class="field-value">${app.programme}</span></div>
+          <div class="field-row"><span class="field-label">Current Grade Level</span><span class="field-value">${app.learnerGrade}</span></div>
+          <div class="field-row"><span class="field-label">Registered Subjects</span><span class="field-value">${Array.isArray(app.learnerSubjects) ? app.learnerSubjects.join(' • ') : app.learnerSubjects || 'N/A'}</span></div>
 
           ${app.programme === 'Grade 12' ? `
             <h3 class="section-title">Parent / Guardian Information</h3>
-            <div class="field-row"><span class="field-label">Full Name</span><span class="field-value">${app.parentName} ${app.parentSurname}</span></div>
-            <div class="field-row"><span class="field-label">Contact Number</span><span class="field-value">${app.parentContact}</span></div>
+            <div class="field-row"><span class="field-label">Parent / Guardian Name</span><span class="field-value">${app.parentName} ${app.parentSurname}</span></div>
+            <div class="field-row"><span class="field-label">Primary Contact Number</span><span class="field-value">${app.parentContact}</span></div>
+            <div class="field-row"><span class="field-label">Email Address</span><span class="field-value">${app.parentEmail || 'N/A'}</span></div>
             <div class="field-row"><span class="field-label">Physical Address</span><span class="field-value">${app.parentAddress}</span></div>
           ` : `
-            <h3 class="section-title">Contact & Emergency Details</h3>
-            <div class="field-row"><span class="field-label">Candidate Contact</span><span class="field-value">${app.learnerPhone}</span></div>
+            <h3 class="section-title">Candidate Contact Details</h3>
+            <div class="field-row"><span class="field-label">Candidate Phone</span><span class="field-value">${app.learnerPhone}</span></div>
+            <div class="field-row"><span class="field-label">Candidate Email</span><span class="field-value">${app.learnerEmail || 'N/A'}</span></div>
             <div class="field-row"><span class="field-label">Physical Address</span><span class="field-value">${app.learnerAddress}</span></div>
             <div class="field-row"><span class="field-label">Emergency Contact</span><span class="field-value">${app.emergencyContact}</span></div>
           `}
 
-          <h3 class="section-title">Legal Assents</h3>
-          <div class="field-row"><span class="field-label">Accepts Terms & Conditions</span><span class="field-value">✓ Acknowledged</span></div>
-          <div class="field-row"><span class="field-label">Marketing Photos Consent</span><span class="field-value">${app.consentPhotos ? '✓ Consented' : '✗ Declined'}</span></div>
-          <div class="field-row"><span class="field-label">Affirms Information Accuracy</span><span class="field-value">✓ Verified</span></div>
-          
+          <h3 class="section-title">Legal Assents & Consent</h3>
+          <div class="field-row"><span class="field-label">Terms & Conditions</span><span class="field-value">✓ Accepted & Acknowledged</span></div>
+          <div class="field-row"><span class="field-label">Media & Photo Consent</span><span class="field-value">${app.consentPhotos ? '✓ Consented' : '✗ Declined'}</span></div>
+          <div class="field-row"><span class="field-label">Information Accuracy</span><span class="field-value">✓ Confirmed Correct</span></div>
+
           <h3 class="section-title">Digital Signature Validation</h3>
-          ${app.signature.startsWith('data:image') ? `
-            <img src="${app.signature}" class="signature-img" />
+          ${app.signature && app.signature.startsWith('data:image') ? `
+            <img src="${app.signature}" class="signature-img" alt="Digital Signature" />
           ` : `
-            <div class="signature-box">${app.signature}</div>
+            <div class="signature-box">${app.signature || 'Digitally Signed'}</div>
           `}
 
-          <div class="footer-stamp">
-            <div class="css-stamp-box">
-              <div class="css-stamp-inner">
-                <div class="css-stamp-title">ROSE B AFTER SCHOOL<br/>LEARNING CENTER</div>
-                <div class="css-stamp-separator"></div>
-                <div class="css-stamp-verified">V E R I F I E D</div>
-                <div class="css-stamp-date">${new Date().toLocaleDateString('en-ZA', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
-                <div class="css-stamp-separator"></div>
-                <div class="css-stamp-footer">OFFICIAL ELECTRONIC DOCUMENT<br/>Rose B ALC | Authorised Export</div>
-              </div>
-            </div>
-            <div style="margin-top: 20px;">
-              Document generated electronically from the Rose B ALC Administration System.<br/>
-              This is an official record. Do not alter or duplicate without authorization.
-            </div>
+          <div class="stamp-box">
+            <div class="stamp-title">ROSE BRUINTJIES AFTER SCHOOL LEARNING CENTER</div>
+            <div class="stamp-sep"></div>
+            <div class="stamp-verified">V E R I F I E D</div>
+            <div class="stamp-date">${new Date().toLocaleDateString('en-ZA', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+            <div class="stamp-sep"></div>
+            <div class="stamp-footer">CIPC: 2026/611870/07 | SARS TAX: 9161805297<br/>AUTHORISED ELECTRONIC APPLICATION RECORD</div>
           </div>
 
+          <div class="letterhead-footer">
+            <div>
+              <strong>Rose Bruintjies After School Learning Center (Pty) Ltd</strong><br/>
+              CIPC Reg No: 2026/611870/07 | SARS Tax Ref: 9161805297
+            </div>
+            <div style="text-align: center;">
+              Kariega, Eastern Cape<br/>
+              Tel / WhatsApp: 076 423 7821
+            </div>
+            <div style="text-align: right;">
+              Confidential Academic Document<br/>
+              Official System Record
+            </div>
+          </div>
+          <div class="letterhead-bottom-bar"></div>
+
           <script>
-            // Wait for images to load before printing
-            window.onload = () => {
-              setTimeout(() => {
-                window.print();
-              }, 500);
-            };
-            // Fallback if onload doesn't fire
-            setTimeout(() => {
-              window.print();
-            }, 1500);
+            window.onload = () => { setTimeout(() => { window.print(); }, 500); };
+            setTimeout(() => { window.print(); }, 1500);
           </script>
         </body>
       </html>
@@ -807,42 +818,198 @@ edwardbreintjies@rosebalc.co.za`,
   const printNotice = (notice) => {
     const printWindow = window.open('', '_blank');
     printWindow.document.write(`
+      <!DOCTYPE html>
       <html>
         <head>
-          <title>${notice.title}</title>
+          <title>${notice.title} | Rose B ALC Official Notice</title>
           <style>
-            body { font-family: 'Inter', sans-serif; padding: 40px; color: #2B2B2B; line-height: 1.6; }
-            .letter { border: 1px solid #CCCCCC; padding: 40px; max-width: 700px; margin: 0 auto; position:relative; }
-            .letter::before { content:''; position:absolute; top:0; left:0; right:0; height:6px; background-color:#E55B13; }
-            .header { border-bottom: 3px double #1E2022; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; }
-            .title { text-align: center; text-transform: uppercase; font-size: 1.4rem; margin-bottom: 24px; text-decoration: underline; font-weight: bold; }
-            .body { white-space: pre-line; margin-bottom: 40px; font-size: 0.95rem; }
-            .footer { border-top: 1px solid #EEEEEE; padding-top: 20px; font-size: 0.9rem; color: #666666; display: flex; justify-content: space-between; }
-            @media print { 
+            @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap');
+            @page { size: A4; margin: 15mm 15mm 20mm 15mm; }
+            body { 
+              font-family: 'Inter', sans-serif; 
+              color: #1a1a1a; 
+              line-height: 1.6; 
+              background: #fff; 
+              margin: 0; 
+              padding: 0; 
+            }
+            .letterhead-top-bar {
+              height: 6px;
+              background: linear-gradient(90deg, #7A1C20 0%, #7A1C20 70%, #D4AF37 70%, #D4AF37 100%);
+              margin-bottom: 20px;
+            }
+            .letterhead-header {
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-start;
+              border-bottom: 2px solid #7A1C20;
+              padding-bottom: 16px;
+              margin-bottom: 24px;
+            }
+            .lh-left {
+              display: flex;
+              align-items: center;
+              gap: 16px;
+            }
+            .lh-logo {
+              width: 85px;
+              height: 85px;
+              object-fit: contain;
+            }
+            .lh-company-title {
+              font-family: 'Cormorant Garamond', serif;
+              font-size: 1.65rem;
+              font-weight: 700;
+              color: #7A1C20;
+              margin: 0;
+              line-height: 1.1;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+            }
+            .lh-company-sub {
+              font-size: 0.75rem;
+              font-weight: 600;
+              color: #555;
+              text-transform: uppercase;
+              letter-spacing: 1px;
+              margin-top: 4px;
+            }
+            .lh-director {
+              font-size: 0.75rem;
+              color: #333;
+              margin-top: 4px;
+              font-weight: 500;
+            }
+            .lh-right {
+              text-align: right;
+              font-size: 0.75rem;
+              color: #444;
+              line-height: 1.6;
+              border-left: 2px solid #D4AF37;
+              padding-left: 14px;
+            }
+            .lh-right strong {
+              color: #7A1C20;
+            }
+            .notice-meta-bar {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              background: #f8fafc;
+              border: 1px solid #e2e8f0;
+              border-left: 4px solid #D4AF37;
+              padding: 10px 16px;
+              margin-bottom: 28px;
+              font-size: 0.85rem;
+            }
+            .notice-title {
+              font-family: 'Cormorant Garamond', serif;
+              font-size: 1.8rem;
+              font-weight: 700;
+              color: #7A1C20;
+              margin-bottom: 20px;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+              border-bottom: 1px solid #e2e8f0;
+              padding-bottom: 12px;
+            }
+            .notice-body {
+              font-size: 1rem;
+              line-height: 1.85;
+              color: #334155;
+              white-space: pre-line;
+              min-height: 300px;
+              margin-bottom: 40px;
+            }
+            .notice-signoff {
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-end;
+              border-top: 1px dashed #cbd5e1;
+              padding-top: 20px;
+              margin-top: 40px;
+            }
+            .letterhead-footer {
+              margin-top: 40px;
+              border-top: 2px solid #7A1C20;
+              padding-top: 12px;
+              font-size: 0.7rem;
+              color: #64748b;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            }
+            .letterhead-bottom-bar {
+              height: 4px;
+              background: #7A1C20;
+              margin-top: 8px;
+            }
+            @media print {
               body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             }
           </style>
         </head>
         <body>
-          <div class="letter">
-            <div class="header">
+          <div class="letterhead-top-bar"></div>
+
+          <div class="letterhead-header">
+            <div class="lh-left">
+              <img src="/logo.png" class="lh-logo" alt="Rose B ALC Logo" />
               <div>
-                <h2 style="margin: 0; color: #1E2022; font-size: 1.3rem; font-family:'Cormorant Garamond';">ROSE BREINTJIES</h2>
-                <h4 style="margin: 0; color: #E55B13; font-size: 0.75rem; letter-spacing: 1px;">AFTER SCHOOL LEARNING CENTER</h4>
-              </div>
-              <div style="text-align: right; font-size: 0.8rem; color:#666666;">
-                <strong>Date:</strong> ${new Date(notice.date).toLocaleDateString('en-ZA')}<br>
-                <strong>Ref:</strong> NOTICE-${notice.id.toUpperCase()}
+                <h1 class="lh-company-title">Rose Bruintjies After School Learning Center</h1>
+                <div class="lh-company-sub">CAPS-Aligned Life Sciences & Academic Upgrade Center</div>
+                <div class="lh-director"><strong>Founder & Director:</strong> Mr. Edward Breintjies (B.Ed FET)</div>
               </div>
             </div>
-            <div class="title">${notice.title}</div>
-            <div class="body">${notice.body}</div>
-            <div class="footer">
-              <div><strong>Issued by:</strong> ${notice.author}</div>
-              <div>Rose B ALC Board</div>
+            <div class="lh-right">
+              <div><strong>Tel / WhatsApp:</strong> 076 423 7821</div>
+              <div><strong>Email:</strong> edwardbreintjies@rosebalc.co.za</div>
+              <div><strong>Address:</strong> Kariega, Eastern Cape, 6229</div>
+              <div><strong>CIPC Reg No:</strong> 2026/611870/07</div>
+              <div><strong>SARS Tax Ref:</strong> 9161805297</div>
             </div>
           </div>
-          <script>window.print();</script>
+
+          <div class="notice-meta-bar">
+            <div><strong>OFFICIAL NOTICE</strong> | Category: <strong>${notice.category || 'General'}</strong></div>
+            <div>Date: <strong>${new Date(notice.date).toLocaleDateString('en-ZA', { year: 'numeric', month: 'long', day: 'numeric' })}</strong></div>
+          </div>
+
+          <h2 class="notice-title">${notice.title}</h2>
+          <div class="notice-body">${notice.body}</div>
+
+          <div class="notice-signoff">
+            <div>
+              <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase;">Authorised Signatory</div>
+              <div style="font-weight: 700; font-size: 1.05rem; color: #0f172a; margin-top: 4px;">${notice.author}</div>
+              <div style="font-size: 0.8rem; color: #7A1C20;">Rose Bruintjies After School Learning Center</div>
+            </div>
+            <div style="text-align: right; font-size: 0.75rem; color: #64748b;">
+              Official Notice Document<br/>
+              Verified Broadcast
+            </div>
+          </div>
+
+          <div class="letterhead-footer">
+            <div>
+              <strong>Rose Bruintjies After School Learning Center (Pty) Ltd</strong><br/>
+              CIPC Reg No: 2026/611870/07 | SARS Tax Ref: 9161805297
+            </div>
+            <div style="text-align: center;">
+              Kariega, Eastern Cape<br/>
+              Tel / WhatsApp: 076 423 7821
+            </div>
+            <div style="text-align: right;">
+              Confidential Academic Document<br/>
+              Official System Record
+            </div>
+          </div>
+          <div class="letterhead-bottom-bar"></div>
+
+          <script>
+            window.onload = () => { setTimeout(() => { window.print(); }, 500); };
+            setTimeout(() => { window.print(); }, 1500);
+          </script>
         </body>
       </html>
     `);
