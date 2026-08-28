@@ -28,10 +28,10 @@ import Terms from "./pages/Terms";
 import Dashboard from "./pages/Dashboard";
 import ComingSoon from "./pages/ComingSoon";
 
-const SHOW_COMING_SOON = false;
+const SHOW_COMING_SOON = true;
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState("home");
+  const [currentPage, setCurrentPage] = useState("coming-soon");
   const [isAdmin, setIsAdmin] = useState(false);
 
   if (SHOW_COMING_SOON) {
