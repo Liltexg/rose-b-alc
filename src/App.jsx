@@ -147,39 +147,66 @@ export default function App() {
         <div style={{
           borderTop: '1px solid rgba(255,255,255,0.1)',
           paddingTop: '20px',
-          textAlign: 'center',
           color: 'rgba(255,255,255,0.5)',
           fontSize: '0.75rem',
           display: 'flex',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '12px',
+          flexDirection: 'column',
+          gap: '10px',
           alignItems: 'center'
         }}>
-          <span style={{ textAlign: 'left', lineHeight: '1.5' }}>
-            &copy; 2026 Rose Bruintjies After School Learning Center
-          </span>
-          <button onClick={() => setCurrentPage('terms')} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}>
-            Terms &amp; Conditions
-          </button>
-          <button
-            onClick={() => setCurrentPage('dashboard')}
-            title="Staff Portal"
-            style={{
-              background: 'none',
-              border: 'none',
-              color: 'rgba(255,255,255,0.2)',
-              cursor: 'pointer',
-              padding: '4px',
-              display: 'flex',
-              alignItems: 'center',
-              transition: 'color 0.3s ease'
-            }}
-            onMouseOver={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.7)'}
-            onMouseOut={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.2)'}
-          >
-            <KeyRound size={13} />
-          </button>
+          {/* Compliance registration numbers */}
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: '6px 24px',
+            fontSize: '0.7rem',
+            color: 'rgba(255,255,255,0.35)',
+            letterSpacing: '0.03em'
+          }}>
+            <span>
+              <span style={{ color: 'var(--accent)', fontWeight: 600 }}>CIPC Reg No:</span> 2026/611870/07
+            </span>
+            <span style={{ color: 'rgba(255,255,255,0.2)' }}>|</span>
+            <span>
+              <span style={{ color: 'var(--accent)', fontWeight: 600 }}>SARS Tax Ref:</span> 9161805297
+            </span>
+          </div>
+
+          {/* Bottom bar: copyright · terms · staff portal */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '12px',
+            alignItems: 'center',
+            width: '100%'
+          }}>
+            <span style={{ textAlign: 'left', lineHeight: '1.5' }}>
+              &copy; 2026 Rose Bruintjies After School Learning Center
+            </span>
+            <button onClick={() => setCurrentPage('terms')} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}>
+              Terms &amp; Conditions
+            </button>
+            <button
+              onClick={() => setCurrentPage('dashboard')}
+              title="Staff Portal"
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'rgba(255,255,255,0.2)',
+                cursor: 'pointer',
+                padding: '4px',
+                display: 'flex',
+                alignItems: 'center',
+                transition: 'color 0.3s ease'
+              }}
+              onMouseOver={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.7)'}
+              onMouseOut={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.2)'}
+            >
+              <KeyRound size={13} />
+            </button>
+          </div>
         </div>
       </footer>
 
