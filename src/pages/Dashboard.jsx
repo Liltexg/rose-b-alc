@@ -4,7 +4,8 @@ import { supabase } from '../services/supabaseClient';
 import {
   FileText, Bell, Image, Settings, Users, ArrowRight, Plus,
   Trash2, Edit, Save, Lock, LogOut, CheckCircle, Search,
-  Download, Printer, AlertTriangle, FileSpreadsheet, Mail, X, KeyRound
+  Download, Printer, AlertTriangle, FileSpreadsheet, Mail, X, KeyRound,
+  HelpCircle, BookOpen, Compass, ChevronRight, ChevronLeft
 } from 'lucide-react';
 
 export default function Dashboard({ setCurrentPage, setIsAdminState }) {
@@ -29,6 +30,14 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
   const [updateError, setUpdateError] = useState('');
 
   const [activeTab, setActiveTab] = useState('overview');
+
+  // Tutorial Guide Assistant States
+  const [showTour, setShowTour] = useState(false);
+  const [currentTourStep, setCurrentTourStep] = useState(0);
+  const [dontShowAgain, setDontShowAgain] = useState(
+    localStorage.getItem('rosebalc_hide_tutorial_autoplay') === 'true'
+  );
+  const [guideTab, setGuideTab] = useState('getting-started');
 
   // Database states
   const [apps, setApps] = useState([]);
@@ -181,6 +190,19 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
   useEffect(() => {
     if (isAuthenticated) {
       reloadAllData();
+    }
+  }, [isAuthenticated]);
+
+  // Handle auto-starting the tutorial tour on login
+  useEffect(() => {
+    if (isAuthenticated) {
+      const hideTour = localStorage.getItem('rosebalc_hide_tutorial_autoplay') === 'true';
+      if (!hideTour) {
+        setShowTour(true);
+        setCurrentTourStep(0);
+      }
+    } else {
+      setShowTour(false);
     }
   }, [isAuthenticated]);
 
@@ -729,7 +751,7 @@ edwardbreintjies@rosebalc.co.za`,
             <div class="lh-right">
               <div><strong>Tel / WhatsApp:</strong> 076 423 7821</div>
               <div><strong>Email:</strong> edwardbreintjies@rosebalc.co.za</div>
-              <div><strong>Address:</strong> Kariega, Eastern Cape, 6229</div>
+              <div><strong>Address:</strong> 23 Geelhout Avenue, Gamble, Kariega 6229</div>
               <div><strong>CIPC Reg No:</strong> 2026/611870/07</div>
               <div><strong>SARS Tax Ref:</strong> 9161805297</div>
             </div>
@@ -967,7 +989,7 @@ edwardbreintjies@rosebalc.co.za`,
             <div class="lh-right">
               <div><strong>Tel / WhatsApp:</strong> 076 423 7821</div>
               <div><strong>Email:</strong> edwardbreintjies@rosebalc.co.za</div>
-              <div><strong>Address:</strong> Kariega, Eastern Cape, 6229</div>
+              <div><strong>Address:</strong> 23 Geelhout Avenue, Gamble, Kariega 6229</div>
               <div><strong>CIPC Reg No:</strong> 2026/611870/07</div>
               <div><strong>SARS Tax Ref:</strong> 9161805297</div>
             </div>
@@ -1406,6 +1428,13 @@ edwardbreintjies@rosebalc.co.za`,
                 className={`pro-sidebar-nav-btn ${activeTab === 'settings' ? 'active' : ''}`}
               >
                 <Settings size={18} /> Settings
+              </button>
+
+              <button
+                onClick={() => { setActiveTab('guide'); }}
+                className={`pro-sidebar-nav-btn ${activeTab === 'guide' ? 'active' : ''}`}
+              >
+                <HelpCircle size={18} /> Help & Guide
               </button>
             </div>
           </div>
@@ -2604,6 +2633,306 @@ edwardbreintjies@rosebalc.co.za`,
             </div>
           )}
 
+          {/* ================= TAB 6: TUTORIAL GUIDE ================= */}
+          {activeTab === 'guide' && (
+            <div className="animated" style={{ maxWidth: '1000px', margin: '0 auto' }}>
+              {/* Header Hero Card */}
+              <div className="card" style={{
+                padding: '36px',
+                background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
+                color: '#fff',
+                marginBottom: '32px',
+                borderRadius: 'var(--radius-card)',
+                position: 'relative',
+                overflow: 'hidden',
+                border: 'none',
+                boxShadow: 'var(--shadow-card)'
+              }}>
+                {/* Visual decorative circles */}
+                <div style={{ position: 'absolute', right: '-50px', top: '-50px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(255,255,255,0.02)', pointerEvents: 'none' }}></div>
+                <div style={{ position: 'absolute', right: '50px', bottom: '-80px', width: '150px', height: '150px', borderRadius: '50%', background: 'rgba(255,255,255,0.03)', pointerEvents: 'none' }}></div>
+                
+                <div style={{ position: 'relative', zIndex: 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--accent)', fontWeight: 700, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
+                    <Compass size={16} /> Portal Assistant
+                  </div>
+                  <h2 style={{ color: '#fff', fontSize: '2.2rem', marginBottom: '12px', fontFamily: 'var(--font-heading)' }}>
+                    Rose B ALC Portal Guide
+                  </h2>
+                  <p style={{ color: '#cbd5e1', fontSize: '0.95rem', maxWidth: '650px', marginBottom: '24px', lineHeight: '1.6' }}>
+                    Welcome to the Admin Portal Guide. Here you will find in-depth instructions on managing applications, publishing notices, updating the gallery, and modifying center details.
+                  </p>
+                  
+                  <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '20px' }}>
+                    <button
+                      onClick={() => {
+                        setCurrentTourStep(0);
+                        setShowTour(true);
+                      }}
+                      className="btn btn-secondary"
+                      style={{
+                        backgroundColor: 'var(--accent)',
+                        color: '#0f172a',
+                        border: 'none',
+                        fontWeight: 600,
+                        padding: '12px 24px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        boxShadow: '0 4px 12px rgba(244,197,66,0.25)'
+                      }}
+                    >
+                      <Compass size={16} /> Restart Welcome Tour
+                    </button>
+                    
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '0.88rem', color: '#94a3b8' }}>
+                      <input
+                        type="checkbox"
+                        checked={!dontShowAgain}
+                        onChange={(e) => {
+                          const val = !e.target.checked;
+                          setDontShowAgain(val);
+                          if (val) {
+                            localStorage.setItem('rosebalc_hide_tutorial_autoplay', 'true');
+                          } else {
+                            localStorage.removeItem('rosebalc_hide_tutorial_autoplay');
+                          }
+                        }}
+                        style={{ accentColor: 'var(--accent)', width: '16px', height: '16px', borderRadius: '4px' }}
+                      />
+                      <span>Show tour automatically on login</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              {/* Guide Sub Tabs */}
+              <div style={{ display: 'flex', gap: '8px', borderBottom: '1px solid var(--border-color)', paddingBottom: '1px', marginBottom: '28px', overflowX: 'auto' }} className="sub-tabs-scroll">
+                {[
+                  { id: 'getting-started', label: 'Getting Started', icon: BookOpen },
+                  { id: 'applications', label: 'Applications', icon: Users },
+                  { id: 'notices', label: 'Notices Board', icon: Bell },
+                  { id: 'gallery', label: 'Gallery Media', icon: Image },
+                  { id: 'settings', label: 'System Config', icon: Settings }
+                ].map(tab => {
+                  const Icon = tab.icon;
+                  const isActive = guideTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setGuideTab(tab.id)}
+                      style={{
+                        padding: '10px 18px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        background: isActive ? '#fff' : 'transparent',
+                        border: '1px solid ' + (isActive ? 'var(--border-color)' : 'transparent'),
+                        borderBottom: isActive ? '1px solid #fff' : 'none',
+                        color: isActive ? 'var(--secondary)' : 'var(--text-muted)',
+                        fontWeight: isActive ? 600 : 500,
+                        fontSize: '0.9rem',
+                        cursor: 'pointer',
+                        borderRadius: 'var(--radius-md) var(--radius-md) 0 0',
+                        marginBottom: '-1px',
+                        whiteSpace: 'nowrap',
+                        transition: 'all 0.15s ease'
+                      }}
+                    >
+                      <Icon size={16} />
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Sub Tab Content */}
+              <div className="card" style={{ padding: '32px', minHeight: '350px' }}>
+                {guideTab === 'getting-started' && (
+                  <div className="animated">
+                    <h3 style={{ fontSize: '1.4rem', marginBottom: '16px', color: 'var(--secondary)' }}>Getting Started with the Admin Portal</h3>
+                    <p style={{ color: 'var(--text-muted)', marginBottom: '20px', lineHeight: '1.6' }}>
+                      The Rose Breintjies ALC Admin Portal is a custom academic management system designed to streamline your daily operations. You can monitor registrations, send confirmation emails, publish announcements, manage gallery photos, and edit website rates.
+                    </p>
+                    
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginTop: '24px' }} className="sub-grid-mobile">
+                      <div style={{ border: '1px solid #f1f5f9', padding: '20px', borderRadius: 'var(--radius-md)', backgroundColor: '#f8fafc' }}>
+                        <h4 style={{ fontSize: '1.05rem', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <CheckCircle size={18} style={{ color: 'var(--accent)' }} /> Admin Checklist
+                        </h4>
+                        <ul style={{ paddingLeft: '18px', fontSize: '0.88rem', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: '10px', lineHeight: '1.45' }}>
+                          <li><strong>Daily:</strong> Check for incoming Grade 12 or Rewrite applications.</li>
+                          <li><strong>Weekly:</strong> Review and update application admission statuses.</li>
+                          <li><strong>Ad-hoc:</strong> Publish notices regarding holidays or academic results.</li>
+                          <li><strong>Periodic:</strong> Upload photos to the gallery showing student progress.</li>
+                        </ul>
+                      </div>
+                      
+                      <div style={{ border: '1px solid #f1f5f9', padding: '20px', borderRadius: 'var(--radius-md)', backgroundColor: '#f8fafc' }}>
+                        <h4 style={{ fontSize: '1.05rem', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <Lock size={18} style={{ color: 'var(--secondary)' }} /> Security Best Practices
+                        </h4>
+                        <ul style={{ paddingLeft: '18px', fontSize: '0.88rem', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: '10px', lineHeight: '1.45' }}>
+                          <li>Keep your password private and update it in settings if compromised.</li>
+                          <li>Log out when using public, shared, or unsecure terminals.</li>
+                          <li>Double check the recipient's email address before emailing admission documents.</li>
+                          <li>All status changes and notice edits apply in real-time.</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {guideTab === 'applications' && (
+                  <div className="animated">
+                    <h3 style={{ fontSize: '1.4rem', marginBottom: '16px', color: 'var(--secondary)' }}>Managing Student Admissions</h3>
+                    <p style={{ color: 'var(--text-muted)', marginBottom: '20px', lineHeight: '1.6' }}>
+                      All online registrations from the Admissions page appear in the <strong>Applications</strong> tab. Here is how you can manage them:
+                    </p>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                      <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                        <div style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: 'var(--secondary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '0.85rem', fontWeight: 600 }}>1</div>
+                        <div>
+                          <strong style={{ fontSize: '0.95rem' }}>Admission Status Workflow</strong>
+                          <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: '4px', lineHeight: '1.5' }}>
+                            New submissions default to <strong>Pending</strong>. Review candidate grades and personal details. You can update status to <strong>Accepted</strong> or <strong>Rejected</strong> using the quick actions panel inside the application review window.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                        <div style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: 'var(--secondary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '0.85rem', fontWeight: 600 }}>2</div>
+                        <div>
+                          <strong style={{ fontSize: '0.95rem' }}>Professional Letterhead & PDF Export</strong>
+                          <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: '4px', lineHeight: '1.5' }}>
+                            For every application, click the <strong>"Print Letterhead"</strong> button to open a formal letter view complete with center registration numbers, tax references, and signature lines. You can easily print or save this as a PDF.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                        <div style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: 'var(--secondary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '0.85rem', fontWeight: 600 }}>3</div>
+                        <div>
+                          <strong style={{ fontSize: '0.95rem' }}>Automated Email Notifications</strong>
+                          <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: '4px', lineHeight: '1.5' }}>
+                            Use the <strong>"Send Email"</strong> feature inside the application details dialog to compose template-based letters (e.g. Acceptance or Status Updates). This triggers your mail client with pre-populated, professionally formatted templates.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                        <div style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: 'var(--secondary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '0.85rem', fontWeight: 600 }}>4</div>
+                        <div>
+                          <strong style={{ fontSize: '0.95rem' }}>Exporting data to Spreadsheet (CSV)</strong>
+                          <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: '4px', lineHeight: '1.5' }}>
+                            Need to work locally or back up student directories? Click <strong>"Export Excel/CSV"</strong> from the applications tab header to download the complete directory containing parent details, contact phone numbers, and grades.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {guideTab === 'notices' && (
+                  <div className="animated">
+                    <h3 style={{ fontSize: '1.4rem', marginBottom: '16px', color: 'var(--secondary)' }}>Managing the Announcements Board</h3>
+                    <p style={{ color: 'var(--text-muted)', marginBottom: '20px', lineHeight: '1.6' }}>
+                      The Notices board is the primary channel for displaying updates to learners and parents on the public website. You can post, edit, or delete notices.
+                    </p>
+
+                    <div style={{ border: '1px solid #e2e8f0', borderRadius: '8px', padding: '20px', backgroundColor: '#f8fafc', marginBottom: '24px' }}>
+                      <h4 style={{ fontSize: '0.95rem', color: '#0f172a', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <Plus size={16} /> Creating an Announcement
+                      </h4>
+                      <ol style={{ paddingLeft: '18px', fontSize: '0.85rem', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        <li>Navigate to the <strong>Notices</strong> tab on the sidebar.</li>
+                        <li>Fill in the title, and select a category (<strong>General</strong>, <strong>Academic</strong>, <strong>Sport</strong>, or <strong>Holiday</strong>).</li>
+                        <li>Write the announcement description. Keep the message clear and readable.</li>
+                        <li>Click <strong>Publish Notice</strong>. The notice immediately goes live on the announcements webpage.</li>
+                      </ol>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="sub-grid-mobile">
+                      <div style={{ padding: '16px', border: '1px dashed #e2e8f0', borderRadius: '6px' }}>
+                        <h5 style={{ fontSize: '0.9rem', color: 'var(--secondary)', marginBottom: '6px' }}>Editing Notices</h5>
+                        <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>
+                          Click the yellow <strong>Edit</strong> button next to any notice in the list to populate the creation form with its details. Once edited, click the save button to update the database.
+                        </p>
+                      </div>
+                      <div style={{ padding: '16px', border: '1px dashed #e2e8f0', borderRadius: '6px' }}>
+                        <h5 style={{ fontSize: '0.9rem', color: 'var(--secondary)', marginBottom: '6px' }}>Removing Notices</h5>
+                        <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>
+                          Outdated announcements should be cleaned up. Click the red <strong>Delete</strong> button to remove a notice. This will permanently remove the notice from public views.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {guideTab === 'gallery' && (
+                  <div className="animated">
+                    <h3 style={{ fontSize: '1.4rem', marginBottom: '16px', color: 'var(--secondary)' }}>Managing Center Gallery & Media</h3>
+                    <p style={{ color: 'var(--text-muted)', marginBottom: '20px', lineHeight: '1.6' }}>
+                      Showcase student life, workshops, and school events to prospects. The gallery manager allows cataloging photos into albums.
+                    </p>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', fontSize: '0.88rem', color: 'var(--text-muted)' }}>
+                      <div style={{ padding: '16px', border: '1px solid #f1f5f9', borderRadius: '6px' }}>
+                        <strong style={{ display: 'block', color: '#0f172a', marginBottom: '6px' }}>Creating Custom Albums</strong>
+                        The database tracks albums dynamically. To create a new album, write the name under "Create New Album" in the form sidebar and hit the save button. It will now be available in the dropdown selector.
+                      </div>
+                      
+                      <div style={{ padding: '16px', border: '1px solid #f1f5f9', borderRadius: '6px' }}>
+                        <strong style={{ display: 'block', color: '#0f172a', marginBottom: '6px' }}>Adding Photos</strong>
+                        Select the target album, enter a secure image URL (from a file hosting or website directory), write a descriptive caption, and click <strong>"Upload Image"</strong>. The photo immediately renders in the public gallery.
+                      </div>
+
+                      <div style={{ padding: '16px', border: '1px solid #f1f5f9', borderRadius: '6px' }}>
+                        <strong style={{ display: 'block', color: '#0f172a', marginBottom: '6px' }}>Removing Images</strong>
+                        To delete a photo, find the image card in the list view, verify the thumbnail matches the target, and click the red <strong>"Delete"</strong> button. The action takes effect immediately.
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {guideTab === 'settings' && (
+                  <div className="animated">
+                    <h3 style={{ fontSize: '1.4rem', marginBottom: '16px', color: 'var(--secondary)' }}>System Configuration & Settings</h3>
+                    <p style={{ color: 'var(--text-muted)', marginBottom: '20px', lineHeight: '1.6' }}>
+                      Perform core system updates to customize rates, manage public page texts, and secure the portal.
+                    </p>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '20px' }} className="sub-grid-mobile">
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                        <div style={{ padding: '14px', border: '1px solid #e2e8f0', borderRadius: '6px', backgroundColor: '#f8fafc' }}>
+                          <h5 style={{ fontSize: '0.88rem', color: '#0f172a', marginBottom: '4px' }}>Tuition Rates</h5>
+                          <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Edit registration costs, hourly fees, and exam prep pricing. These dynamically calculate quotes on the public Tuition Fee estimator page.</span>
+                        </div>
+                        <div style={{ padding: '14px', border: '1px solid #e2e8f0', borderRadius: '6px', backgroundColor: '#f8fafc' }}>
+                          <h5 style={{ fontSize: '0.88rem', color: '#0f172a', marginBottom: '4px' }}>Static Texts</h5>
+                          <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Modify the Principal's welcome note, the mission/vision statement, and about summaries.</span>
+                        </div>
+                      </div>
+                      
+                      <div style={{ padding: '20px', border: '1px solid #e2e8f0', borderRadius: '6px' }}>
+                        <h4 style={{ fontSize: '1rem', color: 'var(--secondary)', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <KeyRound size={16} /> Modifying Admin Password
+                        </h4>
+                        <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '12px', lineHeight: '1.4' }}>
+                          To change your password, type a new password (minimum 6 characters), confirm it, and submit the password update form. This updates your credentials in Supabase.
+                        </p>
+                        <div style={{ padding: '10px 14px', borderLeft: '3px solid var(--accent)', backgroundColor: 'rgba(244,197,66,0.08)', fontSize: '0.78rem', color: '#854d0e', borderRadius: '2px' }}>
+                          <strong>Note:</strong> Password resets are also supported from the login page screen. Make sure to enter your verified administrator email address to receive instructions.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
         </div>
       </div>
 
@@ -2645,8 +2974,322 @@ edwardbreintjies@rosebalc.co.za`,
             <Settings size={20} />
             Settings
           </button>
+          <button
+            className={`dash-tab-btn ${activeTab === 'guide' ? 'active' : ''}`}
+            onClick={() => setActiveTab('guide')}
+          >
+            <HelpCircle size={20} />
+            Guide
+          </button>
         </div>
       </nav>
+
+      {/* ================= INTERACTIVE TUTORIAL GUIDE TOUR OVERLAY ================= */}
+      {showTour && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(15, 23, 42, 0.75)',
+          backdropFilter: 'blur(5px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 99999,
+          padding: '20px',
+          animation: 'fadeIn 0.25s ease'
+        }}>
+          <div style={{
+            backgroundColor: '#ffffff',
+            borderRadius: '16px',
+            width: '100%',
+            maxWidth: '520px',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+            position: 'relative',
+            overflow: 'hidden',
+            border: '1px solid rgba(255,255,255,0.1)',
+            display: 'flex',
+            flexDirection: 'column'
+          }} className="animated">
+            
+            {/* Header Banner */}
+            <div style={{
+              background: 'linear-gradient(135deg, var(--secondary) 0%, #3e0c0f 100%)',
+              padding: '24px 32px',
+              color: '#ffffff',
+              position: 'relative'
+            }}>
+              <button
+                onClick={() => setShowTour(false)}
+                style={{
+                  position: 'absolute',
+                  top: '20px',
+                  right: '20px',
+                  background: 'rgba(255,255,255,0.1)',
+                  border: 'none',
+                  color: '#ffffff',
+                  width: '28px',
+                  height: '28px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.2)'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)'}
+              >
+                <X size={15} />
+              </button>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--accent)', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '6px' }}>
+                <Compass size={14} /> Interactive Assistant
+              </div>
+              <h3 style={{ color: '#ffffff', fontSize: '1.5rem', fontFamily: 'var(--font-heading)', letterSpacing: '-0.02em', margin: 0 }}>
+                {currentTourStep === 0 && "Welcome to Rose B ALC Portal"}
+                {currentTourStep === 1 && "Dashboard Overview"}
+                {currentTourStep === 2 && "Applications & Admissions"}
+                {currentTourStep === 3 && "Notices Board Announcements"}
+                {currentTourStep === 4 && "Gallery Control Panel"}
+                {currentTourStep === 5 && "System Configurations"}
+                {currentTourStep === 6 && "Portal User Manual"}
+              </h3>
+            </div>
+
+            {/* Tour Body */}
+            <div style={{ padding: '32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              
+              {/* Step Illustrations / Icons */}
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <div style={{
+                  width: '64px',
+                  height: '64px',
+                  borderRadius: '16px',
+                  backgroundColor: 'rgba(122, 28, 32, 0.08)',
+                  color: 'var(--secondary)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  {currentTourStep === 0 && <Compass size={32} />}
+                  {currentTourStep === 1 && <Settings size={32} />}
+                  {currentTourStep === 2 && <Users size={32} />}
+                  {currentTourStep === 3 && <Bell size={32} />}
+                  {currentTourStep === 4 && <Image size={32} />}
+                  {currentTourStep === 5 && <Settings size={32} />}
+                  {currentTourStep === 6 && <HelpCircle size={32} />}
+                </div>
+              </div>
+
+              {/* Text Description */}
+              <div style={{ textAlign: 'center' }}>
+                {currentTourStep === 0 && (
+                  <>
+                    <p style={{ fontSize: '0.95rem', color: 'var(--text)', fontWeight: 500, marginBottom: '10px' }}>
+                      Welcome, Administrator!
+                    </p>
+                    <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+                      We have prepared a short interactive guide to walk you through the key sections of your portal. Let's make sure you get the most out of your admin dashboard.
+                    </p>
+                  </>
+                )}
+
+                {currentTourStep === 1 && (
+                  <>
+                    <p style={{ fontSize: '0.95rem', color: 'var(--text)', fontWeight: 500, marginBottom: '10px' }}>
+                      Monitor Stats at a Glance
+                    </p>
+                    <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+                      Your <strong>Overview Dashboard</strong> gathers live counts for registered applications, notices, and gallery images, plus lists recent admissions in real-time.
+                    </p>
+                  </>
+                )}
+
+                {currentTourStep === 2 && (
+                  <>
+                    <p style={{ fontSize: '0.95rem', color: 'var(--text)', fontWeight: 500, marginBottom: '10px' }}>
+                      Manage admissions efficiently
+                    </p>
+                    <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+                      Review registrations in the <strong>Applications</strong> tab. Change applicant status (Accept/Reject), print formal letterheads (PDF-friendly), export database records, and trigger notification emails.
+                    </p>
+                  </>
+                )}
+
+                {currentTourStep === 3 && (
+                  <>
+                    <p style={{ fontSize: '0.95rem', color: 'var(--text)', fontWeight: 500, marginBottom: '10px' }}>
+                      Announcements Board
+                    </p>
+                    <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+                      Need to notify parents? Use the <strong>Notices</strong> tab to create and publish center news, holiday messages, or academic schedules. These are updated live on the public notices page.
+                    </p>
+                  </>
+                )}
+
+                {currentTourStep === 4 && (
+                  <>
+                    <p style={{ fontSize: '0.95rem', color: 'var(--text)', fontWeight: 500, marginBottom: '10px' }}>
+                      Gallery Showcase
+                    </p>
+                    <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+                      Publish center activities in the <strong>Gallery</strong> tab. Organize pictures into custom albums, insert image URLs, and add captions to share student life with site visitors.
+                    </p>
+                  </>
+                )}
+
+                {currentTourStep === 5 && (
+                  <>
+                    <p style={{ fontSize: '0.95rem', color: 'var(--text)', fontWeight: 500, marginBottom: '10px' }}>
+                      Tuition Rates & Content Updates
+                    </p>
+                    <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+                      Configure the tuition fee calculator and update homepage copy (such as the Principal's message) in the <strong>Settings</strong> tab. You can also update your security password here.
+                    </p>
+                  </>
+                )}
+
+                {currentTourStep === 6 && (
+                  <>
+                    <p style={{ fontSize: '0.95rem', color: 'var(--text)', fontWeight: 500, marginBottom: '10px' }}>
+                      Full Documentation Available 24/7
+                    </p>
+                    <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+                      If you ever need help later, you can find this detailed user guide anytime on the <strong>Help & Guide</strong> tab in the sidebar.
+                    </p>
+                  </>
+                )}
+              </div>
+
+              {/* Progress Indicator Dots */}
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', margin: '8px 0' }}>
+                {[0, 1, 2, 3, 4, 5, 6].map(i => (
+                  <div
+                    key={i}
+                    style={{
+                      width: '8px',
+                      height: '8px',
+                      borderRadius: '50%',
+                      backgroundColor: currentTourStep === i ? 'var(--secondary)' : '#cbd5e1',
+                      transition: 'background-color 0.25s'
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* Footer Actions */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                borderTop: '1px solid #f1f5f9',
+                paddingTop: '20px',
+                marginTop: '8px'
+              }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+                  <input
+                    type="checkbox"
+                    checked={dontShowAgain}
+                    onChange={(e) => {
+                      const val = e.target.checked;
+                      setDontShowAgain(val);
+                      if (val) {
+                        localStorage.setItem('rosebalc_hide_tutorial_autoplay', 'true');
+                      } else {
+                        localStorage.removeItem('rosebalc_hide_tutorial_autoplay');
+                      }
+                    }}
+                    style={{ accentColor: 'var(--secondary)', width: '15px', height: '15px' }}
+                  />
+                  <span>Don't show on login</span>
+                </label>
+
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  {currentTourStep > 0 ? (
+                    <button
+                      onClick={() => {
+                        const prevStep = currentTourStep - 1;
+                        setCurrentTourStep(prevStep);
+                        if (prevStep === 0) setActiveTab('overview');
+                        if (prevStep === 1) setActiveTab('overview');
+                        if (prevStep === 2) setActiveTab('applications');
+                        if (prevStep === 3) setActiveTab('notices');
+                        if (prevStep === 4) setActiveTab('gallery');
+                        if (prevStep === 5) setActiveTab('settings');
+                        if (prevStep === 6) setActiveTab('guide');
+                      }}
+                      className="btn btn-secondary"
+                      style={{
+                        padding: '8px 16px',
+                        fontSize: '0.85rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        backgroundColor: '#f1f5f9',
+                        color: 'var(--text)',
+                        border: '1px solid #cbd5e1',
+                        borderRadius: 'var(--radius-md)'
+                      }}
+                    >
+                      <ChevronLeft size={14} /> Back
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => setShowTour(false)}
+                      className="btn btn-secondary"
+                      style={{
+                        padding: '8px 16px',
+                        fontSize: '0.85rem',
+                        backgroundColor: 'transparent',
+                        color: 'var(--text-muted)',
+                        border: 'none'
+                      }}
+                    >
+                      Skip Guide
+                    </button>
+                  )}
+
+                  <button
+                    onClick={() => {
+                      const nextStep = currentTourStep + 1;
+                      if (nextStep <= 6) {
+                        setCurrentTourStep(nextStep);
+                        if (nextStep === 1) setActiveTab('overview');
+                        if (nextStep === 2) setActiveTab('applications');
+                        if (nextStep === 3) setActiveTab('notices');
+                        if (nextStep === 4) setActiveTab('gallery');
+                        if (nextStep === 5) setActiveTab('settings');
+                        if (nextStep === 6) setActiveTab('guide');
+                      } else {
+                        setShowTour(false);
+                      }
+                    }}
+                    className="btn btn-primary"
+                    style={{
+                      padding: '8px 18px',
+                      fontSize: '0.85rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      backgroundColor: 'var(--secondary)',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: 'var(--radius-md)'
+                    }}
+                  >
+                    {currentTourStep === 0 && <>Get Started <ChevronRight size={14} /></>}
+                    {currentTourStep > 0 && currentTourStep < 6 && <>Next <ChevronRight size={14} /></>}
+                    {currentTourStep === 6 && <>Finish</>}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

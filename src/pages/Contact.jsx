@@ -92,8 +92,7 @@ export default function Contact() {
                 <div>
                   <h4 style={{ fontSize: '1.1rem', marginBottom: '6px' }}>Phone Numbers</h4>
                   <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.45' }}>
-                    076 423 7821<br />
-                    011 555 6789 (Intake Hub)
+                    076 423 7821
                   </p>
                 </div>
               </div>
@@ -119,8 +118,8 @@ export default function Contact() {
                   <h4 style={{ fontSize: '1.1rem', marginBottom: '6px' }}>Location</h4>
                   <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.5' }}>
                     Rose Breintjies ALC Main Hub<br />
-                    12 Pine Street, Kariega<br />
-                    Eastern Cape, 6229
+                    23 Geelhout Avenue, Gamble<br />
+                    Kariega, 6229
                   </p>
                 </div>
               </div>
@@ -354,7 +353,7 @@ export default function Contact() {
               border: '1px solid var(--border-color)'
             }}>
               <strong>Address:</strong><br />
-              12 Pine Street, Kariega, Eastern Cape.
+              23 Geelhout Avenue, Gamble, Kariega, 6229.
             </div>
           </div>
         </div>

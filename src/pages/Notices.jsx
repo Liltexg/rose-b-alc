@@ -178,7 +178,7 @@ export default function Notices() {
             <div class="lh-right">
               <div><strong>Tel / WhatsApp:</strong> 076 423 7821</div>
               <div><strong>Email:</strong> edwardbreintjies@rosebalc.co.za</div>
-              <div><strong>Address:</strong> Kariega, Eastern Cape, 6229</div>
+              <div><strong>Address:</strong> 23 Geelhout Avenue, Gamble, Kariega 6229</div>
               <div><strong>CIPC Reg No:</strong> 2026/611870/07</div>
               <div><strong>SARS Tax Ref:</strong> 9161805297</div>
             </div>
