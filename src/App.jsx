@@ -157,7 +157,7 @@ export default function App() {
           alignItems: 'center'
         }}>
           <span style={{ textAlign: 'left', lineHeight: '1.5' }}>
-            &copy; {new Date().getFullYear()} Rose Breintjies After School Learning Center. All Rights Reserved.
+            &copy; 2026 Rose Bruintjies After School Learning Center
           </span>
           <button onClick={() => setCurrentPage('terms')} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}>
             Terms &amp; Conditions

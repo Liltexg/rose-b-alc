@@ -409,7 +409,7 @@ export default function ComingSoon() {
           textAlign: 'center'
         }}>
           <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)' }}>
-            &copy; {new Date().getFullYear()} Rose Breintjies After School Learning Centre. All Rights Reserved.
+            &copy; 2026 Rose Bruintjies After School Learning Center
           </span>
         </div>
       </footer>
