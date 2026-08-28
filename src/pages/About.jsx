@@ -56,7 +56,7 @@ export default function About() {
                 lineHeight: '1.85',
                 marginBottom: '20px'
               }}>
-                {content.aboutStory || "Rose Breintjies After School Learning Centre (Rose B ALC) is named in honour of Rose Breintjies, the grandmother who raised our founder Edward and gave him something she never had herself: an education. This centre is his answer to her faith, a place where every learner is given the structure, guidance, and endurance to unlock their full academic potential."}
+                {content.aboutStory || "Rose Breintjies After School Learning Center (Rose B ALC) is named in honour of Rose Breintjies, the grandmother who raised our founder Edward and gave him something she never had herself: an education. This center is his answer to her faith, a place where every learner is given the structure, guidance, and endurance to unlock their full academic potential."}
               </p>
               <p style={{
                 color: 'var(--text-muted)',
@@ -119,7 +119,7 @@ export default function About() {
                 lineHeight: '1.75',
                 color: 'rgba(255,255,255,0.9)'
               }}>
-                "{content.aboutVision || "To become a leading after-school academic support centre that develops confident, knowledgeable, and successful learners."}"
+                "{content.aboutVision || "To become a leading after-school academic support center that develops confident, knowledgeable, and successful learners."}"
               </p>
             </div>
 

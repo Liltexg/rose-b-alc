@@ -138,7 +138,7 @@ export default function ComingSoon() {
         }}>
           <img
             src="/logo.png"
-            alt="Rose Breintjies After School Learning Centre"
+            alt="Rose Breintjies After School Learning Center"
             style={{ height: '100px', objectFit: 'contain' }}
           />
           <h1 style={{
@@ -151,7 +151,7 @@ export default function ComingSoon() {
             margin: 0,
             textAlign: 'center'
           }}>
-            Rose Breintjies After School Learning Centre
+            Rose Breintjies After School Learning Center
           </h1>
         </div>
       </header>

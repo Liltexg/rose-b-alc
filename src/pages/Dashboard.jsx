@@ -1,10 +1,10 @@
-// Powered by OrbXech Design Studio
 import React, { useState, useEffect } from 'react';
 import { db } from '../services/db';
+import { supabase } from '../services/supabaseClient';
 import {
   FileText, Bell, Image, Settings, Users, ArrowRight, Plus,
   Trash2, Edit, Save, Lock, LogOut, CheckCircle, Search,
-  Download, Printer, AlertTriangle, FileSpreadsheet, Mail, X
+  Download, Printer, AlertTriangle, FileSpreadsheet, Mail, X, KeyRound
 } from 'lucide-react';
 
 export default function Dashboard({ setCurrentPage, setIsAdminState }) {
@@ -13,6 +13,20 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
   const [loginLoading, setLoginLoading] = useState(false);
+
+  // Reset & Update Password States
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const [resetEmail, setResetEmail] = useState('');
+  const [resetLoading, setResetLoading] = useState(false);
+  const [resetSuccess, setResetSuccess] = useState('');
+  const [resetError, setResetError] = useState('');
+
+  const [isRecoverySession, setIsRecoverySession] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [updateLoading, setUpdateLoading] = useState(false);
+  const [updateSuccess, setUpdateSuccess] = useState('');
+  const [updateError, setUpdateError] = useState('');
 
   const [activeTab, setActiveTab] = useState('overview');
 
@@ -40,7 +54,7 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
   const [newAlbumName, setNewAlbumName] = useState('');
   const [availableAlbums, setAvailableAlbums] = useState([]);
 
-  // Check current session on load
+  // Check current session on load & password recovery link detection
   useEffect(() => {
     const checkUser = async () => {
       try {
@@ -54,7 +68,69 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
       }
     };
     checkUser();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        setIsRecoverySession(true);
+      }
+    });
+
+    if (window.location.hash && (window.location.hash.includes('type=recovery') || window.location.hash.includes('access_token'))) {
+      setIsRecoverySession(true);
+    }
+
+    return () => {
+      authListener?.subscription?.unsubscribe();
+    };
   }, []);
+
+  // Password reset & update handlers
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    setResetLoading(true);
+    setResetError('');
+    setResetSuccess('');
+    try {
+      await db.resetPassword(resetEmail);
+      setResetSuccess(`Password reset link sent to ${resetEmail}. Please check your email inbox.`);
+    } catch (err) {
+      setResetError(err.message || 'Failed to send password reset email. Please try again.');
+    } finally {
+      setResetLoading(false);
+    }
+  };
+
+  const handleUpdatePassword = async (e) => {
+    e.preventDefault();
+    if (newPassword.length < 6) {
+      setUpdateError('Password must be at least 6 characters long.');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setUpdateError('Passwords do not match.');
+      return;
+    }
+    setUpdateLoading(true);
+    setUpdateError('');
+    setUpdateSuccess('');
+    try {
+      await db.updatePassword(newPassword);
+      setUpdateSuccess('Password updated successfully!');
+      setNewPassword('');
+      setConfirmPassword('');
+      if (isRecoverySession) {
+        setTimeout(() => {
+          setIsRecoverySession(false);
+          setIsAuthenticated(true);
+          setIsAdminState(true);
+        }, 1500);
+      }
+    } catch (err) {
+      setUpdateError(err.message || 'Failed to update password. Please try again.');
+    } finally {
+      setUpdateLoading(false);
+    }
+  };
 
   // Login handler
   const handleLogin = async (e) => {
@@ -137,15 +213,15 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
         body:
           `Dear ${contactName},
 
-We are pleased to inform you that the application submitted for ${name} for the ${prog} programme at Rose B After School Learning Centre has been ACCEPTED.
+We are pleased to inform you that the application submitted for ${name} for the ${prog} programme at Rose B After School Learning Center has been ACCEPTED.
 
 Please contact us to arrange for the necessary paperwork and registration formalities at your earliest convenience.
 
-We look forward to welcoming ${app.learnerName} to our centre and supporting their academic journey.
+We look forward to welcoming ${app.learnerName} to our center and supporting their academic journey.
 
 Warm regards,
 E. Breintjies
-Principal – Rose B After School Learning Centre
+Principal – Rose B After School Learning Center
 edwardbreintjies@rosebalc.co.za`,
       };
     }
@@ -156,7 +232,7 @@ edwardbreintjies@rosebalc.co.za`,
         body:
           `Dear ${contactName},
 
-Thank you for submitting an application for ${name} for the ${prog} programme at Rose B After School Learning Centre.
+Thank you for submitting an application for ${name} for the ${prog} programme at Rose B After School Learning Center.
 
 After careful consideration, we regret to inform you that we are unable to accommodate the application at this time. This may be due to limited availability or programme capacity.
 
@@ -164,7 +240,7 @@ We encourage you to reach out to us for future intake opportunities.
 
 Kind regards,
 E. Breintjies
-Principal – Rose B After School Learning Centre
+Principal – Rose B After School Learning Center
 edwardbreintjies@rosebalc.co.za`,
       };
     }
@@ -175,7 +251,7 @@ edwardbreintjies@rosebalc.co.za`,
       body:
         `Dear ${contactName},
 
-Thank you for applying to Rose B After School Learning Centre on behalf of ${name} for the ${prog} programme.
+Thank you for applying to Rose B After School Learning Center on behalf of ${name} for the ${prog} programme.
 
 We would like to inform you that the application is currently under review. We will be in contact with you shortly with a final decision.
 
@@ -183,7 +259,7 @@ Should you have any queries in the meantime, please feel free to reach out.
 
 Kind regards,
 E. Breintjies
-Principal – Rose B After School Learning Centre
+Principal – Rose B After School Learning Center
 edwardbreintjies@rosebalc.co.za`,
     };
   };
@@ -877,7 +953,148 @@ edwardbreintjies@rosebalc.co.za`,
   };
 
   if (!isAuthenticated) {
-    /* MOCK AUTH LOGIN VIEW */
+    // 1. Recovery mode (User clicked password reset link from email)
+    if (isRecoverySession) {
+      return (
+        <div className="section animated" style={{ minHeight: '60vh', display: 'flex', alignItems: 'center' }}>
+          <div className="container" style={{ maxWidth: '420px' }}>
+            <div className="card" style={{ borderTop: '6px solid var(--secondary)', padding: '40px' }}>
+              <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+                <img
+                  src="/logo.png"
+                  alt="Rose B ALC Logo"
+                  style={{ width: '110px', height: 'auto', objectFit: 'contain', marginBottom: '16px', display: 'block', margin: '0 auto 16px' }}
+                />
+                <h2 style={{ fontSize: '1.6rem' }}>Create New Password</h2>
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '4px' }}>
+                  Enter your new administrator account password.
+                </p>
+              </div>
+
+              {updateSuccess && (
+                <div style={{ backgroundColor: 'rgba(16,185,129,0.1)', border: '1px solid #10b981', color: '#065f46', padding: '10px 14px', borderRadius: 'var(--radius-md)', fontSize: '0.8rem', marginBottom: '16px', fontWeight: 600 }}>
+                  {updateSuccess} Redirecting to portal...
+                </div>
+              )}
+
+              {updateError && (
+                <div style={{ backgroundColor: 'rgba(179,32,37,0.05)', border: '1px solid rgba(179,32,37,0.2)', color: 'var(--secondary)', padding: '10px 14px', borderRadius: 'var(--radius-md)', fontSize: '0.8rem', marginBottom: '16px', fontWeight: 600 }}>
+                  {updateError}
+                </div>
+              )}
+
+              <form onSubmit={handleUpdatePassword}>
+                <div className="form-group" style={{ marginBottom: '16px' }}>
+                  <label className="form-label">New Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="Enter new password (min 6 chars)"
+                    required
+                    minLength={6}
+                  />
+                </div>
+
+                <div className="form-group" style={{ marginBottom: '24px' }}>
+                  <label className="form-label">Confirm New Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Confirm new password"
+                    required
+                    minLength={6}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="btn btn-secondary"
+                  disabled={updateLoading}
+                  style={{ width: '100%', display: 'flex', gap: '6px', justifyContent: 'center', opacity: updateLoading ? 0.7 : 1 }}
+                >
+                  {updateLoading ? 'Updating Password...' : <><span>Set New Password</span> <ArrowRight size={16} /></>}
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // 2. Forgot Password Request Mode
+    if (isForgotPassword) {
+      return (
+        <div className="section animated" style={{ minHeight: '60vh', display: 'flex', alignItems: 'center' }}>
+          <div className="container" style={{ maxWidth: '420px' }}>
+            <div className="card" style={{ borderTop: '6px solid var(--secondary)', padding: '40px' }}>
+              <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+                <img
+                  src="/logo.png"
+                  alt="Rose B ALC Logo"
+                  style={{ width: '110px', height: 'auto', objectFit: 'contain', marginBottom: '16px', display: 'block', margin: '0 auto 16px' }}
+                />
+                <h2 style={{ fontSize: '1.6rem' }}>Reset Password</h2>
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '4px' }}>
+                  Enter your registered admin email address to receive password reset instructions.
+                </p>
+              </div>
+
+              {resetSuccess && (
+                <div style={{ backgroundColor: 'rgba(16,185,129,0.1)', border: '1px solid #10b981', color: '#065f46', padding: '10px 14px', borderRadius: 'var(--radius-md)', fontSize: '0.8rem', marginBottom: '16px', fontWeight: 600 }}>
+                  {resetSuccess}
+                </div>
+              )}
+
+              {resetError && (
+                <div style={{ backgroundColor: 'rgba(179,32,37,0.05)', border: '1px solid rgba(179,32,37,0.2)', color: 'var(--secondary)', padding: '10px 14px', borderRadius: 'var(--radius-md)', fontSize: '0.8rem', marginBottom: '16px', fontWeight: 600 }}>
+                  {resetError}
+                </div>
+              )}
+
+              <form onSubmit={handleResetPassword}>
+                <div className="form-group" style={{ marginBottom: '24px' }}>
+                  <label className="form-label">Admin Email Address</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    value={resetEmail}
+                    onChange={(e) => setResetEmail(e.target.value)}
+                    placeholder="edwardbreintjies@rosebalc.co.za"
+                    required
+                    autoComplete="email"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="btn btn-secondary"
+                  disabled={resetLoading}
+                  style={{ width: '100%', display: 'flex', gap: '6px', justifyContent: 'center', opacity: resetLoading ? 0.7 : 1, marginBottom: '16px' }}
+                >
+                  {resetLoading ? 'Sending Reset Link...' : <><span>Send Password Reset Link</span> <ArrowRight size={16} /></>}
+                </button>
+
+                <div style={{ textAlign: 'center' }}>
+                  <button
+                    type="button"
+                    onClick={() => { setIsForgotPassword(false); setResetError(''); setResetSuccess(''); }}
+                    style={{ background: 'none', border: 'none', color: 'var(--secondary)', fontSize: '0.8rem', cursor: 'pointer', textDecoration: 'underline', fontWeight: 600 }}
+                  >
+                    Back to Staff Portal Login
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // 3. Standard Login View
     return (
       <div className="section animated" style={{ minHeight: '60vh', display: 'flex', alignItems: 'center' }}>
         <div className="container" style={{ maxWidth: '420px' }}>
@@ -923,8 +1140,17 @@ edwardbreintjies@rosebalc.co.za`,
                 />
               </div>
 
-              <div className="form-group" style={{ marginBottom: '24px' }}>
-                <label className="form-label">Password</label>
+              <div className="form-group" style={{ marginBottom: '20px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                  <label className="form-label" style={{ marginBottom: 0 }}>Password</label>
+                  <button
+                    type="button"
+                    onClick={() => { setIsForgotPassword(true); setResetEmail(email); setLoginError(''); }}
+                    style={{ background: 'none', border: 'none', color: 'var(--secondary)', fontSize: '0.75rem', cursor: 'pointer', textDecoration: 'underline' }}
+                  >
+                    Forgot Password?
+                  </button>
+                </div>
                 <input
                   type="password"
                   className="form-control"
@@ -1921,6 +2147,65 @@ edwardbreintjies@rosebalc.co.za`,
                   <Save size={18} /> Save Website Configurations
                 </button>
               </form>
+
+              {/* Password & Security Section */}
+              <div className="card" style={{ padding: '28px', marginTop: '32px' }}>
+                <h3 style={{ fontSize: '1.25rem', marginBottom: '8px', color: 'var(--secondary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <KeyRound size={20} /> Security & Password Management
+                </h3>
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '20px' }}>
+                  Update your staff portal login password.
+                </p>
+
+                {updateSuccess && (
+                  <div style={{ backgroundColor: 'rgba(16,185,129,0.1)', border: '1px solid #10b981', color: '#065f46', padding: '10px 14px', borderRadius: 'var(--radius-md)', fontSize: '0.85rem', marginBottom: '16px', fontWeight: 600 }}>
+                    {updateSuccess}
+                  </div>
+                )}
+
+                {updateError && (
+                  <div style={{ backgroundColor: 'rgba(179,32,37,0.05)', border: '1px solid rgba(179,32,37,0.2)', color: 'var(--secondary)', padding: '10px 14px', borderRadius: 'var(--radius-md)', fontSize: '0.85rem', marginBottom: '16px', fontWeight: 600 }}>
+                    {updateError}
+                  </div>
+                )}
+
+                <form onSubmit={handleUpdatePassword}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="sub-grid-mobile">
+                    <div className="form-group">
+                      <label className="form-label">New Password</label>
+                      <input
+                        type="password"
+                        className="form-control"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        placeholder="At least 6 characters"
+                        required
+                        minLength={6}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Confirm New Password</label>
+                      <input
+                        type="password"
+                        className="form-control"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        placeholder="Repeat new password"
+                        required
+                        minLength={6}
+                      />
+                    </div>
+                  </div>
+                  <button
+                    type="submit"
+                    className="btn btn-secondary"
+                    disabled={updateLoading}
+                    style={{ marginTop: '16px', display: 'flex', gap: '8px', alignItems: 'center' }}
+                  >
+                    <KeyRound size={16} /> {updateLoading ? 'Updating Password...' : 'Update Admin Password'}
+                  </button>
+                </form>
+              </div>
             </div>
           )}
 

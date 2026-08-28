@@ -727,7 +727,7 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn Si
                   gap: '8px'
                 }}>
                   <div>
-                    <div style={{ fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', opacity: 0.7, marginBottom: '4px' }}>Rose Breintjies After School Learning Centre</div>
+                    <div style={{ fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', opacity: 0.7, marginBottom: '4px' }}>Rose Breintjies After School Learning Center</div>
                     <div style={{ fontSize: '1rem', fontWeight: 700, letterSpacing: '0.05em' }}>ENROLMENT AGREEMENT AND CONSENT DECLARATION</div>
                   </div>
                   <div style={{ fontSize: '0.7rem', opacity: 0.6, textAlign: 'right' }}>
@@ -739,7 +739,7 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn Si
                 {/* Preamble */}
                 <div style={{ padding: '24px 28px', borderBottom: '1px solid var(--border-color)', backgroundColor: 'var(--bg-alt)' }}>
                   <p style={{ fontSize: '0.82rem', lineHeight: '1.75', color: 'var(--text-muted)', margin: 0 }}>
-                    This Agreement is entered into between <strong style={{ color: 'var(--text)' }}>Rose Breintjies After School Learning Centre</strong> (hereinafter referred to as "the Centre") and the parent/guardian and/or learner completing this application form (hereinafter referred to as "the Applicant"). By submitting this application, the Applicant agrees to be bound by the terms and conditions set out herein.
+                    This Agreement is entered into between <strong style={{ color: 'var(--text)' }}>Rose Breintjies After School Learning Center</strong> (hereinafter referred to as "the Center") and the parent/guardian and/or learner completing this application form (hereinafter referred to as "the Applicant"). By submitting this application, the Applicant agrees to be bound by the terms and conditions set out herein.
                   </p>
                 </div>
 
@@ -761,7 +761,7 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn Si
                     <div>
                       <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Payment and Billing</div>
                       <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.7', margin: 0 }}>
-                        Tuition fees are due on or before the 1st of each calendar month. The Centre reserves the right to suspend access to sessions in the event that payment is not received within seven (7) days of the due date. A written reminder will be issued before suspension is enacted.
+                        Tuition fees are due on or before the 1st of each calendar month. The Center reserves the right to suspend access to sessions in the event that payment is not received within seven (7) days of the due date. A written reminder will be issued before suspension is enacted.
                       </p>
                     </div>
                   </div>
@@ -771,7 +771,7 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn Si
                     <div>
                       <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Refund Policy</div>
                       <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.7', margin: 0 }}>
-                        All fees paid are non-refundable once a session has commenced. In the event of a documented medical emergency, the Centre may, at its sole discretion, consider a credit carried forward to a future billing period.
+                        All fees paid are non-refundable once a session has commenced. In the event of a documented medical emergency, the Center may, at its sole discretion, consider a credit carried forward to a future billing period.
                       </p>
                     </div>
                   </div>
@@ -781,7 +781,7 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn Si
                     <div>
                       <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Use of Photographic Material</div>
                       <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.7', margin: 0 }}>
-                        The Applicant consents to the Centre capturing and using photographs and/or video recordings of the learner for lawful academic, promotional, and institutional communication purposes, including but not limited to newsletters, the Centre's website, and social media platforms.
+                        The Applicant consents to the Center capturing and using photographs and/or video recordings of the learner for lawful academic, promotional, and institutional communication purposes, including but not limited to newsletters, the Center's website, and social media platforms.
                       </p>
                     </div>
                   </div>

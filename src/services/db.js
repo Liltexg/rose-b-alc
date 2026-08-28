@@ -10,10 +10,10 @@ const DEFAULT_PRICING = {
 };
 
 const DEFAULT_CONTENT = {
-  aboutStory: 'Rose Breintjies After School Learning Centre (Rose B ALC) is named in honour of Rose Breintjies, the grandmother who raised our founder Mr. Edward Breintjies and gave him something she never had herself: an education. It was her love, prayer, and unwavering belief that carried him through hardship, loss, and adversity to graduate with a Bachelor of Education (B.Ed) from Nelson Mandela Metropolitan University. This centre is his answer to her faith, a place where every learner is given the structure, guidance, and endurance to unlock their full academic potential.',
+  aboutStory: 'Rose Breintjies After School Learning Center (Rose B ALC) is named in honour of Rose Breintjies, the grandmother who raised our founder Mr. Edward Breintjies and gave him something she never had herself: an education. It was her love, prayer, and unwavering belief that carried him through hardship, loss, and adversity to graduate with a Bachelor of Education (B.Ed) from Nelson Mandela Metropolitan University. This center is his answer to her faith, a place where every learner is given the structure, guidance, and endurance to unlock their full academic potential.',
   aboutMission: 'To provide quality academic support that empowers every learner to reach their full potential through dedication, discipline, and academic excellence.',
-  aboutVision: 'To become a leading after-school academic support centre that develops confident, knowledgeable, and successful learners.',
-  founderBio: 'Mr. Edward Breintjies graduated with a Bachelor of Education (B.Ed) in Further Education and Training (FET) from Nelson Mandela Metropolitan University. His journey to that graduation stage was anything but easy, marked by loss, perseverance, and an unshakeable belief that endurance is the key to success. With 10 years of classroom teaching experience in Life Sciences and Mathematical Literacy, Edward Breintjies founded Rose B ALC to honour his grandmother Rose, who raised him and gave him the greatest gift she never had herself: an education. Today, that same endurance shapes every lesson taught at this centre.',
+  aboutVision: 'To become a leading after-school academic support center that develops confident, knowledgeable, and successful learners.',
+  founderBio: 'Mr. Edward Breintjies graduated with a Bachelor of Education (B.Ed) in Further Education and Training (FET) from Nelson Mandela Metropolitan University. His journey to that graduation stage was anything but easy, marked by loss, perseverance, and an unshakeable belief that endurance is the key to success. With 10 years of classroom teaching experience in Life Sciences and Mathematical Literacy, Edward Breintjies founded Rose B ALC to honour his grandmother Rose, who raised him and gave him the greatest gift she never had herself: an education. Today, that same endurance shapes every lesson taught at this center.',
   founderQualifications: [
     'Bachelor of Education (B.Ed) - FET Specialization',
     '10 Years Classroom Teaching Experience',
@@ -176,5 +176,19 @@ export const db = {
   getCurrentUser: async () => {
     const { data: { user } } = await supabase.auth.getUser();
     return user;
+  },
+
+  resetPassword: async (email) => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin
+    });
+    if (error) throw error;
+    return true;
+  },
+
+  updatePassword: async (newPassword) => {
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    if (error) throw error;
+    return true;
   }
 };

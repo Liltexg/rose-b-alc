@@ -77,7 +77,7 @@ export default function Gallery() {
             display: 'block',
             marginBottom: '6px'
           }}>Visual Album</span>
-          <h1 style={{ fontSize: '2.8rem', margin: 0, color: 'var(--primary)' }}>Centre Gallery</h1>
+          <h1 style={{ fontSize: '2.8rem', margin: 0, color: 'var(--primary)' }}>Center Gallery</h1>
           <div style={{ width: '40px', height: '2px', backgroundColor: 'var(--secondary)', margin: '12px auto 0' }}></div>
         </div>
       </section>
