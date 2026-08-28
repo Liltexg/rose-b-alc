@@ -49,6 +49,9 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
   // Email modal states
   const [emailModal, setEmailModal] = useState(null); // null = closed, or { app, subject, body }
 
+  // Preview letterhead modal state
+  const [previewModal, setPreviewModal] = useState(null); // null = closed, or { type: 'app'|'notice', data }
+
   // Gallery states
   const [galleryForm, setGalleryForm] = useState({ album: 'Academic Support', url: '', caption: '' });
   const [newAlbumName, setNewAlbumName] = useState('');
@@ -1765,6 +1768,13 @@ edwardbreintjies@rosebalc.co.za`,
                     {/* Actions Row */}
                     <div style={{ display: 'flex', gap: '10px', borderTop: '1px solid var(--border-color)', paddingTop: '16px', flexWrap: 'wrap' }}>
                       <button
+                        className="btn btn-outline"
+                        style={{ padding: '8px 16px', fontSize: '0.82rem', flexGrow: 1, display: 'flex', gap: '6px', justifyContent: 'center', alignItems: 'center' }}
+                        onClick={() => setPreviewModal({ type: 'app', data: selectedApp })}
+                      >
+                        <FileText size={14} /> Preview Letterhead
+                      </button>
+                      <button
                         className="btn btn-primary"
                         style={{ padding: '8px 16px', fontSize: '0.82rem', flexGrow: 1, display: 'flex', gap: '6px', justifyContent: 'center' }}
                         onClick={() => printApp(selectedApp)}
@@ -1910,6 +1920,217 @@ edwardbreintjies@rosebalc.co.za`,
             </div>
           )}
 
+          {/* ================= PREVIEW LETTERHEAD MODAL ================= */}
+          {previewModal && (
+            <div style={{
+              position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+              zIndex: 99999, backgroundColor: 'rgba(15, 17, 21, 0.85)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              backdropFilter: 'blur(6px)', padding: '20px'
+            }} onClick={() => setPreviewModal(null)}>
+              <div className="animated" style={{
+                background: '#f8fafc', borderRadius: '16px',
+                width: '100%', maxWidth: '860px', maxHeight: '92vh',
+                overflowY: 'auto', boxShadow: '0 25px 70px rgba(0,0,0,0.5)',
+                border: '1px solid rgba(255,255,255,0.2)',
+                display: 'flex', flexDirection: 'column'
+              }} onClick={(e) => e.stopPropagation()}>
+                {/* Modal Top Control Bar */}
+                <div style={{
+                  padding: '16px 24px',
+                  backgroundColor: '#0f172a', color: '#fff',
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  position: 'sticky', top: 0, zIndex: 10
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <FileText size={18} color="var(--accent)" />
+                    <span style={{ fontWeight: 700, fontSize: '0.95rem', letterSpacing: '0.5px' }}>
+                      Official Corporate Letterhead Preview
+                    </span>
+                  </div>
+                  <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                    <button
+                      className="btn btn-secondary"
+                      style={{ padding: '6px 14px', fontSize: '0.8rem', display: 'flex', gap: '6px', alignItems: 'center' }}
+                      onClick={() => {
+                        if (previewModal.type === 'app') printApp(previewModal.data);
+                        else printNotice(previewModal.data);
+                      }}
+                    >
+                      <Printer size={14} /> Print Document
+                    </button>
+                    <button
+                      onClick={() => setPreviewModal(null)}
+                      style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '4px' }}
+                    >
+                      <X size={22} />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Printable Sheet Simulation */}
+                <div style={{ padding: '32px 24px', flexGrow: 1, backgroundColor: '#cbd5e1' }}>
+                  <div style={{
+                    backgroundColor: '#ffffff',
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
+                    padding: '40px',
+                    maxWidth: '750px',
+                    margin: '0 auto',
+                    borderRadius: '2px',
+                    color: '#1a1a1a',
+                    fontFamily: "'Inter', sans-serif"
+                  }}>
+                    {/* Top Bar Accent */}
+                    <div style={{
+                      height: '6px',
+                      background: 'linear-gradient(90deg, #7A1C20 0%, #7A1C20 70%, #D4AF37 70%, #D4AF37 100%)',
+                      marginBottom: '20px'
+                    }}></div>
+
+                    {/* Letterhead Header */}
+                    <div style={{
+                      display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
+                      borderBottom: '2px solid #7A1C20', paddingBottom: '16px', marginBottom: '24px'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                        <img src="/logo.png" alt="Rose B ALC" style={{ width: '75px', height: '75px', objectFit: 'contain' }} />
+                        <div>
+                          <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.4rem', fontWeight: 700, color: '#7A1C20', margin: 0, textTransform: 'uppercase' }}>
+                            Rose Bruintjies After School Learning Center
+                          </h1>
+                          <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#555', textTransform: 'uppercase', letterSpacing: '1px', marginTop: '2px' }}>
+                            CAPS-Aligned Life Sciences & Academic Upgrade Center
+                          </div>
+                          <div style={{ fontSize: '0.72rem', color: '#333', marginTop: '2px' }}>
+                            <strong>Founder & Director:</strong> Mr. Edward Breintjies (B.Ed FET)
+                          </div>
+                        </div>
+                      </div>
+                      <div style={{ textAlign: 'right', fontSize: '0.72rem', color: '#444', lineHeight: 1.5, borderLeft: '2px solid #D4AF37', paddingLeft: '12px' }}>
+                        <div><strong style={{ color: '#7A1C20' }}>Tel / WhatsApp:</strong> 076 423 7821</div>
+                        <div><strong style={{ color: '#7A1C20' }}>Email:</strong> edwardbreintjies@rosebalc.co.za</div>
+                        <div><strong style={{ color: '#7A1C20' }}>Location:</strong> Kariega, Eastern Cape</div>
+                        <div><strong style={{ color: '#7A1C20' }}>CIPC Reg:</strong> 2026/611870/07</div>
+                        <div><strong style={{ color: '#7A1C20' }}>SARS TAX Ref:</strong> 9161805297</div>
+                      </div>
+                    </div>
+
+                    {/* Dynamic Content: App vs Notice */}
+                    {previewModal.type === 'app' ? (
+                      <>
+                        {/* App Meta */}
+                        <div style={{
+                          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                          backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderLeft: '4px solid #7A1C20',
+                          padding: '10px 16px', borderRadius: '4px', marginBottom: '24px'
+                        }}>
+                          <div>
+                            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.15rem', fontWeight: 700, color: '#7A1C20', margin: 0, textTransform: 'uppercase' }}>
+                              Official Student Application Record
+                            </h2>
+                            <div style={{ fontSize: '0.72rem', color: '#64748b', marginTop: '2px' }}>
+                              Ref ID: <strong style={{ fontFamily: 'monospace', color: '#0f172a' }}>{previewModal.data.id}</strong> | Date: <strong>{new Date(previewModal.data.dateSubmitted).toLocaleString('en-ZA')}</strong>
+                            </div>
+                          </div>
+                          <div>
+                            <span style={{
+                              padding: '4px 12px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', border: '1.5px solid',
+                              backgroundColor: previewModal.data.status === 'Accepted' || previewModal.data.status === 'Approved' ? '#dcfce7' : previewModal.data.status === 'Rejected' ? '#fee2e2' : '#fef3c7',
+                              color: previewModal.data.status === 'Accepted' || previewModal.data.status === 'Approved' ? '#15803d' : previewModal.data.status === 'Rejected' ? '#b91c1c' : '#b45309',
+                              borderColor: previewModal.data.status === 'Accepted' || previewModal.data.status === 'Approved' ? '#15803d' : previewModal.data.status === 'Rejected' ? '#b91c1c' : '#b45309'
+                            }}>{previewModal.data.status}</span>
+                          </div>
+                        </div>
+
+                        {/* Candidate Info */}
+                        <h3 style={{ borderBottom: '1.5px solid #7A1C20', paddingBottom: '4px', marginTop: '20px', marginBottom: '10px', color: '#7A1C20', fontSize: '0.95rem', fontFamily: "'Cormorant Garamond', serif", textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700 }}>Candidate Details</h3>
+                        <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', borderBottom: '1px dashed #e2e8f0', padding: '6px 0', fontSize: '0.85rem' }}><span style={{ fontWeight: 600, color: '#64748b', textTransform: 'uppercase', fontSize: '0.72rem' }}>Candidate Name</span><span style={{ fontWeight: 600, color: '#0f172a' }}>{previewModal.data.learnerName} {previewModal.data.learnerSurname}</span></div>
+                        <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', borderBottom: '1px dashed #e2e8f0', padding: '6px 0', fontSize: '0.85rem' }}><span style={{ fontWeight: 600, color: '#64748b', textTransform: 'uppercase', fontSize: '0.72rem' }}>Programme</span><span style={{ fontWeight: 600, color: '#0f172a' }}>{previewModal.data.programme}</span></div>
+                        <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', borderBottom: '1px dashed #e2e8f0', padding: '6px 0', fontSize: '0.85rem' }}><span style={{ fontWeight: 600, color: '#64748b', textTransform: 'uppercase', fontSize: '0.72rem' }}>Grade Level</span><span style={{ fontWeight: 600, color: '#0f172a' }}>{previewModal.data.learnerGrade}</span></div>
+                        <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', borderBottom: '1px dashed #e2e8f0', padding: '6px 0', fontSize: '0.85rem' }}><span style={{ fontWeight: 600, color: '#64748b', textTransform: 'uppercase', fontSize: '0.72rem' }}>Subjects</span><span style={{ fontWeight: 600, color: '#0f172a' }}>{Array.isArray(previewModal.data.learnerSubjects) ? previewModal.data.learnerSubjects.join(' • ') : previewModal.data.learnerSubjects}</span></div>
+
+                        {previewModal.data.programme === 'Grade 12' ? (
+                          <>
+                            <h3 style={{ borderBottom: '1.5px solid #7A1C20', paddingBottom: '4px', marginTop: '20px', marginBottom: '10px', color: '#7A1C20', fontSize: '0.95rem', fontFamily: "'Cormorant Garamond', serif", textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700 }}>Parent / Guardian Information</h3>
+                            <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', borderBottom: '1px dashed #e2e8f0', padding: '6px 0', fontSize: '0.85rem' }}><span style={{ fontWeight: 600, color: '#64748b', textTransform: 'uppercase', fontSize: '0.72rem' }}>Parent Name</span><span style={{ fontWeight: 600, color: '#0f172a' }}>{previewModal.data.parentName} {previewModal.data.parentSurname}</span></div>
+                            <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', borderBottom: '1px dashed #e2e8f0', padding: '6px 0', fontSize: '0.85rem' }}><span style={{ fontWeight: 600, color: '#64748b', textTransform: 'uppercase', fontSize: '0.72rem' }}>Contact</span><span style={{ fontWeight: 600, color: '#0f172a' }}>{previewModal.data.parentContact}</span></div>
+                            <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', borderBottom: '1px dashed #e2e8f0', padding: '6px 0', fontSize: '0.85rem' }}><span style={{ fontWeight: 600, color: '#64748b', textTransform: 'uppercase', fontSize: '0.72rem' }}>Email</span><span style={{ fontWeight: 600, color: '#0f172a' }}>{previewModal.data.parentEmail || 'N/A'}</span></div>
+                            <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', borderBottom: '1px dashed #e2e8f0', padding: '6px 0', fontSize: '0.85rem' }}><span style={{ fontWeight: 600, color: '#64748b', textTransform: 'uppercase', fontSize: '0.72rem' }}>Address</span><span style={{ fontWeight: 600, color: '#0f172a' }}>{previewModal.data.parentAddress}</span></div>
+                          </>
+                        ) : null}
+
+                        {/* Stamp box */}
+                        <div style={{
+                          width: '300px', border: '4px double #5a5a5a', padding: '8px',
+                          fontFamily: '"Courier New", Courier, monospace', color: '#3a3a3a',
+                          textAlign: 'center', margin: '24px auto 0'
+                        }}>
+                          <div style={{ fontSize: '11px', fontWeight: 'bold', color: '#222' }}>ROSE BRUINTJIES AFTER SCHOOL LEARNING CENTER</div>
+                          <div style={{ borderTop: '1px solid #888', margin: '5px auto', width: '85%' }}></div>
+                          <div style={{ fontSize: '18px', fontWeight: 'bold', letterSpacing: '3px', color: '#7A1C20', margin: '4px 0' }}>V E R I F I E D</div>
+                          <div style={{ fontSize: '10px', color: '#555' }}>{new Date().toLocaleDateString('en-ZA', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                          <div style={{ borderTop: '1px solid #888', margin: '5px auto', width: '85%' }}></div>
+                          <div style={{ fontSize: '8.5px', color: '#666' }}>CIPC: 2026/611870/07 | SARS TAX: 9161805297<br/>AUTHORISED ELECTRONIC RECORD</div>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        {/* Notice Meta */}
+                        <div style={{
+                          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                          backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderLeft: '4px solid #D4AF37',
+                          padding: '10px 16px', marginBottom: '24px', fontSize: '0.82rem'
+                        }}>
+                          <div><strong>OFFICIAL NOTICE</strong> | Category: <strong>{previewModal.data.category || 'General'}</strong></div>
+                          <div>Date: <strong>{new Date(previewModal.data.date).toLocaleDateString('en-ZA', { year: 'numeric', month: 'long', day: 'numeric' })}</strong></div>
+                        </div>
+
+                        <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.6rem', fontWeight: 700, color: '#7A1C20', marginBottom: '16px', textTransform: 'uppercase', borderBottom: '1px solid #e2e8f0', paddingBottom: '8px' }}>
+                          {previewModal.data.title}
+                        </h2>
+
+                        <div style={{ fontSize: '0.95rem', lineHeight: '1.8', color: '#334155', whiteSpace: 'pre-line', minHeight: '220px', marginBottom: '30px' }}>
+                          {previewModal.data.body}
+                        </div>
+
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', borderTop: '1px dashed #cbd5e1', paddingTop: '16px' }}>
+                          <div>
+                            <div style={{ fontSize: '0.72rem', color: '#64748b', textTransform: 'uppercase' }}>Authorised Signatory</div>
+                            <div style={{ fontWeight: 700, fontSize: '1rem', color: '#0f172a', marginTop: '2px' }}>{previewModal.data.author}</div>
+                            <div style={{ fontSize: '0.75rem', color: '#7A1C20' }}>Rose Bruintjies After School Learning Center</div>
+                          </div>
+                          <div style={{ textAlign: 'right', fontSize: '0.72rem', color: '#64748b' }}>
+                            Official Notice Document<br/>Verified Broadcast
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+                    {/* Letterhead Footer */}
+                    <div style={{
+                      marginTop: '32px', borderTop: '2px solid #7A1C20', paddingTop: '10px',
+                      fontSize: '0.68rem', color: '#64748b', display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+                    }}>
+                      <div>
+                        <strong>Rose Bruintjies After School Learning Center (Pty) Ltd</strong><br/>
+                        CIPC Reg No: 2026/611870/07 | SARS Tax Ref: 9161805297
+                      </div>
+                      <div style={{ textAlign: 'center' }}>
+                        Kariega, Eastern Cape<br/>
+                        Tel / WhatsApp: 076 423 7821
+                      </div>
+                      <div style={{ textAlign: 'right' }}>
+                        Confidential Academic Document<br/>
+                        Official System Record
+                      </div>
+                    </div>
+                    <div style={{ height: '4px', background: '#7A1C20', marginTop: '6px' }}></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* ================= TAB 3: NOTICES EDITOR ================= */}
           {activeTab === 'notices' && (
             <div className="animated">
@@ -2021,6 +2242,13 @@ edwardbreintjies@rosebalc.co.za`,
                         </div>
 
                         <div style={{ display: 'flex', gap: '8px' }}>
+                          <button
+                            onClick={() => setPreviewModal({ type: 'notice', data: notice })}
+                            style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--secondary)' }}
+                            title="Preview Letterhead Document"
+                          >
+                            <FileText size={16} />
+                          </button>
                           <button
                             onClick={() => printNotice(notice)}
                             style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text)' }}
