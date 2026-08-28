@@ -6,12 +6,12 @@ const WhatsAppIcon = ({ size = 24 }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 48 48">
     <defs>
       <linearGradient id="wa-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#25D366"/>
-        <stop offset="100%" stopColor="#128C7E"/>
+        <stop offset="0%" stopColor="#25D366" />
+        <stop offset="100%" stopColor="#128C7E" />
       </linearGradient>
     </defs>
-    <rect width="48" height="48" rx="10" fill="url(#wa-grad)"/>
-    <path fill="#fff" d="M24 9.6A14.37 14.37 0 0 0 9.6 24c0 2.53.66 4.99 1.91 7.16L9.6 38.4l7.45-1.88A14.4 14.4 0 1 0 24 9.6Zm0 26.28a11.88 11.88 0 0 1-6.05-1.65l-.44-.26-4.42 1.12 1.16-4.28-.29-.46A11.88 11.88 0 1 1 24 35.88Zm6.52-8.89c-.36-.18-2.1-1.03-2.43-1.15-.33-.12-.57-.18-.81.18-.24.36-.93 1.15-1.14 1.39-.21.24-.42.27-.78.09-.36-.18-1.51-.55-2.87-1.76-1.06-.94-1.77-2.1-1.98-2.46-.21-.36-.02-.55.16-.73.16-.16.36-.42.54-.63.18-.21.24-.36.36-.6.12-.24.06-.45-.03-.63-.09-.18-.81-1.94-1.11-2.66-.29-.7-.59-.6-.81-.61h-.69c-.24 0-.63.09-.96.45-.33.36-1.26 1.23-1.26 3s1.29 3.48 1.47 3.72c.18.24 2.54 3.87 6.15 5.43.86.37 1.53.59 2.05.75.86.27 1.64.23 2.26.14.69-.1 2.1-.86 2.4-1.69.3-.83.3-1.54.21-1.69-.09-.15-.33-.24-.69-.42Z"/>
+    <rect width="48" height="48" rx="10" fill="url(#wa-grad)" />
+    <path fill="#fff" d="M24 9.6A14.37 14.37 0 0 0 9.6 24c0 2.53.66 4.99 1.91 7.16L9.6 38.4l7.45-1.88A14.4 14.4 0 1 0 24 9.6Zm0 26.28a11.88 11.88 0 0 1-6.05-1.65l-.44-.26-4.42 1.12 1.16-4.28-.29-.46A11.88 11.88 0 1 1 24 35.88Zm6.52-8.89c-.36-.18-2.1-1.03-2.43-1.15-.33-.12-.57-.18-.81.18-.24.36-.93 1.15-1.14 1.39-.21.24-.42.27-.78.09-.36-.18-1.51-.55-2.87-1.76-1.06-.94-1.77-2.1-1.98-2.46-.21-.36-.02-.55.16-.73.16-.16.36-.42.54-.63.18-.21.24-.36.36-.6.12-.24.06-.45-.03-.63-.09-.18-.81-1.94-1.11-2.66-.29-.7-.59-.6-.81-.61h-.69c-.24 0-.63.09-.96.45-.33.36-1.26 1.23-1.26 3s1.29 3.48 1.47 3.72c.18.24 2.54 3.87 6.15 5.43.86.37 1.53.59 2.05.75.86.27 1.64.23 2.26.14.69-.1 2.1-.86 2.4-1.69.3-.83.3-1.54.21-1.69-.09-.15-.33-.24-.69-.42Z" />
   </svg>
 );
 
@@ -29,32 +29,8 @@ export default function ComingSoon() {
   const [error, setError] = useState('');
   const [mounted, setMounted] = useState(false);
 
-  // Web Launch Countdown Timer (Target: November 1, 2026 SAST)
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-
   useEffect(() => {
     setMounted(true);
-
-    const LAUNCH_DATE = new Date('2026-11-01T08:00:00+02:00').getTime();
-    const updateCountdown = () => {
-      const now = new Date().getTime();
-      const diff = LAUNCH_DATE - now;
-
-      if (diff > 0) {
-        setTimeLeft({
-          days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((diff / 1000 / 60) % 60),
-          seconds: Math.floor((diff / 1000) % 60)
-        });
-      } else {
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-      }
-    };
-
-    updateCountdown();
-    const timer = setInterval(updateCountdown, 1000);
-    return () => clearInterval(timer);
   }, []);
 
   const inputStyle = {
@@ -98,7 +74,7 @@ export default function ComingSoon() {
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
           access_key: WEB3FORMS_KEY,
-          subject: 'New Early Submission — Rose B ALC',
+          subject: 'New Early Submission Ã¢â‚¬â€ Rose B ALC',
           name: `${firstName.trim()} ${lastName.trim()}`,
           email: email.trim(),
           message: `Parent Name: ${firstName.trim()} ${lastName.trim()}\nEmail: ${email.trim()}\nPhone: ${phone.trim()}\nLearner Name: ${learnerName.trim()}\nProgramme: ${grade}\nSource: Coming Soon early submission`
@@ -160,9 +136,9 @@ export default function ComingSoon() {
           alignItems: 'center',
           gap: '16px'
         }}>
-          <img 
-            src="/logo.png" 
-            alt="Rose Bruintjies After School Learning Centre" 
+          <img
+            src="/logo.png"
+            alt="Rose Bruintjies After School Learning Centre"
             style={{ height: '100px', objectFit: 'contain' }}
           />
           <h1 style={{
@@ -190,7 +166,7 @@ export default function ComingSoon() {
         backgroundColor: 'var(--bg-alt, #F5F5F5)'
       }}>
         <div style={{
-          maxWidth: '750px',
+          maxWidth: '700px',
           width: '100%',
           textAlign: 'center'
         }}>
@@ -199,88 +175,29 @@ export default function ComingSoon() {
             fontSize: '3rem',
             color: 'var(--primary, #4A4A4A)',
             fontWeight: 500,
-            marginBottom: '16px',
+            marginBottom: '24px',
             lineHeight: 1.2,
             opacity: mounted ? 1 : 0,
             filter: mounted ? 'blur(0)' : 'blur(10px)',
             transform: mounted ? 'translateY(0)' : 'translateY(30px)',
             transition: 'all 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s'
           }}>
-            Official Portal Launching Soon
+            Website Launching Soon
           </h2>
-          
+
           <p style={{
             fontSize: '1.1rem',
             lineHeight: 1.6,
             color: 'var(--text-muted, #6E7377)',
-            marginBottom: '40px',
+            marginBottom: '64px',
             opacity: mounted ? 1 : 0,
             transform: mounted ? 'translateY(0)' : 'translateY(20px)',
             transition: 'all 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.9s'
           }}>
-            We are currently finalising our comprehensive online academic portal. The new platform will feature online admissions, ATP curriculum resources, and candidate progress tracking.
+            We are currently developing a comprehensive online platform to support our
+            academic programs. The new portal will feature streamlined admissions
+            and detailed program information.
           </p>
-
-          {/* Web Launch Countdown Timer */}
-          <div style={{
-            backgroundColor: '#7A1C20',
-            color: '#FFFFFF',
-            borderRadius: 'var(--radius-md, 8px)',
-            padding: '32px 24px',
-            marginBottom: '48px',
-            boxShadow: '0 12px 30px rgba(122, 28, 32, 0.25)',
-            opacity: mounted ? 1 : 0,
-            transform: mounted ? 'translateY(0)' : 'translateY(20px)',
-            transition: 'all 1.6s cubic-bezier(0.2, 0.8, 0.2, 1) 1.0s'
-          }}>
-            <span style={{
-              display: 'inline-block',
-              fontSize: '0.75rem',
-              fontWeight: 700,
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              color: '#F4C542',
-              marginBottom: '16px'
-            }}>
-              [ Web Portal Official Launch Countdown ]
-            </span>
-
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(4, 1fr)',
-              gap: '16px',
-              maxWidth: '540px',
-              margin: '0 auto'
-            }}>
-              <div style={{ backgroundColor: 'rgba(0,0,0,0.25)', padding: '16px 8px', borderRadius: '6px', border: '1px solid rgba(244,197,66,0.3)' }}>
-                <span style={{ display: 'block', fontSize: '2.2rem', fontWeight: 700, color: '#F4C542', fontFamily: 'var(--font-heading, "Cormorant Garamond")' }}>
-                  {String(timeLeft.days).padStart(2, '0')}
-                </span>
-                <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', opacity: 0.8, letterSpacing: '0.05em' }}>Days</span>
-              </div>
-
-              <div style={{ backgroundColor: 'rgba(0,0,0,0.25)', padding: '16px 8px', borderRadius: '6px', border: '1px solid rgba(244,197,66,0.3)' }}>
-                <span style={{ display: 'block', fontSize: '2.2rem', fontWeight: 700, color: '#FFFFFF', fontFamily: 'var(--font-heading, "Cormorant Garamond")' }}>
-                  {String(timeLeft.hours).padStart(2, '0')}
-                </span>
-                <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', opacity: 0.8, letterSpacing: '0.05em' }}>Hours</span>
-              </div>
-
-              <div style={{ backgroundColor: 'rgba(0,0,0,0.25)', padding: '16px 8px', borderRadius: '6px', border: '1px solid rgba(244,197,66,0.3)' }}>
-                <span style={{ display: 'block', fontSize: '2.2rem', fontWeight: 700, color: '#FFFFFF', fontFamily: 'var(--font-heading, "Cormorant Garamond")' }}>
-                  {String(timeLeft.minutes).padStart(2, '0')}
-                </span>
-                <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', opacity: 0.8, letterSpacing: '0.05em' }}>Minutes</span>
-              </div>
-
-              <div style={{ backgroundColor: 'rgba(0,0,0,0.25)', padding: '16px 8px', borderRadius: '6px', border: '1px solid rgba(244,197,66,0.3)' }}>
-                <span style={{ display: 'block', fontSize: '2.2rem', fontWeight: 700, color: '#F4C542', fontFamily: 'var(--font-heading, "Cormorant Garamond")' }}>
-                  {String(timeLeft.seconds).padStart(2, '0')}
-                </span>
-                <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', opacity: 0.8, letterSpacing: '0.05em' }}>Seconds</span>
-              </div>
-            </div>
-          </div>
 
           {/* Subscription Form with Cinematic Shadows */}
           <div style={{
@@ -423,7 +340,7 @@ export default function ComingSoon() {
         </div>
       </main>
 
-      {/* Formal Footer with CIPC Registration & SARS Tax Compliance */}
+      {/* Formal Footer with cinematic slide-up */}
       <footer style={{
         backgroundColor: 'var(--primary, #4A4A4A)',
         color: '#FFFFFF',
@@ -437,7 +354,7 @@ export default function ComingSoon() {
           maxWidth: '1000px',
           margin: '0 auto',
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
           gap: '40px'
         }}>
           <div>
@@ -456,14 +373,13 @@ export default function ComingSoon() {
                 <PhoneCall size={16} /> <strong>Telephone:</strong> <a href="tel:0764237821" style={{ color: 'inherit', textDecoration: 'none' }}>076 423 7821</a>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <WhatsAppIcon size={16} /> <strong>WhatsApp:</strong> <a href="https://wa.me/27764237821?text=Hi%20Mr.%20Breintjies,%20I%20would%20like%20to%20inquire%20about%20the%20after-school%20programmes%20at%20Rose%20B%20ALC." target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none', transition: 'color 0.3s' }} onMouseOver={(e) => e.target.style.color = '#25D366'} onMouseOut={(e) => e.target.style.color = 'inherit'}>076 423 7821</a>
+                <WhatsAppIcon size={16} /> <strong>WhatsApp:</strong> <a href="https://wa.me/27764237821?text=Hi%20Mr.%20Bruintjies,%20I%20would%20like%20to%20inquire%20about%20the%20after-school%20programmes%20at%20Rose%20B%20ALC." target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none', transition: 'color 0.3s' }} onMouseOver={(e) => e.target.style.color = '#25D366'} onMouseOut={(e) => e.target.style.color = 'inherit'}>076 423 7821</a>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Mail size={16} /> <strong>Email:</strong> <a href="mailto:edwardbreintjies@rosebalc.co.za" style={{ color: 'inherit', textDecoration: 'none' }}>edwardbreintjies@rosebalc.co.za</a>
               </li>
             </ul>
           </div>
-
           <div>
             <h4 style={{
               fontFamily: 'var(--font-heading, "Cormorant Garamond", serif)',
@@ -473,34 +389,27 @@ export default function ComingSoon() {
               textTransform: 'uppercase',
               letterSpacing: '0.05em'
             }}>
-              Corporate &amp; Tax Compliance
+              Operating Hours
             </h4>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '0.85rem', lineHeight: 1.7, color: 'rgba(255,255,255,0.8)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <li><strong>Enterprise:</strong> Rose Bruintjies After School Learning Center (Pty) Ltd</li>
-              <li><strong>CIPC Registration No:</strong> 2026 / 611870 / 07</li>
-              <li><strong>SARS TAX Ref:</strong> 9161805297 <span style={{ color: '#86EFAC', fontWeight: 600 }}>(Tax Compliant &amp; In Good Standing)</span></li>
-              <li><strong>Registered Director:</strong> Edward Darryl Breintjies</li>
-              <li><strong>Registered Office:</strong> 23 Geelhout Avenue, Thomas Gamble, Kariega, Eastern Cape, 6229</li>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '0.9rem', lineHeight: 1.8, color: 'rgba(255,255,255,0.8)' }}>
+              <li>Saturday &ndash; Sunday</li>
             </ul>
           </div>
         </div>
-        
+
         <div style={{
           maxWidth: '1000px',
-          margin: '40px auto 0',
+          margin: '60px auto 0',
           paddingTop: '24px',
           borderTop: '1px solid rgba(255,255,255,0.1)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '8px',
+          gap: '12px',
           textAlign: 'center'
         }}>
-          <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)' }}>
-            &copy; {new Date().getFullYear()} Rose Bruintjies After School Learning Center (Pty) Ltd. All Rights Reserved.
-          </span>
-          <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)' }}>
-            Registered Private Company • CIPC Reg: 2026/611870/07 • SARS Tax Ref: 9161805297
+          <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)' }}>
+            &copy; {new Date().getFullYear()} Rose Bruintjies After School Learning Centre. All Rights Reserved.
           </span>
         </div>
       </footer>
@@ -515,9 +424,9 @@ export default function ComingSoon() {
         gap: '10px',
         zIndex: 9999
       }}>
-        <a 
-          href="https://wa.me/27764237821?text=Hi%20Mr.%20Breintjies,%20I%20would%20like%20to%20inquire%20about%20the%20after-school%20programmes%20at%20Rose%20B%20ALC." 
-          target="_blank" 
+        <a
+          href="https://wa.me/27764237821?text=Hi%20Mr.%20Bruintjies,%20I%20would%20like%20to%20inquire%20about%20the%20after-school%20programmes%20at%20Rose%20B%20ALC."
+          target="_blank"
           rel="noopener noreferrer"
           className="fab-btn"
           style={{
@@ -538,6 +447,9 @@ export default function ComingSoon() {
             e.currentTarget.style.transform = 'translateY(0)';
             e.currentTarget.style.boxShadow = '0 4px 14px rgba(37, 211, 102, 0.3)';
           }}
+          title="Chat on WhatsApp"
+        >
+          <WhatsAppIcon size={52} />
         </a>
       </div>
 

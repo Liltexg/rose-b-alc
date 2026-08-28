@@ -2,26 +2,35 @@ import React, { useState, useRef, useEffect } from 'react';
 import { db } from '../services/db';
 import { AlertCircle, CheckCircle, ArrowRight, RotateCcw, FileSignature } from 'lucide-react';
 
-import easternCapeSchools from '../data/easternCapeSchools.json';
-
 const WEB3FORMS_KEY = '068cd66b-3f71-4347-9986-fedf727330aa';
 
-const NATIONAL_EXTRA_SCHOOLS = [
+const SA_HIGH_SCHOOLS = [
+  "Kariega High School (Uitenhage)",
+  "Muir College Boys' High School (Kariega)",
+  "Riebeek College Girls' High School (Kariega)",
+  "Hoërskool Brandwag (Kariega)",
+  "Daniel Pienaar Technical High School (Kariega)",
+  "Limekhaya High School (Kariega)",
+  "Solomon Mahlangu High School (Kariega)",
+  "McCarthy Rasmen High School (Kariega)",
+  "Phakamisa High School (Kariega)",
+  "Alexander Road High School (Gqeberha)",
+  "Grey High School (Gqeberha)",
+  "Collegiate Girls' High School (Gqeberha)",
+  "Pearson High School (Gqeberha)",
+  "Theodor Herzl High School (Gqeberha)",
+  "Lawson Brown High School (Gqeberha)",
+  "Victoria Park High School (Gqeberha)",
+  "Paterson High School (Gqeberha)",
   "Spine Road High School (Mitchells Plain)",
   "Lentegeur High School (Mitchells Plain)",
   "Rocklands High School (Mitchells Plain)",
   "Glendale Secondary School (Mitchells Plain)",
   "Hoërskool Jan van Riebeeck (Cape Town)",
   "Rondebosch Boys' High School (Cape Town)",
-  "Wynberg Boys' High School (Cape Town)"
-];
-
-// Combine Master List dataset + National High Schools
-const SA_HIGH_SCHOOLS = Array.from(new Set([
-  ...easternCapeSchools,
-  ...NATIONAL_EXTRA_SCHOOLS,
+  "Wynberg Boys' High School (Cape Town)",
   "Other (Specify Below)"
-]));
+];
 
 export default function Admissions({ setCurrentPage }) {
   const [programme, setProgramme] = useState('Grade 12');
@@ -313,12 +322,12 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn Si
           }}>2027 Candidate Intake</span>
           <h1 style={{ fontSize: '2.8rem', margin: 0, color: 'var(--primary)' }}>Online Application & Registration</h1>
           <div style={{ width: '40px', height: '2px', backgroundColor: 'var(--secondary)', margin: '12px auto 24px' }}></div>
-          
+
           {/* Featured Study Group Photo */}
           <div style={{ maxWidth: '720px', margin: '0 auto', borderRadius: 'var(--radius-card)', overflow: 'hidden', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-card)' }}>
-            <img 
-              src="/admissions-2027-students.jpg" 
-              alt="2027 Admissions Study Group & Practical Session" 
+            <img
+              src="/admissions-2027-students.jpg"
+              alt="2027 Admissions Study Group & Practical Session"
               style={{ width: '100%', height: '320px', objectFit: 'cover', display: 'block' }}
             />
             <div style={{ padding: '12px', backgroundColor: 'var(--white)', fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500 }}>
@@ -563,25 +572,29 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn Si
                     </select>
                   </div>
 
-                  {/* Current High School Field (SA Master List Dataset Lookup) */}
+                  {/* Current High School Field (SA Master List Lookup) */}
                   <div className="form-group">
-                    <label className="form-label">Current High School Attending* (Type to search 1,500+ SA High Schools)</label>
-                    <input
-                      type="text"
-                      list="sa-schools-datalist"
+                    <label className="form-label">Current High School Attending*</label>
+                    <select
                       className="form-control"
                       value={formData.currentSchool}
                       onChange={(e) => setFormData({ ...formData, currentSchool: e.target.value })}
-                      placeholder="Start typing school name (e.g. Brandwag, Limekhaya, Muir College...)"
-                    />
-                    <datalist id="sa-schools-datalist">
+                    >
+                      <option value="">-- Select South African High School --</option>
                       {SA_HIGH_SCHOOLS.map((sch, idx) => (
-                        <option key={idx} value={sch} />
+                        <option key={idx} value={sch}>{sch}</option>
                       ))}
-                    </datalist>
-                    <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '6px' }}>
-                      Selected school name will be recorded on your application record. If your school is not listed, type its full name above.
-                    </p>
+                    </select>
+                    {formData.currentSchool === 'Other (Specify Below)' && (
+                      <input
+                        type="text"
+                        className="form-control"
+                        style={{ marginTop: '12px' }}
+                        value={formData.customSchool}
+                        onChange={(e) => setFormData({ ...formData, customSchool: e.target.value })}
+                        placeholder="Type high school name and province (e.g. Limekhaya High, Kariega)"
+                      />
+                    )}
                   </div>
 
                   {/* Language of Instruction Field */}

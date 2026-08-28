@@ -6,12 +6,12 @@ const WhatsAppIcon = ({ size = 24 }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 48 48">
     <defs>
       <linearGradient id="wa-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#25D366"/>
-        <stop offset="100%" stopColor="#128C7E"/>
+        <stop offset="0%" stopColor="#25D366" />
+        <stop offset="100%" stopColor="#128C7E" />
       </linearGradient>
     </defs>
-    <rect width="48" height="48" rx="10" fill="url(#wa-grad)"/>
-    <path fill="#fff" d="M24 9.6A14.37 14.37 0 0 0 9.6 24c0 2.53.66 4.99 1.91 7.16L9.6 38.4l7.45-1.88A14.4 14.4 0 1 0 24 9.6Zm0 26.28a11.88 11.88 0 0 1-6.05-1.65l-.44-.26-4.42 1.12 1.16-4.28-.29-.46A11.88 11.88 0 1 1 24 35.88Zm6.52-8.89c-.36-.18-2.1-1.03-2.43-1.15-.33-.12-.57-.18-.81.18-.24.36-.93 1.15-1.14 1.39-.21.24-.42.27-.78.09-.36-.18-1.51-.55-2.87-1.76-1.06-.94-1.77-2.1-1.98-2.46-.21-.36-.02-.55.16-.73.16-.16.36-.42.54-.63.18-.21.24-.36.36-.6.12-.24.06-.45-.03-.63-.09-.18-.81-1.94-1.11-2.66-.29-.7-.59-.6-.81-.61h-.69c-.24 0-.63.09-.96.45-.33.36-1.26 1.23-1.26 3s1.29 3.48 1.47 3.72c.18.24 2.54 3.87 6.15 5.43.86.37 1.53.59 2.05.75.86.27 1.64.23 2.26.14.69-.1 2.1-.86 2.4-1.69.3-.83.3-1.54.21-1.69-.09-.15-.33-.24-.69-.42Z"/>
+    <rect width="48" height="48" rx="10" fill="url(#wa-grad)" />
+    <path fill="#fff" d="M24 9.6A14.37 14.37 0 0 0 9.6 24c0 2.53.66 4.99 1.91 7.16L9.6 38.4l7.45-1.88A14.4 14.4 0 1 0 24 9.6Zm0 26.28a11.88 11.88 0 0 1-6.05-1.65l-.44-.26-4.42 1.12 1.16-4.28-.29-.46A11.88 11.88 0 1 1 24 35.88Zm6.52-8.89c-.36-.18-2.1-1.03-2.43-1.15-.33-.12-.57-.18-.81.18-.24.36-.93 1.15-1.14 1.39-.21.24-.42.27-.78.09-.36-.18-1.51-.55-2.87-1.76-1.06-.94-1.77-2.1-1.98-2.46-.21-.36-.02-.55.16-.73.16-.16.36-.42.54-.63.18-.21.24-.36.36-.6.12-.24.06-.45-.03-.63-.09-.18-.81-1.94-1.11-2.66-.29-.7-.59-.6-.81-.61h-.69c-.24 0-.63.09-.96.45-.33.36-1.26 1.23-1.26 3s1.29 3.48 1.47 3.72c.18.24 2.54 3.87 6.15 5.43.86.37 1.53.59 2.05.75.86.27 1.64.23 2.26.14.69-.1 2.1-.86 2.4-1.69.3-.83.3-1.54.21-1.69-.09-.15-.33-.24-.69-.42Z" />
   </svg>
 );
 
@@ -72,14 +72,14 @@ export default function App() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Navbar 
-        currentPage={currentPage} 
-        setCurrentPage={setCurrentPage} 
+      <Navbar
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
       />
       <main style={{ flex: 1 }}>
         {renderPage()}
       </main>
-      
+
       {/* Footer */}
       <footer style={{
         backgroundColor: 'var(--primary)',
@@ -130,27 +130,17 @@ export default function App() {
             <h4 style={{ color: 'var(--accent)', fontSize: '1rem', marginBottom: '20px', fontFamily: 'var(--font-heading)' }}>Contact Info</h4>
             <div style={{ color: 'rgba(255,255,255,0.7)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <PhoneCall size={16} style={{ color: 'var(--accent)' }} /> 
+                <PhoneCall size={16} style={{ color: 'var(--accent)' }} />
                 <span style={{ fontSize: '0.9rem' }}>076 423 7821 (Call)</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <WhatsAppIcon size={16} color="#25D366" /> 
+                <WhatsAppIcon size={16} color="#25D366" />
                 <span style={{ fontSize: '0.9rem' }}>076 423 7821 (WhatsApp)</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Mail size={16} style={{ color: 'var(--accent)' }} /> 
+                <Mail size={16} style={{ color: 'var(--accent)' }} />
                 <span style={{ fontSize: '0.9rem' }}>edwardbreintjies@rosebalc.co.za</span>
               </div>
-            </div>
-          </div>
-          <div>
-            <h4 style={{ color: 'var(--accent)', fontSize: '1rem', marginBottom: '20px', fontFamily: 'var(--font-heading)' }}>Corporate &amp; Tax Compliance</h4>
-            <div style={{ color: 'rgba(255,255,255,0.7)', display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.82rem', lineHeight: '1.6' }}>
-              <div><strong>Enterprise:</strong> Rose Bruintjies After School Learning Center (Pty) Ltd</div>
-              <div><strong>CIPC Reg No:</strong> 2026 / 611870 / 07</div>
-              <div><strong>SARS TAX Ref:</strong> 9161805297 <span style={{ color: '#86EFAC', fontWeight: 600 }}>(Tax Compliant)</span></div>
-              <div><strong>Director:</strong> Edward Darryl Breintjies</div>
-              <div><strong>Address:</strong> 23 Geelhout Avenue, Thomas Gamble, Kariega, 6229</div>
             </div>
           </div>
         </div>
@@ -167,7 +157,7 @@ export default function App() {
           alignItems: 'center'
         }}>
           <span style={{ textAlign: 'left', lineHeight: '1.5' }}>
-            &copy; {new Date().getFullYear()} Rose Bruintjies After School Learning Center (Pty) Ltd. All Rights Reserved. • CIPC Reg: 2026/611870/07 • SARS Tax: 9161805297
+            &copy; {new Date().getFullYear()} Rose Bruintjies After School Learning Center. All Rights Reserved.
           </span>
           <button onClick={() => setCurrentPage('terms')} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}>
             Terms &amp; Conditions
@@ -203,9 +193,9 @@ export default function App() {
         gap: '10px',
         zIndex: 9999
       }}>
-        <a 
-          href="https://wa.me/27764237821?text=Hi%20Mr.%20Breintjies,%20I%20would%20like%20to%20inquire%20about%20the%20after-school%20programmes%20at%20Rose%20B%20ALC." 
-          target="_blank" 
+        <a
+          href="https://wa.me/27764237821?text=Hi%20Mr.%20Bruintjies,%20I%20would%20like%20to%20inquire%20about%20the%20after-school%20programmes%20at%20Rose%20B%20ALC."
+          target="_blank"
           rel="noopener noreferrer"
           className="fab-btn"
           style={{

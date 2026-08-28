@@ -954,978 +954,978 @@ edwardbreintjies@rosebalc.co.za`,
   return (
     /* MAIN ADMIN DASHBOARD INTERFACE */
     <>
-    <div className="animated dashboard-layout" style={{ display: 'flex', minHeight: '100vh' }}>
+      <div className="animated dashboard-layout" style={{ display: 'flex', minHeight: '100vh' }}>
 
-      {/* Sidebar Nav */}
-      <div className="dashboard-sidebar">
+        {/* Sidebar Nav */}
+        <div className="dashboard-sidebar">
 
-        <div>
-          {/* Logo */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '0 8px 32px', borderBottom: '1px solid rgba(255,255,255,0.05)', marginBottom: '32px' }}>
-            <div className="sidebar-logo-container">
-              <img
-                src="/logo.png"
-                alt="Rose B ALC Logo"
-                style={{ width: '48px', height: '48px', objectFit: 'contain', display: 'block' }}
-              />
-            </div>
-            <div>
-              <h4 className="logo-text">Rose B ALC</h4>
-              <span className="logo-subtext">ADMIN PORTAL</span>
-            </div>
-          </div>
-
-          {/* Nav list */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <button
-              onClick={() => { setActiveTab('overview'); setSelectedApp(null); }}
-              className={`pro-sidebar-nav-btn ${activeTab === 'overview' ? 'active' : ''}`}
-            >
-              <Settings size={18} /> Overview
-            </button>
-
-            <button
-              onClick={() => { setActiveTab('applications'); }}
-              className={`pro-sidebar-nav-btn ${activeTab === 'applications' ? 'active' : ''}`}
-            >
-              <Users size={18} /> Applications ({apps.length})
-            </button>
-
-            <button
-              onClick={() => { setActiveTab('notices'); }}
-              className={`pro-sidebar-nav-btn ${activeTab === 'notices' ? 'active' : ''}`}
-            >
-              <Bell size={18} /> Notices ({notices.length})
-            </button>
-
-            <button
-              onClick={() => { setActiveTab('gallery'); }}
-              className={`pro-sidebar-nav-btn ${activeTab === 'gallery' ? 'active' : ''}`}
-            >
-              <Image size={18} /> Gallery ({gallery.length})
-            </button>
-
-            <button
-              onClick={() => { setActiveTab('settings'); }}
-              className={`pro-sidebar-nav-btn ${activeTab === 'settings' ? 'active' : ''}`}
-            >
-              <Settings size={18} /> Settings
-            </button>
-          </div>
-        </div>
-
-        {/* Logout Bottom */}
-        <div>
-          <button
-            onClick={handleLogout}
-            className="pro-sidebar-nav-btn logout"
-          >
-            <LogOut size={18} /> Log Out
-          </button>
-        </div>
-      </div>
-
-      {/* ===== MOBILE TOP BAR (visible < 768px) ===== */}
-      <div style={{
-        display: 'none',
-        position: 'sticky',
-        top: 0,
-        zIndex: 100,
-        background: 'linear-gradient(90deg, #1e293b 0%, #0f172a 100%)',
-        borderBottom: '1px solid rgba(255,255,255,0.07)',
-        padding: '12px 16px',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }} className="dash-mobile-topbar">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <img src="/logo.png" alt="Rose B ALC" style={{ height: '32px', objectFit: 'contain', filter: 'drop-shadow(0 1px 4px rgba(0,0,0,0.4))' }} />
           <div>
-            <div style={{ color: '#fff', fontFamily: 'var(--font-heading)', fontSize: '1rem', fontWeight: 600, lineHeight: 1 }}>Rose B ALC</div>
-            <div style={{ color: 'var(--accent)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase' }}>Admin Portal</div>
-          </div>
-        </div>
-        <button
-          onClick={handleLogout}
-          style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.3)', color: '#fca5a5', padding: '6px 14px', borderRadius: '8px', fontSize: '0.75rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
-        >
-          <LogOut size={13} /> Logout
-        </button>
-      </div>
-
-      {/* Main Content Area */}
-      <div style={{ flexGrow: 1, padding: '40px', backgroundColor: '#F1F5F9', overflowY: 'auto', overflowX: 'hidden', boxSizing: 'border-box' }} className="dashboard-content">
-
-        {/* ================= TAB 1: OVERVIEW ================= */}
-        {activeTab === 'overview' && (
-          <div className="animated">
-            <h2 style={{ marginBottom: '24px' }}>Overview Dashboard</h2>
-
-            {/* Quick Metrics */}
-            <div className="grid-3" style={{ marginBottom: '40px' }}>
-              <div className="card" style={{ padding: '24px', display: 'flex', alignItems: 'center', gap: '20px' }}>
-                <div style={{ width: '48px', height: '48px', backgroundColor: 'rgba(179,32,37,0.08)', color: 'var(--secondary)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyCenter: 'center', flexShrink: 0 }}>
-                  <Users size={24} style={{ margin: 'auto' }} />
-                </div>
-                <div>
-                  <h5 style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Active Admissions</h5>
-                  <h3 style={{ fontSize: '1.75rem', margin: 0 }}>{apps.length}</h3>
-                </div>
+            {/* Logo */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '0 8px 32px', borderBottom: '1px solid rgba(255,255,255,0.05)', marginBottom: '32px' }}>
+              <div className="sidebar-logo-container">
+                <img
+                  src="/logo.png"
+                  alt="Rose B ALC Logo"
+                  style={{ width: '48px', height: '48px', objectFit: 'contain', display: 'block' }}
+                />
               </div>
-
-              <div className="card" style={{ padding: '24px', display: 'flex', alignItems: 'center', gap: '20px' }}>
-                <div style={{ width: '48px', height: '48px', backgroundColor: 'rgba(244,197,66,0.15)', color: 'var(--accent-hover)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyCenter: 'center', flexShrink: 0 }}>
-                  <Bell size={24} style={{ margin: 'auto' }} />
-                </div>
-                <div>
-                  <h5 style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Notice Correspondence</h5>
-                  <h3 style={{ fontSize: '1.75rem', margin: 0 }}>{notices.length}</h3>
-                </div>
-              </div>
-
-              <div className="card" style={{ padding: '24px', display: 'flex', alignItems: 'center', gap: '20px' }}>
-                <div style={{ width: '48px', height: '48px', backgroundColor: 'rgba(59,59,59,0.06)', color: 'var(--primary)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyCenter: 'center', flexShrink: 0 }}>
-                  <Image size={24} style={{ margin: 'auto' }} />
-                </div>
-                <div>
-                  <h5 style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Gallery Images</h5>
-                  <h3 style={{ fontSize: '1.75rem', margin: 0 }}>{gallery.length}</h3>
-                </div>
+              <div>
+                <h4 className="logo-text">Rose B ALC</h4>
+                <span className="logo-subtext">ADMIN PORTAL</span>
               </div>
             </div>
 
-            {/* Quick Actions & Recent */}
-            <div style={{ display: 'grid', gridTemplateColumns: '40% 60%', gap: '32px' }} className="sub-grid-mobile" data-mobile-cols="1">
-
-              {/* Quick Actions */}
-              <div className="card" style={{ padding: '28px' }}>
-                <h3 style={{ fontSize: '1.25rem', marginBottom: '20px' }}>Quick Actions</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <button
-                    className="btn btn-primary"
-                    style={{ width: '100%', justifyContent: 'flex-start', gap: '10px' }}
-                    onClick={() => setActiveTab('notices')}
-                  >
-                    <Plus size={16} /> Create Notice Letter
-                  </button>
-                  <button
-                    className="btn btn-secondary"
-                    style={{ width: '100%', justifyContent: 'flex-start', gap: '10px' }}
-                    onClick={() => setActiveTab('applications')}
-                  >
-                    <Users size={16} /> Manage Applications
-                  </button>
-                  <button
-                    className="btn btn-outline"
-                    style={{ width: '100%', justifyContent: 'flex-start', gap: '10px' }}
-                    onClick={() => setActiveTab('settings')}
-                  >
-                    <Settings size={16} /> Edit System Fees
-                  </button>
-                </div>
-              </div>
-
-              {/* Recent Applications */}
-              <div className="card" style={{ padding: '28px' }}>
-                <h3 style={{ fontSize: '1.25rem', marginBottom: '20px' }}>Recent Applications</h3>
-                {apps.length === 0 ? (
-                  <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>No applications received yet.</p>
-                ) : (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    {apps.slice(0, 4).map(app => (
-                      <div key={app.id} style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        borderBottom: '1px solid var(--border-color)',
-                        paddingBottom: '8px'
-                      }}>
-                        <div>
-                          <h5 style={{ margin: 0, fontSize: '0.92rem' }}>{app.learnerName} {app.learnerSurname}</h5>
-                          <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{app.programme}</span>
-                        </div>
-                        <span style={{
-                          backgroundColor: app.status === 'Pending' ? '#FEF3C7' : app.status === 'Accepted' ? '#D1FAE5' : '#FEE2E2',
-                          color: app.status === 'Pending' ? '#D97706' : app.status === 'Accepted' ? '#059669' : '#DC2626',
-                          padding: '2px 8px',
-                          borderRadius: '99px',
-                          fontSize: '0.7rem',
-                          fontWeight: 'bold'
-                        }}>{app.status}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-            </div>
-          </div>
-        )}
-
-        {/* ================= TAB 2: APPLICATIONS MANAGER ================= */}
-        {activeTab === 'applications' && (
-          <div className="animated">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
-              <h2>Manage Applications ({filteredApps.length})</h2>
+            {/* Nav list */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               <button
-                className="btn btn-outline dash-export-btn"
-                style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', fontSize: '0.85rem' }}
-                onClick={exportAppToExcel}
+                onClick={() => { setActiveTab('overview'); setSelectedApp(null); }}
+                className={`pro-sidebar-nav-btn ${activeTab === 'overview' ? 'active' : ''}`}
               >
-                <FileSpreadsheet size={16} /> Export to Excel
+                <Settings size={18} /> Overview
+              </button>
+
+              <button
+                onClick={() => { setActiveTab('applications'); }}
+                className={`pro-sidebar-nav-btn ${activeTab === 'applications' ? 'active' : ''}`}
+              >
+                <Users size={18} /> Applications ({apps.length})
+              </button>
+
+              <button
+                onClick={() => { setActiveTab('notices'); }}
+                className={`pro-sidebar-nav-btn ${activeTab === 'notices' ? 'active' : ''}`}
+              >
+                <Bell size={18} /> Notices ({notices.length})
+              </button>
+
+              <button
+                onClick={() => { setActiveTab('gallery'); }}
+                className={`pro-sidebar-nav-btn ${activeTab === 'gallery' ? 'active' : ''}`}
+              >
+                <Image size={18} /> Gallery ({gallery.length})
+              </button>
+
+              <button
+                onClick={() => { setActiveTab('settings'); }}
+                className={`pro-sidebar-nav-btn ${activeTab === 'settings' ? 'active' : ''}`}
+              >
+                <Settings size={18} /> Settings
               </button>
             </div>
+          </div>
 
-            {/* Filters bar */}
-            <div className="dash-filter-bar" style={{
-              display: 'flex',
-              gap: '16px',
-              backgroundColor: 'var(--white)',
-              padding: '16px 20px',
-              borderRadius: 'var(--radius-md)',
-              border: '1px solid var(--border-color)',
-              marginBottom: '24px',
-              alignItems: 'center',
-              flexWrap: 'wrap'
-            }}>
-              <div className="dash-status-btns" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                {['All', 'Pending', 'Reviewed', 'Accepted', 'Rejected'].map(status => (
-                  <button
-                    key={status}
-                    className={`btn ${appFilter === status ? 'btn-primary' : 'btn-outline'}`}
-                    style={{
-                      padding: '6px 14px',
-                      fontSize: '0.8rem',
-                      backgroundColor: appFilter === status ? 'var(--primary)' : 'transparent',
-                      borderColor: appFilter === status ? 'var(--primary)' : 'var(--border-color)',
-                      color: appFilter === status ? 'var(--white)' : 'var(--text)'
-                    }}
-                    onClick={() => { setAppFilter(status); setSelectedApp(null); }}
-                  >
-                    {status}
-                  </button>
-                ))}
-              </div>
+          {/* Logout Bottom */}
+          <div>
+            <button
+              onClick={handleLogout}
+              className="pro-sidebar-nav-btn logout"
+            >
+              <LogOut size={18} /> Log Out
+            </button>
+          </div>
+        </div>
 
-              <div className="dash-search-box" style={{ position: 'relative', width: '250px', marginLeft: 'auto' }}>
-                <input
-                  type="text"
-                  placeholder="Search by name/id..."
-                  className="form-control"
-                  style={{ paddingLeft: '36px', paddingRight: '12px', fontSize: '0.85rem', padding: '8px 12px 8px 36px' }}
-                  value={appSearch}
-                  onChange={(e) => setAppSearch(e.target.value)}
-                />
-                <Search size={14} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-              </div>
+        {/* ===== MOBILE TOP BAR (visible < 768px) ===== */}
+        <div style={{
+          display: 'none',
+          position: 'sticky',
+          top: 0,
+          zIndex: 100,
+          background: 'linear-gradient(90deg, #1e293b 0%, #0f172a 100%)',
+          borderBottom: '1px solid rgba(255,255,255,0.07)',
+          padding: '12px 16px',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }} className="dash-mobile-topbar">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <img src="/logo.png" alt="Rose B ALC" style={{ height: '32px', objectFit: 'contain', filter: 'drop-shadow(0 1px 4px rgba(0,0,0,0.4))' }} />
+            <div>
+              <div style={{ color: '#fff', fontFamily: 'var(--font-heading)', fontSize: '1rem', fontWeight: 600, lineHeight: 1 }}>Rose B ALC</div>
+              <div style={{ color: 'var(--accent)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase' }}>Admin Portal</div>
             </div>
+          </div>
+          <button
+            onClick={handleLogout}
+            style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.3)', color: '#fca5a5', padding: '6px 14px', borderRadius: '8px', fontSize: '0.75rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
+          >
+            <LogOut size={13} /> Logout
+          </button>
+        </div>
 
-            {/* Main Application Interface */}
-            <div style={{ display: 'grid', gridTemplateColumns: selectedApp ? '1fr' : '1fr', gap: '24px' }}>
+        {/* Main Content Area */}
+        <div style={{ flexGrow: 1, padding: '40px', backgroundColor: '#F1F5F9', overflowY: 'auto' }} className="dashboard-content">
 
-              {/* Applications Table */}
-              <div className="card dash-table-scroll-wrap" style={{ padding: '20px', overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
-                  <thead>
-                    <tr style={{ borderBottom: '2px solid var(--border-color)', paddingBottom: '8px' }}>
-                      <th style={{ padding: '12px 8px' }}>Date</th>
-                      <th style={{ padding: '12px 8px' }}>Learner Name</th>
-                      <th style={{ padding: '12px 8px' }}>Programme</th>
-                      <th style={{ padding: '12px 8px' }}>Status</th>
-                      <th style={{ padding: '12px 8px', textRight: true }}>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredApps.length === 0 ? (
-                      <tr>
-                        <td colSpan="5" style={{ textAlign: 'center', padding: '24px', color: 'var(--text-muted)' }}>No applications matching criteria.</td>
-                      </tr>
-                    ) : (
-                      filteredApps.map(app => (
-                        <tr
-                          key={app.id}
-                          onClick={() => setSelectedApp(app)}
-                          style={{
-                            borderBottom: '1px solid var(--border-color)',
-                            cursor: 'pointer',
-                            backgroundColor: selectedApp?.id === app.id ? 'rgba(179,32,37,0.03)' : 'transparent',
-                            fontWeight: selectedApp?.id === app.id ? 700 : 400
-                          }}
-                          onMouseOver={(e) => { if (selectedApp?.id !== app.id) e.currentTarget.style.backgroundColor = '#F8FAFC'; }}
-                          onMouseOut={(e) => { if (selectedApp?.id !== app.id) e.currentTarget.style.backgroundColor = 'transparent'; }}
-                        >
-                          <td style={{ padding: '12px 8px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                            {new Date(app.dateSubmitted).toLocaleDateString('en-ZA')}
-                          </td>
-                          <td style={{ padding: '12px 8px' }}>
-                            {app.learnerName} {app.learnerSurname}
-                          </td>
-                          <td style={{ padding: '12px 8px', fontSize: '0.85rem' }}>
-                            {app.programme}
-                          </td>
-                          <td style={{ padding: '12px 8px' }}>
-                            <span style={{
-                              backgroundColor: app.status === 'Pending' ? '#FEF3C7' : app.status === 'Reviewed' ? '#DBEAFE' : app.status === 'Accepted' ? '#D1FAE5' : '#FEE2E2',
-                              color: app.status === 'Pending' ? '#B45309' : app.status === 'Reviewed' ? '#1D4ED8' : app.status === 'Accepted' ? '#047857' : '#B91C1C',
-                              padding: '2px 8px',
-                              borderRadius: '99px',
-                              fontSize: '0.7rem',
-                              fontWeight: 'bold'
-                            }}>{app.status}</span>
-                          </td>
-                          <td style={{ padding: '12px 8px' }}>
-                            <button
-                              onClick={(e) => { e.stopPropagation(); deleteApp(app.id); }}
-                              style={{ border: 'none', background: 'none', color: '#EF4444', cursor: 'pointer' }}
-                            >
-                              <Trash2 size={16} />
-                            </button>
-                          </td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
+          {/* ================= TAB 1: OVERVIEW ================= */}
+          {activeTab === 'overview' && (
+            <div className="animated">
+              <h2 style={{ marginBottom: '24px' }}>Overview Dashboard</h2>
+
+              {/* Quick Metrics */}
+              <div className="grid-3" style={{ marginBottom: '40px' }}>
+                <div className="card" style={{ padding: '24px', display: 'flex', alignItems: 'center', gap: '20px' }}>
+                  <div style={{ width: '48px', height: '48px', backgroundColor: 'rgba(179,32,37,0.08)', color: 'var(--secondary)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyCenter: 'center', flexShrink: 0 }}>
+                    <Users size={24} style={{ margin: 'auto' }} />
+                  </div>
+                  <div>
+                    <h5 style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Active Admissions</h5>
+                    <h3 style={{ fontSize: '1.75rem', margin: 0 }}>{apps.length}</h3>
+                  </div>
+                </div>
+
+                <div className="card" style={{ padding: '24px', display: 'flex', alignItems: 'center', gap: '20px' }}>
+                  <div style={{ width: '48px', height: '48px', backgroundColor: 'rgba(244,197,66,0.15)', color: 'var(--accent-hover)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyCenter: 'center', flexShrink: 0 }}>
+                    <Bell size={24} style={{ margin: 'auto' }} />
+                  </div>
+                  <div>
+                    <h5 style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Notice Correspondence</h5>
+                    <h3 style={{ fontSize: '1.75rem', margin: 0 }}>{notices.length}</h3>
+                  </div>
+                </div>
+
+                <div className="card" style={{ padding: '24px', display: 'flex', alignItems: 'center', gap: '20px' }}>
+                  <div style={{ width: '48px', height: '48px', backgroundColor: 'rgba(59,59,59,0.06)', color: 'var(--primary)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyCenter: 'center', flexShrink: 0 }}>
+                    <Image size={24} style={{ margin: 'auto' }} />
+                  </div>
+                  <div>
+                    <h5 style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Gallery Images</h5>
+                    <h3 style={{ fontSize: '1.75rem', margin: 0 }}>{gallery.length}</h3>
+                  </div>
+                </div>
               </div>
 
-              {/* Application Details Panel */}
-              {selectedApp && (
-                <div className="card animated app-detail-panel" style={{ padding: '28px', borderTop: '6px solid var(--secondary)', position: 'sticky', top: '90px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px', marginBottom: '20px' }}>
-                    <div>
-                      <h3 style={{ fontSize: '1.25rem', margin: 0 }}>Application Profile</h3>
-                      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Reference ID: {selectedApp.id}</span>
-                    </div>
-                    <button
-                      className="tab-btn"
-                      style={{ padding: '2px 8px', borderBottom: 'none', margin: 0 }}
-                      onClick={() => setSelectedApp(null)}
-                    >
-                      Close View
-                    </button>
-                  </div>
+              {/* Quick Actions & Recent */}
+              <div style={{ display: 'grid', gridTemplateColumns: '40% 60%', gap: '32px' }} className="sub-grid-mobile">
 
-                  {/* Detail Grid */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '0.88rem', marginBottom: '24px' }}>
-                    <div><strong>Programme:</strong> <span>{selectedApp.programme}</span></div>
-                    <div><strong>Learner:</strong> <span>{selectedApp.learnerName} {selectedApp.learnerSurname} ({selectedApp.learnerGrade})</span></div>
-
-                    {selectedApp.programme === 'Grade 12' ? (
-                      <>
-                        <div><strong>Parent:</strong> <span>{selectedApp.parentName} {selectedApp.parentSurname}</span></div>
-                        <div><strong>Contact:</strong> <span>{selectedApp.parentContact}</span></div>
-                        <div><strong>Email:</strong> <span>{selectedApp.parentEmail || 'N/A'}</span></div>
-                        <div><strong>Address:</strong> <span>{selectedApp.parentAddress}</span></div>
-                        <div><strong>Subjects Requested:</strong> <span>{selectedApp.learnerSubjects.join(', ')}</span></div>
-                      </>
-                    ) : (
-                      <>
-                        <div><strong>Contact:</strong> <span>{selectedApp.learnerPhone}</span></div>
-                        <div><strong>Email:</strong> <span>{selectedApp.learnerEmail || 'N/A'}</span></div>
-                        <div><strong>Address:</strong> <span>{selectedApp.learnerAddress}</span></div>
-                        <div><strong>Emergency Contact:</strong> <span>{selectedApp.emergencyContact}</span></div>
-                      </>
-                    )}
-
-                    <div><strong>Submission Date:</strong> <span>{new Date(selectedApp.dateSubmitted).toLocaleString('en-ZA')}</span></div>
-
-                    {/* Status selector */}
-                    <div style={{ marginTop: '10px' }}>
-                      <strong>Select Status Option:</strong>
-                      <div className="app-status-selector" style={{ display: 'flex', gap: '8px', marginTop: '8px', flexWrap: 'wrap' }}>
-                        {['Pending', 'Reviewed', 'Accepted', 'Rejected'].map(st => (
-                          <button
-                            key={st}
-                            onClick={() => updateAppStatus(selectedApp.id, st)}
-                            style={{
-                              fontSize: '0.75rem',
-                              padding: '4px 10px',
-                              borderRadius: '4px',
-                              border: '1px solid',
-                              borderColor: selectedApp.status === st ? 'var(--secondary)' : 'var(--border-color)',
-                              backgroundColor: selectedApp.status === st ? 'var(--secondary)' : 'transparent',
-                              color: selectedApp.status === st ? 'var(--white)' : 'var(--text)',
-                              fontWeight: 600,
-                              cursor: 'pointer'
-                            }}
-                          >
-                            {st}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Signature Preview */}
-                    <div style={{ marginTop: '12px' }}>
-                      <strong>Assent Signature:</strong>
-                      {selectedApp.signature.startsWith('data:image') ? (
-                        <div style={{ border: '1px solid var(--border-color)', borderRadius: '4px', padding: '6px', width: 'fit-content', marginTop: '6px', backgroundColor: '#FFFFFF' }}>
-                          <img src={selectedApp.signature} alt="Sign" style={{ maxHeight: '60px', display: 'block' }} />
-                        </div>
-                      ) : (
-                        <div style={{ fontStyle: 'italic', padding: '8px', border: '1px solid var(--border-color)', borderRadius: '4px', marginTop: '6px', backgroundColor: '#FFFFFF' }}>
-                          "{selectedApp.signature}"
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Actions Row */}
-                  <div style={{ display: 'flex', gap: '10px', borderTop: '1px solid var(--border-color)', paddingTop: '16px', flexWrap: 'wrap' }}>
+                {/* Quick Actions */}
+                <div className="card" style={{ padding: '28px' }}>
+                  <h3 style={{ fontSize: '1.25rem', marginBottom: '20px' }}>Quick Actions</h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     <button
                       className="btn btn-primary"
-                      style={{ padding: '8px 16px', fontSize: '0.82rem', flexGrow: 1, display: 'flex', gap: '6px', justifyContent: 'center' }}
-                      onClick={() => printApp(selectedApp)}
+                      style={{ width: '100%', justifyContent: 'flex-start', gap: '10px' }}
+                      onClick={() => setActiveTab('notices')}
                     >
-                      <Printer size={14} /> Print Record
+                      <Plus size={16} /> Create Notice Letter
                     </button>
                     <button
                       className="btn btn-secondary"
-                      style={{ padding: '8px 16px', fontSize: '0.82rem', display: 'flex', gap: '6px', justifyContent: 'center', alignItems: 'center', flexGrow: 1 }}
-                      onClick={() => openEmailModal(selectedApp)}
+                      style={{ width: '100%', justifyContent: 'flex-start', gap: '10px' }}
+                      onClick={() => setActiveTab('applications')}
                     >
-                      <Mail size={14} /> Email Applicant
+                      <Users size={16} /> Manage Applications
                     </button>
                     <button
                       className="btn btn-outline"
-                      style={{ padding: '8px 16px', fontSize: '0.82rem', color: '#EF4444', borderColor: '#EF4444' }}
-                      onClick={() => deleteApp(selectedApp.id)}
+                      style={{ width: '100%', justifyContent: 'flex-start', gap: '10px' }}
+                      onClick={() => setActiveTab('settings')}
                     >
-                      <Trash2 size={14} /> Delete
+                      <Settings size={16} /> Edit System Fees
                     </button>
                   </div>
                 </div>
-              )}
-            </div>
-          </div>
-        )}
 
-        {/* ================= EMAIL MODAL ================= */}
-        {emailModal && (
-          <div style={{
-            position: 'fixed', inset: 0, zIndex: 9999,
-            backgroundColor: 'rgba(15,23,42,0.7)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            backdropFilter: 'blur(4px)', padding: '20px'
-          }}>
-            <div className="animated" style={{
-              background: '#ffffff', borderRadius: '16px',
-              width: '100%', maxWidth: '640px', maxHeight: '90vh',
-              overflowY: 'auto', boxShadow: '0 25px 60px rgba(0,0,0,0.35)',
-              border: '1px solid var(--border-color)'
-            }}>
-
-              {/* Modal Header */}
-              <div style={{
-                padding: '24px 28px 20px',
-                borderBottom: '1px solid var(--border-color)',
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between'
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <div style={{
-                    width: '40px', height: '40px', borderRadius: '10px',
-                    backgroundColor: 'rgba(122,28,32,0.1)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center'
-                  }}>
-                    <Mail size={18} color="var(--secondary)" />
-                  </div>
-                  <div>
-                    <h3 style={{ fontSize: '1.1rem', margin: 0 }}>Email Applicant</h3>
-                    <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: 0 }}>
-                      {emailModal.app.learnerName} {emailModal.app.learnerSurname} &mdash; {emailModal.app.programme}
-                    </p>
-                  </div>
+                {/* Recent Applications */}
+                <div className="card" style={{ padding: '28px' }}>
+                  <h3 style={{ fontSize: '1.25rem', marginBottom: '20px' }}>Recent Applications</h3>
+                  {apps.length === 0 ? (
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>No applications received yet.</p>
+                  ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      {apps.slice(0, 4).map(app => (
+                        <div key={app.id} style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          borderBottom: '1px solid var(--border-color)',
+                          paddingBottom: '8px'
+                        }}>
+                          <div>
+                            <h5 style={{ margin: 0, fontSize: '0.92rem' }}>{app.learnerName} {app.learnerSurname}</h5>
+                            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{app.programme}</span>
+                          </div>
+                          <span style={{
+                            backgroundColor: app.status === 'Pending' ? '#FEF3C7' : app.status === 'Accepted' ? '#D1FAE5' : '#FEE2E2',
+                            color: app.status === 'Pending' ? '#D97706' : app.status === 'Accepted' ? '#059669' : '#DC2626',
+                            padding: '2px 8px',
+                            borderRadius: '99px',
+                            fontSize: '0.7rem',
+                            fontWeight: 'bold'
+                          }}>{app.status}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
+
+              </div>
+            </div>
+          )}
+
+          {/* ================= TAB 2: APPLICATIONS MANAGER ================= */}
+          {activeTab === 'applications' && (
+            <div className="animated">
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
+                <h2>Manage Applications ({filteredApps.length})</h2>
                 <button
-                  onClick={() => setEmailModal(null)}
-                  style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: '4px' }}
+                  className="btn btn-outline"
+                  style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', fontSize: '0.85rem' }}
+                  onClick={exportAppToExcel}
                 >
-                  <X size={20} />
+                  <FileSpreadsheet size={16} /> Export to Excel
                 </button>
               </div>
 
-              {/* Template Selector */}
-              <div style={{ padding: '20px 28px 0' }}>
-                <p style={{ fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '10px' }}>Response Template</p>
-                <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', flexWrap: 'wrap' }}>
-                  {[
-                    { key: 'accept', label: '✓ Acceptance', color: '#059669', bg: '#D1FAE5' },
-                    { key: 'reject', label: '✗ Decline', color: '#B91C1C', bg: '#FEE2E2' },
-                    { key: 'review', label: '⧖ Under Review', color: '#1D4ED8', bg: '#DBEAFE' },
-                  ].map(({ key, label, color, bg }) => (
+              {/* Filters bar */}
+              <div style={{
+                display: 'flex',
+                gap: '16px',
+                backgroundColor: 'var(--white)',
+                padding: '16px 20px',
+                borderRadius: 'var(--radius-md)',
+                border: '1px solid var(--border-color)',
+                marginBottom: '24px',
+                alignItems: 'center',
+                flexWrap: 'wrap'
+              }}>
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                  {['All', 'Pending', 'Reviewed', 'Accepted', 'Rejected'].map(status => (
                     <button
-                      key={key}
-                      onClick={() => {
-                        const t = getEmailTemplate(emailModal.app, key);
-                        setEmailModal(prev => ({ ...prev, ...t, activeType: key }));
-                      }}
+                      key={status}
+                      className={`btn ${appFilter === status ? 'btn-primary' : 'btn-outline'}`}
                       style={{
-                        padding: '6px 14px', borderRadius: '99px', border: '2px solid',
-                        fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer',
-                        transition: 'all 0.2s',
-                        backgroundColor: emailModal.activeType === key ? color : bg,
-                        borderColor: color,
-                        color: emailModal.activeType === key ? '#fff' : color,
+                        padding: '6px 14px',
+                        fontSize: '0.8rem',
+                        backgroundColor: appFilter === status ? 'var(--primary)' : 'transparent',
+                        borderColor: appFilter === status ? 'var(--primary)' : 'var(--border-color)',
+                        color: appFilter === status ? 'var(--white)' : 'var(--text)'
                       }}
+                      onClick={() => { setAppFilter(status); setSelectedApp(null); }}
                     >
-                      {label}
+                      {status}
                     </button>
                   ))}
                 </div>
 
-                {/* Subject */}
-                <div style={{ marginBottom: '16px' }}>
-                  <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '8px' }}>Subject Line</label>
+                <div style={{ position: 'relative', width: '250px', marginLeft: 'auto' }}>
                   <input
                     type="text"
+                    placeholder="Search by name/id..."
                     className="form-control"
-                    value={emailModal.subject}
-                    onChange={(e) => setEmailModal(prev => ({ ...prev, subject: e.target.value }))}
-                    style={{ fontSize: '0.9rem' }}
+                    style={{ paddingLeft: '36px', paddingRight: '12px', fontSize: '0.85rem', padding: '8px 12px 8px 36px' }}
+                    value={appSearch}
+                    onChange={(e) => setAppSearch(e.target.value)}
                   />
-                </div>
-
-                {/* Body */}
-                <div style={{ marginBottom: '24px' }}>
-                  <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '8px' }}>Email Body</label>
-                  <textarea
-                    className="form-control"
-                    rows={12}
-                    value={emailModal.body}
-                    onChange={(e) => setEmailModal(prev => ({ ...prev, body: e.target.value }))}
-                    style={{ fontSize: '0.88rem', lineHeight: '1.7', fontFamily: 'var(--font-body)', resize: 'vertical' }}
-                  />
-                </div>
-
-                <div style={{ display: 'flex', gap: '10px', paddingBottom: '28px' }}>
-                  <button
-                    className="btn btn-secondary"
-                    style={{ flexGrow: 1, display: 'flex', gap: '8px', justifyContent: 'center', alignItems: 'center' }}
-                    onClick={sendEmail}
-                  >
-                    <Mail size={15} /> Open in Zoho Mail
-                  </button>
-                  <button
-                    className="btn btn-outline"
-                    style={{ padding: '10px 20px' }}
-                    onClick={() => setEmailModal(null)}
-                  >
-                    Cancel
-                  </button>
+                  <Search size={14} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                 </div>
               </div>
-            </div>
-          </div>
-        )}
 
-        {/* ================= TAB 3: NOTICES EDITOR ================= */}
-        {activeTab === 'notices' && (
-          <div className="animated">
-            <h2>School Notice Correspondence</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: '40% 60%', gap: '32px', marginTop: '24px' }} className="sub-grid-mobile">
+              {/* Main Application Interface */}
+              <div style={{ display: 'grid', gridTemplateColumns: selectedApp ? '50% 50%' : '1fr', gap: '24px' }} className="sub-grid-mobile">
 
-              {/* Notice Creator Form */}
-              <div className="card" style={{ padding: '28px' }}>
-                <h3 style={{ fontSize: '1.25rem', marginBottom: '20px' }}>
-                  {isEditingNotice ? "Modify Notice Letter" : "Create Official Letter"}
-                </h3>
-                <form onSubmit={handleNoticeSubmit}>
-                  <div className="form-group">
-                    <label className="form-label">Notice Title*</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={noticeForm.title}
-                      onChange={(e) => setNoticeForm({ ...noticeForm, title: e.target.value })}
-                      placeholder="e.g. 2027 Applications Open"
-                      required
-                    />
-                  </div>
+                {/* Applications Table */}
+                <div className="card" style={{ padding: '20px', overflowX: 'auto' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
+                    <thead>
+                      <tr style={{ borderBottom: '2px solid var(--border-color)', paddingBottom: '8px' }}>
+                        <th style={{ padding: '12px 8px' }}>Date</th>
+                        <th style={{ padding: '12px 8px' }}>Learner Name</th>
+                        <th style={{ padding: '12px 8px' }}>Programme</th>
+                        <th style={{ padding: '12px 8px' }}>Status</th>
+                        <th style={{ padding: '12px 8px', textRight: true }}>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredApps.length === 0 ? (
+                        <tr>
+                          <td colSpan="5" style={{ textAlign: 'center', padding: '24px', color: 'var(--text-muted)' }}>No applications matching criteria.</td>
+                        </tr>
+                      ) : (
+                        filteredApps.map(app => (
+                          <tr
+                            key={app.id}
+                            onClick={() => setSelectedApp(app)}
+                            style={{
+                              borderBottom: '1px solid var(--border-color)',
+                              cursor: 'pointer',
+                              backgroundColor: selectedApp?.id === app.id ? 'rgba(179,32,37,0.03)' : 'transparent',
+                              fontWeight: selectedApp?.id === app.id ? 700 : 400
+                            }}
+                            onMouseOver={(e) => { if (selectedApp?.id !== app.id) e.currentTarget.style.backgroundColor = '#F8FAFC'; }}
+                            onMouseOut={(e) => { if (selectedApp?.id !== app.id) e.currentTarget.style.backgroundColor = 'transparent'; }}
+                          >
+                            <td style={{ padding: '12px 8px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                              {new Date(app.dateSubmitted).toLocaleDateString('en-ZA')}
+                            </td>
+                            <td style={{ padding: '12px 8px' }}>
+                              {app.learnerName} {app.learnerSurname}
+                            </td>
+                            <td style={{ padding: '12px 8px', fontSize: '0.85rem' }}>
+                              {app.programme}
+                            </td>
+                            <td style={{ padding: '12px 8px' }}>
+                              <span style={{
+                                backgroundColor: app.status === 'Pending' ? '#FEF3C7' : app.status === 'Reviewed' ? '#DBEAFE' : app.status === 'Accepted' ? '#D1FAE5' : '#FEE2E2',
+                                color: app.status === 'Pending' ? '#B45309' : app.status === 'Reviewed' ? '#1D4ED8' : app.status === 'Accepted' ? '#047857' : '#B91C1C',
+                                padding: '2px 8px',
+                                borderRadius: '99px',
+                                fontSize: '0.7rem',
+                                fontWeight: 'bold'
+                              }}>{app.status}</span>
+                            </td>
+                            <td style={{ padding: '12px 8px' }}>
+                              <button
+                                onClick={(e) => { e.stopPropagation(); deleteApp(app.id); }}
+                                style={{ border: 'none', background: 'none', color: '#EF4444', cursor: 'pointer' }}
+                              >
+                                <Trash2 size={16} />
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
 
-                  <div className="form-group">
-                    <label className="form-label">Category*</label>
-                    <select
-                      className="form-control"
-                      value={noticeForm.category}
-                      onChange={(e) => setNoticeForm({ ...noticeForm, category: e.target.value })}
-                    >
-                      <option value="General">General</option>
-                      <option value="Academic">Academic</option>
-                      <option value="Events">Events</option>
-                    </select>
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label">Author Sign-off*</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={noticeForm.author}
-                      onChange={(e) => setNoticeForm({ ...noticeForm, author: e.target.value })}
-                      placeholder="e.g. E. Bruintjies (Principal)"
-                      required
-                    />
-                  </div>
-
-                  <div className="form-group" style={{ marginBottom: '24px' }}>
-                    <label className="form-label">Notice Body Contents*</label>
-                    <textarea
-                      className="form-control"
-                      rows="6"
-                      value={noticeForm.body}
-                      onChange={(e) => setNoticeForm({ ...noticeForm, body: e.target.value })}
-                      placeholder="Write letter details here. Pacing splits are preserved..."
-                      required
-                    ></textarea>
-                  </div>
-
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    <button type="submit" className="btn btn-secondary" style={{ flexGrow: 1, display: 'flex', gap: '6px', justifyContent: 'center' }}>
-                      <Save size={16} /> {isEditingNotice ? "Save Changes" : "Publish Notice"}
-                    </button>
-                    {isEditingNotice && (
+                {/* Application Details Panel */}
+                {selectedApp && (
+                  <div className="card animated" style={{ padding: '28px', borderTop: '6px solid var(--secondary)', position: 'sticky', top: '90px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px', marginBottom: '20px' }}>
+                      <div>
+                        <h3 style={{ fontSize: '1.25rem', margin: 0 }}>Application Profile</h3>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Reference ID: {selectedApp.id}</span>
+                      </div>
                       <button
-                        type="button"
+                        className="tab-btn"
+                        style={{ padding: '2px 8px', borderBottom: 'none', margin: 0 }}
+                        onClick={() => setSelectedApp(null)}
+                      >
+                        Close View
+                      </button>
+                    </div>
+
+                    {/* Detail Grid */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '0.88rem', marginBottom: '24px' }}>
+                      <div><strong>Programme:</strong> <span>{selectedApp.programme}</span></div>
+                      <div><strong>Learner:</strong> <span>{selectedApp.learnerName} {selectedApp.learnerSurname} ({selectedApp.learnerGrade})</span></div>
+
+                      {selectedApp.programme === 'Grade 12' ? (
+                        <>
+                          <div><strong>Parent:</strong> <span>{selectedApp.parentName} {selectedApp.parentSurname}</span></div>
+                          <div><strong>Contact:</strong> <span>{selectedApp.parentContact}</span></div>
+                          <div><strong>Email:</strong> <span>{selectedApp.parentEmail || 'N/A'}</span></div>
+                          <div><strong>Address:</strong> <span>{selectedApp.parentAddress}</span></div>
+                          <div><strong>Subjects Requested:</strong> <span>{selectedApp.learnerSubjects.join(', ')}</span></div>
+                        </>
+                      ) : (
+                        <>
+                          <div><strong>Contact:</strong> <span>{selectedApp.learnerPhone}</span></div>
+                          <div><strong>Email:</strong> <span>{selectedApp.learnerEmail || 'N/A'}</span></div>
+                          <div><strong>Address:</strong> <span>{selectedApp.learnerAddress}</span></div>
+                          <div><strong>Emergency Contact:</strong> <span>{selectedApp.emergencyContact}</span></div>
+                        </>
+                      )}
+
+                      <div><strong>Submission Date:</strong> <span>{new Date(selectedApp.dateSubmitted).toLocaleString('en-ZA')}</span></div>
+
+                      {/* Status selector */}
+                      <div style={{ marginTop: '10px' }}>
+                        <strong>Select Status Option:</strong>
+                        <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                          {['Pending', 'Reviewed', 'Accepted', 'Rejected'].map(st => (
+                            <button
+                              key={st}
+                              onClick={() => updateAppStatus(selectedApp.id, st)}
+                              style={{
+                                fontSize: '0.75rem',
+                                padding: '4px 10px',
+                                borderRadius: '4px',
+                                border: '1px solid',
+                                borderColor: selectedApp.status === st ? 'var(--secondary)' : 'var(--border-color)',
+                                backgroundColor: selectedApp.status === st ? 'var(--secondary)' : 'transparent',
+                                color: selectedApp.status === st ? 'var(--white)' : 'var(--text)',
+                                fontWeight: 600,
+                                cursor: 'pointer'
+                              }}
+                            >
+                              {st}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Signature Preview */}
+                      <div style={{ marginTop: '12px' }}>
+                        <strong>Assent Signature:</strong>
+                        {selectedApp.signature.startsWith('data:image') ? (
+                          <div style={{ border: '1px solid var(--border-color)', borderRadius: '4px', padding: '6px', width: 'fit-content', marginTop: '6px', backgroundColor: '#FFFFFF' }}>
+                            <img src={selectedApp.signature} alt="Sign" style={{ maxHeight: '60px', display: 'block' }} />
+                          </div>
+                        ) : (
+                          <div style={{ fontStyle: 'italic', padding: '8px', border: '1px solid var(--border-color)', borderRadius: '4px', marginTop: '6px', backgroundColor: '#FFFFFF' }}>
+                            "{selectedApp.signature}"
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Actions Row */}
+                    <div style={{ display: 'flex', gap: '10px', borderTop: '1px solid var(--border-color)', paddingTop: '16px', flexWrap: 'wrap' }}>
+                      <button
+                        className="btn btn-primary"
+                        style={{ padding: '8px 16px', fontSize: '0.82rem', flexGrow: 1, display: 'flex', gap: '6px', justifyContent: 'center' }}
+                        onClick={() => printApp(selectedApp)}
+                      >
+                        <Printer size={14} /> Print Record
+                      </button>
+                      <button
+                        className="btn btn-secondary"
+                        style={{ padding: '8px 16px', fontSize: '0.82rem', display: 'flex', gap: '6px', justifyContent: 'center', alignItems: 'center', flexGrow: 1 }}
+                        onClick={() => openEmailModal(selectedApp)}
+                      >
+                        <Mail size={14} /> Email Applicant
+                      </button>
+                      <button
                         className="btn btn-outline"
+                        style={{ padding: '8px 16px', fontSize: '0.82rem', color: '#EF4444', borderColor: '#EF4444' }}
+                        onClick={() => deleteApp(selectedApp.id)}
+                      >
+                        <Trash2 size={14} /> Delete
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* ================= EMAIL MODAL ================= */}
+          {emailModal && (
+            <div style={{
+              position: 'fixed', inset: 0, zIndex: 9999,
+              backgroundColor: 'rgba(15,23,42,0.7)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              backdropFilter: 'blur(4px)', padding: '20px'
+            }}>
+              <div className="animated" style={{
+                background: '#ffffff', borderRadius: '16px',
+                width: '100%', maxWidth: '640px', maxHeight: '90vh',
+                overflowY: 'auto', boxShadow: '0 25px 60px rgba(0,0,0,0.35)',
+                border: '1px solid var(--border-color)'
+              }}>
+
+                {/* Modal Header */}
+                <div style={{
+                  padding: '24px 28px 20px',
+                  borderBottom: '1px solid var(--border-color)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{
+                      width: '40px', height: '40px', borderRadius: '10px',
+                      backgroundColor: 'rgba(122,28,32,0.1)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    }}>
+                      <Mail size={18} color="var(--secondary)" />
+                    </div>
+                    <div>
+                      <h3 style={{ fontSize: '1.1rem', margin: 0 }}>Email Applicant</h3>
+                      <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: 0 }}>
+                        {emailModal.app.learnerName} {emailModal.app.learnerSurname} &mdash; {emailModal.app.programme}
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setEmailModal(null)}
+                    style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: '4px' }}
+                  >
+                    <X size={20} />
+                  </button>
+                </div>
+
+                {/* Template Selector */}
+                <div style={{ padding: '20px 28px 0' }}>
+                  <p style={{ fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '10px' }}>Response Template</p>
+                  <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', flexWrap: 'wrap' }}>
+                    {[
+                      { key: 'accept', label: '✓ Acceptance', color: '#059669', bg: '#D1FAE5' },
+                      { key: 'reject', label: '✗ Decline', color: '#B91C1C', bg: '#FEE2E2' },
+                      { key: 'review', label: '⧖ Under Review', color: '#1D4ED8', bg: '#DBEAFE' },
+                    ].map(({ key, label, color, bg }) => (
+                      <button
+                        key={key}
                         onClick={() => {
-                          setIsEditingNotice(false);
-                          setNoticeForm({ id: null, title: '', category: 'General', body: '', author: 'E. Bruintjies (Principal)' });
+                          const t = getEmailTemplate(emailModal.app, key);
+                          setEmailModal(prev => ({ ...prev, ...t, activeType: key }));
+                        }}
+                        style={{
+                          padding: '6px 14px', borderRadius: '99px', border: '2px solid',
+                          fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer',
+                          transition: 'all 0.2s',
+                          backgroundColor: emailModal.activeType === key ? color : bg,
+                          borderColor: color,
+                          color: emailModal.activeType === key ? '#fff' : color,
                         }}
                       >
-                        Cancel
+                        {label}
                       </button>
-                    )}
+                    ))}
                   </div>
-                </form>
-              </div>
 
-              {/* Published Notices list */}
-              <div className="card" style={{ padding: '28px', maxHeight: '600px', overflowY: 'auto' }}>
-                <h3 style={{ fontSize: '1.25rem', marginBottom: '20px' }}>Published Letterheads</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  {notices.map(notice => (
-                    <div key={notice.id} style={{
-                      borderLeft: '4px solid var(--secondary)',
-                      padding: '16px',
-                      backgroundColor: 'var(--bg-alt)',
-                      borderRadius: '0 8px 8px 0',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'flex-start'
-                    }}>
-                      <div style={{ maxWidth: '80%' }}>
-                        <span style={{ fontSize: '0.75rem', fontWeight: 'bold', color: 'var(--text-muted)' }}>
-                          {new Date(notice.date).toLocaleDateString('en-ZA')} | {notice.category}
-                        </span>
-                        <h4 style={{ margin: '4px 0 8px', fontSize: '1rem', color: 'var(--primary)' }}>{notice.title}</h4>
-                        <p style={{
-                          fontSize: '0.8rem',
-                          color: 'var(--text-muted)',
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden'
-                        }}>{notice.body}</p>
-                      </div>
+                  {/* Subject */}
+                  <div style={{ marginBottom: '16px' }}>
+                    <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '8px' }}>Subject Line</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={emailModal.subject}
+                      onChange={(e) => setEmailModal(prev => ({ ...prev, subject: e.target.value }))}
+                      style={{ fontSize: '0.9rem' }}
+                    />
+                  </div>
 
-                      <div style={{ display: 'flex', gap: '8px' }}>
-                        <button
-                          onClick={() => printNotice(notice)}
-                          style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text)' }}
-                          title="Print Notice"
-                        >
-                          <Printer size={16} />
-                        </button>
-                        <button
-                          onClick={() => startEditNotice(notice)}
-                          style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--primary)' }}
-                          title="Edit Notice"
-                        >
-                          <Edit size={16} />
-                        </button>
-                        <button
-                          onClick={() => deleteNotice(notice.id)}
-                          style={{ border: 'none', background: 'none', cursor: 'pointer', color: '#EF4444' }}
-                        >
-                          <Trash2 size={16} />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
+                  {/* Body */}
+                  <div style={{ marginBottom: '24px' }}>
+                    <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '8px' }}>Email Body</label>
+                    <textarea
+                      className="form-control"
+                      rows={12}
+                      value={emailModal.body}
+                      onChange={(e) => setEmailModal(prev => ({ ...prev, body: e.target.value }))}
+                      style={{ fontSize: '0.88rem', lineHeight: '1.7', fontFamily: 'var(--font-body)', resize: 'vertical' }}
+                    />
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '10px', paddingBottom: '28px' }}>
+                    <button
+                      className="btn btn-secondary"
+                      style={{ flexGrow: 1, display: 'flex', gap: '8px', justifyContent: 'center', alignItems: 'center' }}
+                      onClick={sendEmail}
+                    >
+                      <Mail size={15} /> Open in Zoho Mail
+                    </button>
+                    <button
+                      className="btn btn-outline"
+                      style={{ padding: '10px 20px' }}
+                      onClick={() => setEmailModal(null)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </div>
               </div>
-
             </div>
-          </div>
-        )}
+          )}
 
-        {/* ================= TAB 4: GALLERY MANAGER ================= */}
-        {activeTab === 'gallery' && (
-          <div className="animated">
-            <h2>Gallery Album Manager</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: '40% 60%', gap: '32px', marginTop: '24px' }} className="sub-grid-mobile">
+          {/* ================= TAB 3: NOTICES EDITOR ================= */}
+          {activeTab === 'notices' && (
+            <div className="animated">
+              <h2>School Notice Correspondence</h2>
+              <div style={{ display: 'grid', gridTemplateColumns: '40% 60%', gap: '32px', marginTop: '24px' }} className="sub-grid-mobile">
 
-              {/* Photo Uploader */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                <div className="card" style={{ padding: '24px' }}>
-                  <h3 style={{ fontSize: '1.25rem', marginBottom: '16px' }}>Upload Photo</h3>
-                  <form onSubmit={handleImageUpload}>
+                {/* Notice Creator Form */}
+                <div className="card" style={{ padding: '28px' }}>
+                  <h3 style={{ fontSize: '1.25rem', marginBottom: '20px' }}>
+                    {isEditingNotice ? "Modify Notice Letter" : "Create Official Letter"}
+                  </h3>
+                  <form onSubmit={handleNoticeSubmit}>
                     <div className="form-group">
-                      <label className="form-label">Select Album*</label>
-                      <select
-                        className="form-control"
-                        value={galleryForm.album}
-                        onChange={(e) => setGalleryForm({ ...galleryForm, album: e.target.value })}
-                      >
-                        {availableAlbums.map(alb => (
-                          <option key={alb} value={alb}>{alb}</option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {/* Local File Reader Input */}
-                    <div className="form-group">
-                      <label className="form-label">Upload Local Photo File*</label>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        className="form-control"
-                        onChange={handleFileChange}
-                        style={{ padding: '8px' }}
-                      />
-                      <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block', marginTop: '4px' }}>
-                        Select any image from your computer. It reads locally and renders in the gallery instantly.
-                      </span>
-                    </div>
-
-                    <div className="form-group">
-                      <label className="form-label">Or Image URL*</label>
-                      <input
-                        type="url"
-                        className="form-control"
-                        placeholder="https://images.unsplash.com/..."
-                        value={galleryForm.url}
-                        onChange={(e) => setGalleryForm({ ...galleryForm, url: e.target.value })}
-                        required
-                      />
-                    </div>
-
-                    <div className="form-group" style={{ marginBottom: '20px' }}>
-                      <label className="form-label">Photo Caption*</label>
+                      <label className="form-label">Notice Title*</label>
                       <input
                         type="text"
                         className="form-control"
-                        placeholder="Short caption describing the class activity"
-                        value={galleryForm.caption}
-                        onChange={(e) => setGalleryForm({ ...galleryForm, caption: e.target.value })}
+                        value={noticeForm.title}
+                        onChange={(e) => setNoticeForm({ ...noticeForm, title: e.target.value })}
+                        placeholder="e.g. 2027 Applications Open"
                         required
                       />
                     </div>
 
-                    <button type="submit" className="btn btn-secondary" style={{ width: '100%' }}>
-                      Add Photo to Gallery
-                    </button>
+                    <div className="form-group">
+                      <label className="form-label">Category*</label>
+                      <select
+                        className="form-control"
+                        value={noticeForm.category}
+                        onChange={(e) => setNoticeForm({ ...noticeForm, category: e.target.value })}
+                      >
+                        <option value="General">General</option>
+                        <option value="Academic">Academic</option>
+                        <option value="Events">Events</option>
+                      </select>
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Author Sign-off*</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={noticeForm.author}
+                        onChange={(e) => setNoticeForm({ ...noticeForm, author: e.target.value })}
+                        placeholder="e.g. E. Bruintjies (Principal)"
+                        required
+                      />
+                    </div>
+
+                    <div className="form-group" style={{ marginBottom: '24px' }}>
+                      <label className="form-label">Notice Body Contents*</label>
+                      <textarea
+                        className="form-control"
+                        rows="6"
+                        value={noticeForm.body}
+                        onChange={(e) => setNoticeForm({ ...noticeForm, body: e.target.value })}
+                        placeholder="Write letter details here. Pacing splits are preserved..."
+                        required
+                      ></textarea>
+                    </div>
+
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <button type="submit" className="btn btn-secondary" style={{ flexGrow: 1, display: 'flex', gap: '6px', justifyContent: 'center' }}>
+                        <Save size={16} /> {isEditingNotice ? "Save Changes" : "Publish Notice"}
+                      </button>
+                      {isEditingNotice && (
+                        <button
+                          type="button"
+                          className="btn btn-outline"
+                          onClick={() => {
+                            setIsEditingNotice(false);
+                            setNoticeForm({ id: null, title: '', category: 'General', body: '', author: 'E. Bruintjies (Principal)' });
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      )}
+                    </div>
                   </form>
                 </div>
 
-                {/* Album Creator */}
-                <div className="card" style={{ padding: '24px' }}>
-                  <h3 style={{ fontSize: '1.1rem', marginBottom: '12px' }}>Create New Album</h3>
-                  <form onSubmit={handleAddNewAlbum} style={{ display: 'flex', gap: '8px' }}>
+                {/* Published Notices list */}
+                <div className="card" style={{ padding: '28px', maxHeight: '600px', overflowY: 'auto' }}>
+                  <h3 style={{ fontSize: '1.25rem', marginBottom: '20px' }}>Published Letterheads</h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    {notices.map(notice => (
+                      <div key={notice.id} style={{
+                        borderLeft: '4px solid var(--secondary)',
+                        padding: '16px',
+                        backgroundColor: 'var(--bg-alt)',
+                        borderRadius: '0 8px 8px 0',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'flex-start'
+                      }}>
+                        <div style={{ maxWidth: '80%' }}>
+                          <span style={{ fontSize: '0.75rem', fontWeight: 'bold', color: 'var(--text-muted)' }}>
+                            {new Date(notice.date).toLocaleDateString('en-ZA')} | {notice.category}
+                          </span>
+                          <h4 style={{ margin: '4px 0 8px', fontSize: '1rem', color: 'var(--primary)' }}>{notice.title}</h4>
+                          <p style={{
+                            fontSize: '0.8rem',
+                            color: 'var(--text-muted)',
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden'
+                          }}>{notice.body}</p>
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          <button
+                            onClick={() => printNotice(notice)}
+                            style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--text)' }}
+                            title="Print Notice"
+                          >
+                            <Printer size={16} />
+                          </button>
+                          <button
+                            onClick={() => startEditNotice(notice)}
+                            style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--primary)' }}
+                            title="Edit Notice"
+                          >
+                            <Edit size={16} />
+                          </button>
+                          <button
+                            onClick={() => deleteNotice(notice.id)}
+                            style={{ border: 'none', background: 'none', cursor: 'pointer', color: '#EF4444' }}
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          )}
+
+          {/* ================= TAB 4: GALLERY MANAGER ================= */}
+          {activeTab === 'gallery' && (
+            <div className="animated">
+              <h2>Gallery Album Manager</h2>
+              <div style={{ display: 'grid', gridTemplateColumns: '40% 60%', gap: '32px', marginTop: '24px' }} className="sub-grid-mobile">
+
+                {/* Photo Uploader */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                  <div className="card" style={{ padding: '24px' }}>
+                    <h3 style={{ fontSize: '1.25rem', marginBottom: '16px' }}>Upload Photo</h3>
+                    <form onSubmit={handleImageUpload}>
+                      <div className="form-group">
+                        <label className="form-label">Select Album*</label>
+                        <select
+                          className="form-control"
+                          value={galleryForm.album}
+                          onChange={(e) => setGalleryForm({ ...galleryForm, album: e.target.value })}
+                        >
+                          {availableAlbums.map(alb => (
+                            <option key={alb} value={alb}>{alb}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {/* Local File Reader Input */}
+                      <div className="form-group">
+                        <label className="form-label">Upload Local Photo File*</label>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="form-control"
+                          onChange={handleFileChange}
+                          style={{ padding: '8px' }}
+                        />
+                        <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block', marginTop: '4px' }}>
+                          Select any image from your computer. It reads locally and renders in the gallery instantly.
+                        </span>
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">Or Image URL*</label>
+                        <input
+                          type="url"
+                          className="form-control"
+                          placeholder="https://images.unsplash.com/..."
+                          value={galleryForm.url}
+                          onChange={(e) => setGalleryForm({ ...galleryForm, url: e.target.value })}
+                          required
+                        />
+                      </div>
+
+                      <div className="form-group" style={{ marginBottom: '20px' }}>
+                        <label className="form-label">Photo Caption*</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Short caption describing the class activity"
+                          value={galleryForm.caption}
+                          onChange={(e) => setGalleryForm({ ...galleryForm, caption: e.target.value })}
+                          required
+                        />
+                      </div>
+
+                      <button type="submit" className="btn btn-secondary" style={{ width: '100%' }}>
+                        Add Photo to Gallery
+                      </button>
+                    </form>
+                  </div>
+
+                  {/* Album Creator */}
+                  <div className="card" style={{ padding: '24px' }}>
+                    <h3 style={{ fontSize: '1.1rem', marginBottom: '12px' }}>Create New Album</h3>
+                    <form onSubmit={handleAddNewAlbum} style={{ display: 'flex', gap: '8px' }}>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Album name"
+                        value={newAlbumName}
+                        onChange={(e) => setNewAlbumName(e.target.value)}
+                        required
+                      />
+                      <button type="submit" className="btn btn-primary" style={{ padding: '10px 16px' }}>
+                        Create
+                      </button>
+                    </form>
+                  </div>
+                </div>
+
+                {/* Photo list */}
+                <div className="card" style={{ padding: '28px', maxHeight: '600px', overflowY: 'auto' }}>
+                  <h3 style={{ fontSize: '1.25rem', marginBottom: '20px' }}>Current Gallery Files</h3>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '16px' }}>
+                    {gallery.map(img => (
+                      <div key={img.id} style={{
+                        border: '1px solid var(--border-color)',
+                        borderRadius: '8px',
+                        overflow: 'hidden',
+                        position: 'relative',
+                        aspectRatio: '1',
+                        backgroundColor: 'var(--bg-alt)'
+                      }}>
+                        <img src={img.url} alt={img.caption} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <div style={{
+                          position: 'absolute',
+                          top: '4px',
+                          left: '4px',
+                          backgroundColor: 'var(--primary)',
+                          color: 'var(--white)',
+                          fontSize: '0.62rem',
+                          padding: '2px 6px',
+                          borderRadius: '4px',
+                          fontWeight: 'bold'
+                        }}>
+                          {img.album}
+                        </div>
+                        <button
+                          onClick={() => deleteImage(img.id)}
+                          style={{
+                            position: 'absolute',
+                            bottom: '6px',
+                            right: '6px',
+                            backgroundColor: 'rgba(239, 68, 68, 0.9)',
+                            color: 'var(--white)',
+                            border: 'none',
+                            borderRadius: '4px',
+                            padding: '4px',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          <Trash2 size={13} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          )}
+
+          {/* ================= TAB 5: SYSTEM SETTINGS ================= */}
+          {activeTab === 'settings' && (
+            <div className="animated" style={{ maxWidth: '800px' }}>
+              <h2>System & Website Configuration</h2>
+
+              <form onSubmit={handleSaveSettings}>
+                {/* Pricing settings */}
+                <div className="card" style={{ padding: '28px', marginTop: '24px' }}>
+                  <h3 style={{ fontSize: '1.25rem', marginBottom: '20px', color: 'var(--secondary)' }}>Tuition Fees & Pricing Structures</h3>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="sub-grid-mobile">
+                    <div className="form-group">
+                      <label className="form-label">Standard Hourly Rate (R)*</label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        value={pricing.hourlyRate || ''}
+                        onChange={(e) => setPricing({ ...pricing, hourlyRate: parseInt(e.target.value) || 0 })}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Rewrite Monthly Installment (R)*</label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        value={pricing.rewriteMonthly || ''}
+                        onChange={(e) => setPricing({ ...pricing, rewriteMonthly: parseInt(e.target.value) || 0 })}
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="sub-grid-mobile">
+                    <div className="form-group">
+                      <label className="form-label">Rewrite Once-Off Settlement (R)*</label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        value={pricing.rewriteOnceOff || ''}
+                        onChange={(e) => setPricing({ ...pricing, rewriteOnceOff: parseInt(e.target.value) || 0 })}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Activate Promotions Banner?</label>
+                      <label className="form-checkbox" style={{ marginTop: '12px' }}>
+                        <input
+                          type="checkbox"
+                          checked={pricing.promoBannerActive || false}
+                          onChange={(e) => setPricing({ ...pricing, promoBannerActive: e.target.checked })}
+                          style={{ width: '18px', height: '18px', accentColor: 'var(--secondary)' }}
+                        />
+                        <span style={{ fontWeight: 600 }}>Yes, render promotions banner on homepage</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Promotion Banner Alert Text</label>
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Album name"
-                      value={newAlbumName}
-                      onChange={(e) => setNewAlbumName(e.target.value)}
-                      required
+                      value={pricing.promoBannerText || ''}
+                      onChange={(e) => setPricing({ ...pricing, promoBannerText: e.target.value })}
                     />
-                    <button type="submit" className="btn btn-primary" style={{ padding: '10px 16px' }}>
-                      Create
-                    </button>
-                  </form>
+                  </div>
                 </div>
-              </div>
 
-              {/* Photo list */}
-              <div className="card" style={{ padding: '28px', maxHeight: '600px', overflowY: 'auto' }}>
-                <h3 style={{ fontSize: '1.25rem', marginBottom: '20px' }}>Current Gallery Files</h3>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '16px' }}>
-                  {gallery.map(img => (
-                    <div key={img.id} style={{
-                      border: '1px solid var(--border-color)',
-                      borderRadius: '8px',
-                      overflow: 'hidden',
-                      position: 'relative',
-                      aspectRatio: '1',
-                      backgroundColor: 'var(--bg-alt)'
-                    }}>
-                      <img src={img.url} alt={img.caption} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      <div style={{
-                        position: 'absolute',
-                        top: '4px',
-                        left: '4px',
-                        backgroundColor: 'var(--primary)',
-                        color: 'var(--white)',
-                        fontSize: '0.62rem',
-                        padding: '2px 6px',
-                        borderRadius: '4px',
-                        fontWeight: 'bold'
-                      }}>
-                        {img.album}
-                      </div>
-                      <button
-                        onClick={() => deleteImage(img.id)}
-                        style={{
-                          position: 'absolute',
-                          bottom: '6px',
-                          right: '6px',
-                          backgroundColor: 'rgba(239, 68, 68, 0.9)',
-                          color: 'var(--white)',
-                          border: 'none',
-                          borderRadius: '4px',
-                          padding: '4px',
-                          cursor: 'pointer'
-                        }}
-                      >
-                        <Trash2 size={13} />
-                      </button>
+                {/* Content settings */}
+                <div className="card" style={{ padding: '28px', marginTop: '24px', marginBottom: '24px' }}>
+                  <h3 style={{ fontSize: '1.25rem', marginBottom: '20px', color: 'var(--primary)' }}>Editable Website Text Elements</h3>
+
+                  <div className="form-group">
+                    <label className="form-label">Our Story / Philosophy Text</label>
+                    <textarea
+                      className="form-control"
+                      rows="4"
+                      value={content.aboutStory || ''}
+                      onChange={(e) => setContent({ ...content, aboutStory: e.target.value })}
+                    ></textarea>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="sub-grid-mobile">
+                    <div className="form-group">
+                      <label className="form-label">Mission Statement</label>
+                      <textarea
+                        className="form-control"
+                        rows="3"
+                        value={content.aboutMission || ''}
+                        onChange={(e) => setContent({ ...content, aboutMission: e.target.value })}
+                      ></textarea>
                     </div>
-                  ))}
-                </div>
-              </div>
+                    <div className="form-group">
+                      <label className="form-label">Vision Statement</label>
+                      <textarea
+                        className="form-control"
+                        rows="3"
+                        value={content.aboutVision || ''}
+                        onChange={(e) => setContent({ ...content, aboutVision: e.target.value })}
+                      ></textarea>
+                    </div>
+                  </div>
 
+                  <div className="form-group">
+                    <label className="form-label">Founder Profile Biography</label>
+                    <textarea
+                      className="form-control"
+                      rows="4"
+                      value={content.founderBio || ''}
+                      onChange={(e) => setContent({ ...content, founderBio: e.target.value })}
+                    ></textarea>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  className="btn btn-secondary"
+                  style={{ width: '100%', padding: '14px', display: 'flex', gap: '8px', justifyContent: 'center' }}
+                >
+                  <Save size={18} /> Save Website Configurations
+                </button>
+              </form>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* ================= TAB 5: SYSTEM SETTINGS ================= */}
-        {activeTab === 'settings' && (
-          <div className="animated" style={{ maxWidth: '800px' }}>
-            <h2>System & Website Configuration</h2>
-
-            <form onSubmit={handleSaveSettings}>
-              {/* Pricing settings */}
-              <div className="card" style={{ padding: '28px', marginTop: '24px' }}>
-                <h3 style={{ fontSize: '1.25rem', marginBottom: '20px', color: 'var(--secondary)' }}>Tuition Fees & Pricing Structures</h3>
-
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="sub-grid-mobile">
-                  <div className="form-group">
-                    <label className="form-label">Standard Hourly Rate (R)*</label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      value={pricing.hourlyRate || ''}
-                      onChange={(e) => setPricing({ ...pricing, hourlyRate: parseInt(e.target.value) || 0 })}
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Rewrite Monthly Installment (R)*</label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      value={pricing.rewriteMonthly || ''}
-                      onChange={(e) => setPricing({ ...pricing, rewriteMonthly: parseInt(e.target.value) || 0 })}
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="sub-grid-mobile">
-                  <div className="form-group">
-                    <label className="form-label">Rewrite Once-Off Settlement (R)*</label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      value={pricing.rewriteOnceOff || ''}
-                      onChange={(e) => setPricing({ ...pricing, rewriteOnceOff: parseInt(e.target.value) || 0 })}
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Activate Promotions Banner?</label>
-                    <label className="form-checkbox" style={{ marginTop: '12px' }}>
-                      <input
-                        type="checkbox"
-                        checked={pricing.promoBannerActive || false}
-                        onChange={(e) => setPricing({ ...pricing, promoBannerActive: e.target.checked })}
-                        style={{ width: '18px', height: '18px', accentColor: 'var(--secondary)' }}
-                      />
-                      <span style={{ fontWeight: 600 }}>Yes, render promotions banner on homepage</span>
-                    </label>
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">Promotion Banner Alert Text</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={pricing.promoBannerText || ''}
-                    onChange={(e) => setPricing({ ...pricing, promoBannerText: e.target.value })}
-                  />
-                </div>
-              </div>
-
-              {/* Content settings */}
-              <div className="card" style={{ padding: '28px', marginTop: '24px', marginBottom: '24px' }}>
-                <h3 style={{ fontSize: '1.25rem', marginBottom: '20px', color: 'var(--primary)' }}>Editable Website Text Elements</h3>
-
-                <div className="form-group">
-                  <label className="form-label">Our Story / Philosophy Text</label>
-                  <textarea
-                    className="form-control"
-                    rows="4"
-                    value={content.aboutStory || ''}
-                    onChange={(e) => setContent({ ...content, aboutStory: e.target.value })}
-                  ></textarea>
-                </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="sub-grid-mobile">
-                  <div className="form-group">
-                    <label className="form-label">Mission Statement</label>
-                    <textarea
-                      className="form-control"
-                      rows="3"
-                      value={content.aboutMission || ''}
-                      onChange={(e) => setContent({ ...content, aboutMission: e.target.value })}
-                    ></textarea>
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Vision Statement</label>
-                    <textarea
-                      className="form-control"
-                      rows="3"
-                      value={content.aboutVision || ''}
-                      onChange={(e) => setContent({ ...content, aboutVision: e.target.value })}
-                    ></textarea>
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">Founder Profile Biography</label>
-                  <textarea
-                    className="form-control"
-                    rows="4"
-                    value={content.founderBio || ''}
-                    onChange={(e) => setContent({ ...content, founderBio: e.target.value })}
-                  ></textarea>
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                className="btn btn-secondary"
-                style={{ width: '100%', padding: '14px', display: 'flex', gap: '8px', justifyContent: 'center' }}
-              >
-                <Save size={18} /> Save Website Configurations
-              </button>
-            </form>
-          </div>
-        )}
-
+        </div>
       </div>
-    </div>
 
       {/* ===== MOBILE BOTTOM TAB BAR (visible < 768px) ===== */}
       <nav className="dash-bottom-tabs" aria-label="Dashboard navigation">

@@ -87,11 +87,11 @@ export default function Home({ setCurrentPage }) {
       )}
 
       {/* Hero Section - Cinematic & Immersive */}
-      <section style={{ 
-        position: 'relative', 
-        minHeight: '90vh', 
-        display: 'flex', 
-        alignItems: 'center', 
+      <section style={{
+        position: 'relative',
+        minHeight: '90vh',
+        display: 'flex',
+        alignItems: 'center',
         overflow: 'hidden',
         borderBottom: '1px solid rgba(255,255,255,0.1)'
       }}>
@@ -105,7 +105,7 @@ export default function Home({ setCurrentPage }) {
           animation: 'slowZoom 20s infinite alternate',
           zIndex: 1
         }}></div>
-        
+
         {/* Deep Cinematic Overlay */}
         <div style={{
           position: 'absolute',
@@ -117,11 +117,11 @@ export default function Home({ setCurrentPage }) {
             <span style={{ fontSize: '0.75rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>[ Est. 2026 ]</span>
             <span style={{ fontSize: '0.75rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>[ Kariega, SA ]</span>
           </div>
-          
+
           <h1 className="reveal-hidden" style={{ marginBottom: '40px', maxWidth: '100%', color: 'var(--white)', textShadow: '0 10px 30px rgba(0,0,0,0.5)', transitionDelay: '0.2s' }}>
             Empowering Learners Through Strict Academic Discipline.
           </h1>
-          
+
           <div className="reveal-hidden hero-cta-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '32px', transitionDelay: '0.4s' }}>
             <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.8)', maxWidth: '500px', lineHeight: '1.8' }}>
               Dedicated, CAPS-aligned Grade 12 Life Sciences support, designed to unlock university admission for current Grade 12s and NSC Rewrite candidates.
@@ -136,11 +136,11 @@ export default function Home({ setCurrentPage }) {
       </section>
 
       {/* Cinematic Parallax Storytelling - Movie Mode Trigger */}
-      <section className="parallax-container" style={{ 
-        backgroundImage: `url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop')` 
+      <section className="parallax-container" style={{
+        backgroundImage: `url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop')`
       }}>
         <div className="parallax-overlay"></div>
-        
+
         <div className="parallax-story-block">
           <h2 className="reveal-hidden" style={{ fontSize: 'clamp(3rem, 6vw, 5rem)', color: 'var(--white)', fontWeight: 300, letterSpacing: '-0.02em', textShadow: '0 10px 30px rgba(0,0,0,0.8)' }}>
             It starts with <span style={{ color: 'var(--secondary)', fontStyle: 'italic', fontWeight: 600 }}>discipline.</span>
@@ -164,14 +164,14 @@ export default function Home({ setCurrentPage }) {
       <section style={{ padding: 0, borderBottom: '1px solid rgba(255,255,255,0.08)', backgroundColor: '#0f1115' }}>
         <div className="container-fluid" style={{ padding: 0 }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)' }} className="quick-links-grid">
-            
+
             {/* Cell 1: Admissions */}
-            <div 
-              onClick={() => setCurrentPage('admissions')} 
+            <div
+              onClick={() => setCurrentPage('admissions')}
               className="cinematic-card"
               style={{ cursor: 'pointer' }}
             >
-              <div 
+              <div
                 className="cinematic-card-bg"
                 style={{ backgroundImage: `url('/admissions-2027-students.jpg')` }}
               ></div>
@@ -188,14 +188,14 @@ export default function Home({ setCurrentPage }) {
                 </div>
               </div>
             </div>
-            
+
             {/* Cell 2: Life Sciences */}
-            <div 
-              onClick={() => setCurrentPage('programmes')} 
+            <div
+              onClick={() => setCurrentPage('programmes')}
               className="cinematic-card"
               style={{ cursor: 'pointer' }}
             >
-              <div 
+              <div
                 className="cinematic-card-bg"
                 style={{ backgroundImage: `url('https://images.unsplash.com/photo-1532187643603-ba119ca4109e?q=80&w=800&auto=format&fit=crop')` }}
               ></div>
@@ -212,14 +212,14 @@ export default function Home({ setCurrentPage }) {
                 </div>
               </div>
             </div>
-            
+
             {/* Cell 3: Math Lit */}
-            <div 
-              onClick={() => setCurrentPage('programmes')} 
+            <div
+              onClick={() => setCurrentPage('programmes')}
               className="cinematic-card"
               style={{ cursor: 'pointer' }}
             >
-              <div 
+              <div
                 className="cinematic-card-bg"
                 style={{ backgroundImage: `url('https://images.unsplash.com/photo-1453733190148-c44698c26588?q=80&w=800&auto=format&fit=crop')` }}
               ></div>
@@ -236,14 +236,14 @@ export default function Home({ setCurrentPage }) {
                 </div>
               </div>
             </div>
-            
+
             {/* Cell 4: Fees */}
-            <div 
-              onClick={() => setCurrentPage('fees')} 
+            <div
+              onClick={() => setCurrentPage('fees')}
               className="cinematic-card"
               style={{ cursor: 'pointer' }}
             >
-              <div 
+              <div
                 className="cinematic-card-bg"
                 style={{ backgroundImage: `url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=800&auto=format&fit=crop')` }}
               ></div>
@@ -266,8 +266,8 @@ export default function Home({ setCurrentPage }) {
       </section>
 
       {/* Scene 2: The Launch Countdown (Matte Black Screen Cut) */}
-      <section className="countdown-section" style={{ 
-        backgroundColor: '#0a0b0d', 
+      <section className="countdown-section" style={{
+        backgroundColor: '#0a0b0d',
         color: 'var(--white)',
         padding: '120px 0',
         textAlign: 'center',
@@ -288,14 +288,14 @@ export default function Home({ setCurrentPage }) {
             Our new physical learning facility in Kariega officially commences offline classes. Online enrollment is currently active to secure candidate slots.
           </p>
 
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(4, 1fr)', 
-            gap: '24px', 
-            maxWidth: '800px', 
-            margin: '0 auto' 
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: '24px',
+            maxWidth: '800px',
+            margin: '0 auto'
           }} className="countdown-timer-grid">
-            
+
             {/* Days */}
             <div className="countdown-cell">
               <div className="countdown-cell-num">{timeLeft.days}</div>
@@ -355,7 +355,7 @@ export default function Home({ setCurrentPage }) {
               <span className="story-metric-num">03</span>
               <h3 className="story-metric-title">Qualified Instruction</h3>
               <p className="story-metric-desc">
-                Led directly by Mr. E. Breintjies, combining 10 years of formal FET life sciences instruction with proven matric performance metrics.
+                Led directly by Mr. E. Bruintjies, combining 10 years of formal FET life sciences instruction with proven matric performance metrics.
               </p>
             </div>
           </div>
@@ -366,10 +366,10 @@ export default function Home({ setCurrentPage }) {
       <section style={{ padding: 0, borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
         <div className="container-fluid" style={{ padding: 0 }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }} className="hero-grid-mobile">
-            
+
             {/* Left - Sticky Widescreen Portrait */}
             <div className="sticky-widescreen-media">
-              <div 
+              <div
                 className="widescreen-media-bg"
                 style={{ backgroundImage: `url('/life-sciences-hands-on-1.png')` }}
               ></div>
@@ -404,8 +404,8 @@ export default function Home({ setCurrentPage }) {
                     ))}
                   </ul>
                 </div>
-                <button 
-                  className="btn btn-primary" 
+                <button
+                  className="btn btn-primary"
                   onClick={() => setCurrentPage('programmes')}
                   style={{ display: 'inline-flex', alignItems: 'center', gap: '10px' }}
                 >
@@ -424,7 +424,7 @@ export default function Home({ setCurrentPage }) {
                 <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', lineHeight: '1.8', marginBottom: '32px' }}>
                   Configuring curriculum expansion templates targeting quantitative literacy, financial statistics, and logical computation.
                 </p>
-                <span 
+                <span
                   className="tag tag-accent"
                   style={{ display: 'inline-block', padding: '8px 16px', letterSpacing: '0.1em', fontSize: '0.75rem', fontWeight: 700 }}
                 >
@@ -452,9 +452,9 @@ export default function Home({ setCurrentPage }) {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }} className="quick-links-grid">
             <div className="museum-frame" style={{ borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
-              <img 
-                src="/life-sciences-hands-on-1.png" 
-                alt="Meiosis diagram practical activity" 
+              <img
+                src="/life-sciences-hands-on-1.png"
+                alt="Meiosis diagram practical activity"
                 style={{ width: '100%', height: '260px', objectFit: 'cover', display: 'block' }}
               />
               <div style={{ padding: '16px 12px 8px', textAlign: 'center' }}>
@@ -463,9 +463,9 @@ export default function Home({ setCurrentPage }) {
             </div>
 
             <div className="museum-frame" style={{ borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
-              <img 
-                src="/life-sciences-hands-on-2.png" 
-                alt="Student interactive workbook grid" 
+              <img
+                src="/life-sciences-hands-on-2.png"
+                alt="Student interactive workbook grid"
                 style={{ width: '100%', height: '260px', objectFit: 'cover', display: 'block' }}
               />
               <div style={{ padding: '16px 12px 8px', textAlign: 'center' }}>
@@ -474,9 +474,9 @@ export default function Home({ setCurrentPage }) {
             </div>
 
             <div className="museum-frame" style={{ borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
-              <img 
-                src="/life-sciences-hands-on-3.png" 
-                alt="Meiosis I & II diagram cutout mapping" 
+              <img
+                src="/life-sciences-hands-on-3.png"
+                alt="Meiosis I & II diagram cutout mapping"
                 style={{ width: '100%', height: '260px', objectFit: 'cover', display: 'block' }}
               />
               <div style={{ padding: '16px 12px 8px', textAlign: 'center' }}>
@@ -496,13 +496,13 @@ export default function Home({ setCurrentPage }) {
             gap: '80px',
             alignItems: 'start'
           }} className="hero-grid-mobile">
-            
+
             {/* Left Col - Editorial Portrait */}
             <div className="reveal-hidden" style={{ position: 'sticky', top: '140px' }}>
               <div className="founder-editorial-frame">
-                <img 
-                  src="/mr-breintjies.jpg" 
-                  alt="Founder Mr. Edward Breintjies" 
+                <img
+                  src="/mr-breintjies.jpg"
+                  alt="Founder Mr. Edward Bruintjies"
                   className="founder-editorial-img"
                 />
               </div>
@@ -512,12 +512,12 @@ export default function Home({ setCurrentPage }) {
                 <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '4px' }}>10 Years Active Secondary Instruction Experience</p>
               </div>
             </div>
-            
+
             {/* Right Col - Story Narratives */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
               <span className="meta-tag">[ SEC. 03 / DIRECTOR PROFILE ]</span>
-              <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', marginBottom: '32px', fontWeight: 700 }}>Mr. Edward Breintjies</h2>
-              
+              <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', marginBottom: '32px', fontWeight: 700 }}>Mr. Edward Bruintjies</h2>
+
               <blockquote className="founder-editorial-quote">
                 "We do not standardize the learner; we standardize the discipline. Given structured pacing and strict logical direction, intellectual acceleration becomes inevitable."
               </blockquote>
@@ -540,8 +540,8 @@ export default function Home({ setCurrentPage }) {
                 By structuring micro-classes restricted to specific enrollment caps, candidates receive surgical focus, targeting curriculum disconnects before final matric evaluation schedules occur.
               </p>
 
-              <button 
-                className="btn btn-outline" 
+              <button
+                className="btn btn-outline"
                 onClick={() => setCurrentPage('about')}
               >
                 Inspect Biography
@@ -569,8 +569,8 @@ export default function Home({ setCurrentPage }) {
               <span className="meta-tag">[ SEC. 04 / CHRONICLE ]</span>
               <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 700, margin: 0 }}>Latest Correspondence</h2>
             </div>
-            <button 
-              className="btn btn-outline" 
+            <button
+              className="btn btn-outline"
               style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 24px', fontSize: '0.8rem' }}
               onClick={() => setCurrentPage('notices')}
             >
@@ -591,7 +591,7 @@ export default function Home({ setCurrentPage }) {
                     {notice.body}
                   </p>
                 </div>
-                <button 
+                <button
                   className="chronicle-action-btn"
                   onClick={() => setCurrentPage('notices')}
                 >
