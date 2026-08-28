@@ -1,36 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { db } from '../services/db';
 import { AlertCircle, CheckCircle, ArrowRight, RotateCcw, FileSignature } from 'lucide-react';
+import _schoolsRaw from '../data/easternCapeSchools.json';
 
 const WEB3FORMS_KEY = '068cd66b-3f71-4347-9986-fedf727330aa';
 
-const SA_HIGH_SCHOOLS = [
-  "Kariega High School (Uitenhage)",
-  "Muir College Boys' High School (Kariega)",
-  "Riebeek College Girls' High School (Kariega)",
-  "Hoërskool Brandwag (Kariega)",
-  "Daniel Pienaar Technical High School (Kariega)",
-  "Limekhaya High School (Kariega)",
-  "Solomon Mahlangu High School (Kariega)",
-  "McCarthy Rasmen High School (Kariega)",
-  "Phakamisa High School (Kariega)",
-  "Alexander Road High School (Gqeberha)",
-  "Grey High School (Gqeberha)",
-  "Collegiate Girls' High School (Gqeberha)",
-  "Pearson High School (Gqeberha)",
-  "Theodor Herzl High School (Gqeberha)",
-  "Lawson Brown High School (Gqeberha)",
-  "Victoria Park High School (Gqeberha)",
-  "Paterson High School (Gqeberha)",
-  "Spine Road High School (Mitchells Plain)",
-  "Lentegeur High School (Mitchells Plain)",
-  "Rocklands High School (Mitchells Plain)",
-  "Glendale Secondary School (Mitchells Plain)",
-  "Hoërskool Jan van Riebeeck (Cape Town)",
-  "Rondebosch Boys' High School (Cape Town)",
-  "Wynberg Boys' High School (Cape Town)",
-  "Other (Specify Below)"
-];
+// 1,588 Eastern Cape high schools + fallback option
+const SA_HIGH_SCHOOLS = [..._schoolsRaw, 'Other (Specify Below)'];
 
 export default function Admissions({ setCurrentPage }) {
   const [programme, setProgramme] = useState('Grade 12');
