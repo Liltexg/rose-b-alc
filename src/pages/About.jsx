@@ -223,7 +223,7 @@ export default function About() {
             </p>
             <div style={{ paddingLeft: '36px', marginTop: '28px' }}>
               <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.45)', letterSpacing: '0.1em' }}>
-                Edward Bruintjies, Founder &amp; Principal
+                Edward Breintjies, Founder &amp; Principal
               </span>
             </div>
           </div>
@@ -245,7 +245,7 @@ export default function About() {
               <div className="museum-frame" style={{ width: '100%' }}>
                 <img 
                   src="/mr-breintjies.jpg" 
-                  alt="Founder Mr. E. Bruintjies" 
+                  alt="Founder Mr. Edward Breintjies" 
                   style={{ width: '100%', display: 'block', height: '320px', objectFit: 'cover' }}
                 />
               </div>
@@ -273,7 +273,7 @@ export default function About() {
             {/* Right Col - Details */}
             <div style={{ padding: '60px', borderTop: '1px solid var(--secondary)', borderLeft: '1px solid rgba(0,0,0,0.1)' }}>
               <span style={{ fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--text-muted)', display: 'block', marginBottom: '24px' }}>Biography</span>
-              <h2 style={{ fontSize: '2.5rem', marginBottom: '32px' }}>Mr. E. Bruintjies</h2>
+              <h2 style={{ fontSize: '2.5rem', marginBottom: '32px' }}>Mr. Edward Breintjies</h2>
               
               <div style={{
                 borderLeft: '1px solid var(--accent)',
@@ -292,7 +292,7 @@ export default function About() {
                 fontSize: '1.05rem',
                 marginBottom: '40px'
               }}>
-                {content.founderBio || "Edward Bruintjies graduated with a Bachelor of Education (B.Ed) in Further Education and Training (FET) from Nelson Mandela Metropolitan University. His journey was marked by loss, perseverance, and an unshakeable belief that endurance is the key to success. He founded Rose B ALC to honour his grandmother Rose, who raised him and gave him the greatest gift she never had herself: an education."}
+                {content.founderBio || "Edward Breintjies graduated with a Bachelor of Education (B.Ed) in Further Education and Training (FET) from Nelson Mandela Metropolitan University. His journey was marked by loss, perseverance, and an unshakeable belief that endurance is the key to success. He founded Rose B ALC to honour his grandmother Rose, who raised him and gave him the greatest gift she never had herself: an education."}
               </p>
 
               <h4 style={{ marginBottom: '16px', color: 'var(--primary)' }}>Academic Focus Subjects:</h4>

@@ -28,10 +28,10 @@ import Terms from "./pages/Terms";
 import Dashboard from "./pages/Dashboard";
 import ComingSoon from "./pages/ComingSoon";
 
-const SHOW_COMING_SOON = false;
+const SHOW_COMING_SOON = true;
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState("home");
+  const [currentPage, setCurrentPage] = useState("coming-soon");
   const [isAdmin, setIsAdmin] = useState(false);
 
   if (SHOW_COMING_SOON) {
@@ -143,6 +143,16 @@ export default function App() {
               </div>
             </div>
           </div>
+          <div>
+            <h4 style={{ color: 'var(--accent)', fontSize: '1rem', marginBottom: '20px', fontFamily: 'var(--font-heading)' }}>Corporate &amp; Tax Compliance</h4>
+            <div style={{ color: 'rgba(255,255,255,0.7)', display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.82rem', lineHeight: '1.6' }}>
+              <div><strong>Enterprise:</strong> Rose Bruintjies After School Learning Center (Pty) Ltd</div>
+              <div><strong>CIPC Reg No:</strong> 2026 / 611870 / 07</div>
+              <div><strong>SARS TAX Ref:</strong> 9161805297 <span style={{ color: '#86EFAC', fontWeight: 600 }}>(Tax Compliant)</span></div>
+              <div><strong>Director:</strong> Edward Darryl Breintjies</div>
+              <div><strong>Address:</strong> 23 Geelhout Avenue, Thomas Gamble, Kariega, 6229</div>
+            </div>
+          </div>
         </div>
         <div style={{
           borderTop: '1px solid rgba(255,255,255,0.1)',
@@ -157,7 +167,7 @@ export default function App() {
           alignItems: 'center'
         }}>
           <span style={{ textAlign: 'left', lineHeight: '1.5' }}>
-            &copy; {new Date().getFullYear()} Rose Bruintjies After School Learning Center. All Rights Reserved.
+            &copy; {new Date().getFullYear()} Rose Bruintjies After School Learning Center (Pty) Ltd. All Rights Reserved. • CIPC Reg: 2026/611870/07 • SARS Tax: 9161805297
           </span>
           <button onClick={() => setCurrentPage('terms')} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}>
             Terms &amp; Conditions
@@ -194,7 +204,7 @@ export default function App() {
         zIndex: 9999
       }}>
         <a 
-          href="https://wa.me/27764237821?text=Hi%20Mr.%20Bruintjies,%20I%20would%20like%20to%20inquire%20about%20the%20after-school%20programmes%20at%20Rose%20B%20ALC." 
+          href="https://wa.me/27764237821?text=Hi%20Mr.%20Breintjies,%20I%20would%20like%20to%20inquire%20about%20the%20after-school%20programmes%20at%20Rose%20B%20ALC." 
           target="_blank" 
           rel="noopener noreferrer"
           className="fab-btn"
