@@ -43,7 +43,7 @@ export default function Navbar({ currentPage, setCurrentPage }) {
               <img src="/logo.png" alt="Rose B ALC Logo" className="nav-logo" />
             </div>
             <div className="nav-brand-text">
-              <span className="brand-title">ROSE BRUINTJIES</span>
+              <span className="brand-title">ROSE BREINTJIES</span>
               <span className="brand-subtitle">AFTER SCHOOL LEARNING CENTER</span>
             </div>
           </div>
@@ -110,7 +110,7 @@ export default function Navbar({ currentPage, setCurrentPage }) {
               <div onClick={() => handleNavClick('home')} className="nav-brand" style={{ cursor: 'pointer' }}>
                 <img src="/logo.png" alt="Rose B ALC" className="nav-logo" style={{ height: '36px' }} />
                 <div className="nav-brand-text">
-                  <span className="brand-title" style={{ fontSize: '1.1rem', color: 'var(--primary)' }}>ROSE BRUINTJIES</span>
+                  <span className="brand-title" style={{ fontSize: '1.1rem', color: 'var(--primary)' }}>ROSE BREINTJIES</span>
                   <span className="brand-subtitle" style={{ color: 'var(--secondary)' }}>AFTER SCHOOL LEARNING CENTER</span>
                 </div>
               </div>

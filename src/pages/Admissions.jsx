@@ -751,7 +751,7 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn Si
                   gap: '8px'
                 }}>
                   <div>
-                    <div style={{ fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', opacity: 0.7, marginBottom: '4px' }}>Rose Bruintjies After School Learning Centre</div>
+                    <div style={{ fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', opacity: 0.7, marginBottom: '4px' }}>Rose Breintjies After School Learning Centre</div>
                     <div style={{ fontSize: '1rem', fontWeight: 700, letterSpacing: '0.05em' }}>ENROLMENT AGREEMENT AND CONSENT DECLARATION</div>
                   </div>
                   <div style={{ fontSize: '0.7rem', opacity: 0.6, textAlign: 'right' }}>
@@ -763,7 +763,7 @@ Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn Si
                 {/* Preamble */}
                 <div style={{ padding: '24px 28px', borderBottom: '1px solid var(--border-color)', backgroundColor: 'var(--bg-alt)' }}>
                   <p style={{ fontSize: '0.82rem', lineHeight: '1.75', color: 'var(--text-muted)', margin: 0 }}>
-                    This Agreement is entered into between <strong style={{ color: 'var(--text)' }}>Rose Bruintjies After School Learning Centre</strong> (hereinafter referred to as "the Centre") and the parent/guardian and/or learner completing this application form (hereinafter referred to as "the Applicant"). By submitting this application, the Applicant agrees to be bound by the terms and conditions set out herein.
+                    This Agreement is entered into between <strong style={{ color: 'var(--text)' }}>Rose Breintjies After School Learning Centre</strong> (hereinafter referred to as "the Centre") and the parent/guardian and/or learner completing this application form (hereinafter referred to as "the Applicant"). By submitting this application, the Applicant agrees to be bound by the terms and conditions set out herein.
                   </p>
                 </div>
 

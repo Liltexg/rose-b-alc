@@ -29,7 +29,7 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
   const [appFilter, setAppFilter] = useState('All');
 
   // Notices states
-  const [noticeForm, setNoticeForm] = useState({ id: null, title: '', category: 'General', body: '', author: 'E. Bruintjies (Principal)' });
+  const [noticeForm, setNoticeForm] = useState({ id: null, title: '', category: 'General', body: '', author: 'E. Breintjies (Principal)' });
   const [isEditingNotice, setIsEditingNotice] = useState(false);
 
   // Email modal states
@@ -144,7 +144,7 @@ Please contact us to arrange for the necessary paperwork and registration formal
 We look forward to welcoming ${app.learnerName} to our centre and supporting their academic journey.
 
 Warm regards,
-E. Bruintjies
+E. Breintjies
 Principal – Rose B After School Learning Centre
 edwardbreintjies@rosebalc.co.za`,
       };
@@ -163,7 +163,7 @@ After careful consideration, we regret to inform you that we are unable to accom
 We encourage you to reach out to us for future intake opportunities.
 
 Kind regards,
-E. Bruintjies
+E. Breintjies
 Principal – Rose B After School Learning Centre
 edwardbreintjies@rosebalc.co.za`,
       };
@@ -182,7 +182,7 @@ We would like to inform you that the application is currently under review. We w
 Should you have any queries in the meantime, please feel free to reach out.
 
 Kind regards,
-E. Bruintjies
+E. Breintjies
 Principal – Rose B After School Learning Centre
 edwardbreintjies@rosebalc.co.za`,
     };
@@ -751,7 +751,7 @@ edwardbreintjies@rosebalc.co.za`,
           <div class="letter">
             <div class="header">
               <div>
-                <h2 style="margin: 0; color: #1E2022; font-size: 1.3rem; font-family:'Cormorant Garamond';">ROSE BRUINTJIES</h2>
+                <h2 style="margin: 0; color: #1E2022; font-size: 1.3rem; font-family:'Cormorant Garamond';">ROSE BREINTJIES</h2>
                 <h4 style="margin: 0; color: #E55B13; font-size: 0.75rem; letter-spacing: 1px;">AFTER SCHOOL LEARNING CENTER</h4>
               </div>
               <div style="text-align: right; font-size: 0.8rem; color:#666666;">
@@ -807,7 +807,7 @@ edwardbreintjies@rosebalc.co.za`,
       });
     }
 
-    setNoticeForm({ id: null, title: '', category: 'General', body: '', author: 'E. Bruintjies (Principal)' });
+    setNoticeForm({ id: null, title: '', category: 'General', body: '', author: 'E. Breintjies (Principal)' });
     await reloadAllData();
   };
 
@@ -1561,7 +1561,7 @@ edwardbreintjies@rosebalc.co.za`,
                         className="form-control"
                         value={noticeForm.author}
                         onChange={(e) => setNoticeForm({ ...noticeForm, author: e.target.value })}
-                        placeholder="e.g. E. Bruintjies (Principal)"
+                        placeholder="e.g. E. Breintjies (Principal)"
                         required
                       />
                     </div>
@@ -1588,7 +1588,7 @@ edwardbreintjies@rosebalc.co.za`,
                           className="btn btn-outline"
                           onClick={() => {
                             setIsEditingNotice(false);
-                            setNoticeForm({ id: null, title: '', category: 'General', body: '', author: 'E. Bruintjies (Principal)' });
+                            setNoticeForm({ id: null, title: '', category: 'General', body: '', author: 'E. Breintjies (Principal)' });
                           }}
                         >
                           Cancel
