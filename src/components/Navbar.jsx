@@ -43,7 +43,7 @@ export default function Navbar({ currentPage, setCurrentPage }) {
               <img src="/logo.png" alt="Rose B ALC Logo" className="nav-logo" />
             </div>
             <div className="nav-brand-text">
-              <span className="brand-title">ROSE BREINTJIES</span>
+              <span className="brand-title">ROSE BRUINTJIES</span>
               <span className="brand-subtitle">AFTER SCHOOL LEARNING CENTER</span>
             </div>
           </div>
