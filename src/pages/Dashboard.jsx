@@ -92,7 +92,11 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
     feeMonth: 'Monthly Tuition Fee',
     subjectsEnrolled: 'Full NSC Matric / High School Subjects',
     reportingTime: '07:30 AM',
-    reportingDate: new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0]
+    reportingDate: new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0],
+    bankName: 'Standard Bank',
+    accountName: 'Rose B Academic & Leadership Centre',
+    accountNumber: '123 456 789',
+    branchCode: '051001'
   });
 
   // Gallery states
@@ -1104,7 +1108,11 @@ edwardbreintjies@rosebalc.co.za`,
       feeMonth: `${new Date().toLocaleString('en-US', { month: 'long' })} Tuition Fee`,
       subjectsEnrolled: 'Full NSC Matric / Grade Curriculum',
       reportingTime: '07:30 AM',
-      reportingDate: new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0]
+      reportingDate: new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0],
+      bankName: siteSettings?.bankName || 'Standard Bank',
+      accountName: siteSettings?.accountName || 'Rose B Academic & Leadership Centre',
+      accountNumber: siteSettings?.accountNumber || '123 456 789',
+      branchCode: siteSettings?.branchCode || '051001'
     });
   };
 
@@ -1159,10 +1167,10 @@ edwardbreintjies@rosebalc.co.za`,
     const phone = settings?.contactPhone || '076 423 7821';
     const email = settings?.contactEmail || 'edwardbreintjies@rosebalc.co.za';
     const address = settings?.contactAddress || '23 Geelhout Avenue, Gamble, Kariega 6229';
-    const bankName = settings?.bankName || 'Standard Bank';
-    const accountName = settings?.accountName || 'Rose B Academic & Leadership Centre';
-    const accountNumber = settings?.accountNumber || '123 456 789';
-    const branchCode = settings?.branchCode || '051001';
+    const bankName = modalData?.bankName || settings?.bankName || 'Standard Bank';
+    const accountName = modalData?.accountName || settings?.accountName || 'Rose B Academic & Leadership Centre';
+    const accountNumber = modalData?.accountNumber || settings?.accountNumber || '123 456 789';
+    const branchCode = modalData?.branchCode || settings?.branchCode || '051001';
 
     let docTitle = template.toUpperCase();
     let contentHtml = '';
@@ -4301,28 +4309,79 @@ edwardbreintjies@rosebalc.co.za`,
               )}
 
               {docModal.template === 'Fee Invoice' && (
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                  <div>
-                    <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', marginBottom: '6px' }}>Fee Description</label>
-                    <input
-                      type="text"
-                      value={docModal.feeMonth}
-                      onChange={(e) => setDocModal(prev => ({ ...prev, feeMonth: e.target.value }))}
-                      placeholder="e.g. Monthly Tuition Fee - October 2026"
-                      style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)' }}
-                    />
+                <>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', marginBottom: '6px' }}>Fee Description</label>
+                      <input
+                        type="text"
+                        value={docModal.feeMonth}
+                        onChange={(e) => setDocModal(prev => ({ ...prev, feeMonth: e.target.value }))}
+                        placeholder="e.g. Monthly Tuition Fee - October 2026"
+                        style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)' }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', marginBottom: '6px' }}>Amount Due (ZAR)</label>
+                      <input
+                        type="number"
+                        value={docModal.feeAmount}
+                        onChange={(e) => setDocModal(prev => ({ ...prev, feeAmount: e.target.value }))}
+                        placeholder="1200"
+                        style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)' }}
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', marginBottom: '6px' }}>Amount Due (ZAR)</label>
-                    <input
-                      type="number"
-                      value={docModal.feeAmount}
-                      onChange={(e) => setDocModal(prev => ({ ...prev, feeAmount: e.target.value }))}
-                      placeholder="1200"
-                      style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)' }}
-                    />
+
+                  {/* Editable Banking Details Section */}
+                  <div style={{ backgroundColor: 'var(--surface)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-color)', marginTop: '4px' }}>
+                    <div style={{ fontSize: '0.88rem', fontWeight: '700', color: 'var(--secondary)', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <CreditCard size={16} /> Editable Payment Banking Details
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                      <div>
+                        <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: '600', marginBottom: '4px' }}>Bank Name</label>
+                        <input
+                          type="text"
+                          value={docModal.bankName}
+                          onChange={(e) => setDocModal(prev => ({ ...prev, bankName: e.target.value }))}
+                          placeholder="Standard Bank"
+                          style={{ width: '100%', padding: '8px 10px', borderRadius: '6px', border: '1px solid var(--border-color)', fontSize: '0.9rem' }}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: '600', marginBottom: '4px' }}>Account Name</label>
+                        <input
+                          type="text"
+                          value={docModal.accountName}
+                          onChange={(e) => setDocModal(prev => ({ ...prev, accountName: e.target.value }))}
+                          placeholder="Rose B ALC"
+                          style={{ width: '100%', padding: '8px 10px', borderRadius: '6px', border: '1px solid var(--border-color)', fontSize: '0.9rem' }}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: '600', marginBottom: '4px' }}>Account Number</label>
+                        <input
+                          type="text"
+                          value={docModal.accountNumber}
+                          onChange={(e) => setDocModal(prev => ({ ...prev, accountNumber: e.target.value }))}
+                          placeholder="123 456 789"
+                          style={{ width: '100%', padding: '8px 10px', borderRadius: '6px', border: '1px solid var(--border-color)', fontSize: '0.9rem' }}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: '600', marginBottom: '4px' }}>Branch Code</label>
+                        <input
+                          type="text"
+                          value={docModal.branchCode}
+                          onChange={(e) => setDocModal(prev => ({ ...prev, branchCode: e.target.value }))}
+                          placeholder="051001"
+                          style={{ width: '100%', padding: '8px 10px', borderRadius: '6px', border: '1px solid var(--border-color)', fontSize: '0.9rem' }}
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </>
               )}
 
               {/* Buttons */}
