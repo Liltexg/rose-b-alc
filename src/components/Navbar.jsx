@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Phone, Mail, ArrowRight, KeyRound } from 'lucide-react';
+import { db } from '../services/db';
 
 export default function Navbar({ currentPage, setCurrentPage }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [siteSettings, setSiteSettings] = useState({
+    contactPhone: '076 423 7821',
+    contactEmail: 'edwardbreintjies@rosebalc.co.za',
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -11,6 +16,10 @@ export default function Navbar({ currentPage, setCurrentPage }) {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    db.getSettings().then((s) => { if (s) setSiteSettings(s); });
   }, []);
 
   const navItems = [
@@ -62,7 +71,7 @@ export default function Navbar({ currentPage, setCurrentPage }) {
               ))}
             </nav>
 
-            <a href="tel:0764237821" className="nav-phone-btn" title="Call Us">
+            <a href={`tel:${(siteSettings.contactPhone || '076 423 7821').replace(/\s/g, '')}`} className="nav-phone-btn" title="Call Us">
               <Phone size={16} />
             </a>
 
@@ -76,7 +85,7 @@ export default function Navbar({ currentPage, setCurrentPage }) {
 
           {/* Mobile Actions Cluster */}
           <div className="nav-mobile-toggle-wrapper">
-            <a href="tel:0764237821" className="nav-phone-btn-mobile" title="Call Us">
+            <a href={`tel:${(siteSettings.contactPhone || '076 423 7821').replace(/\s/g, '')}`} className="nav-phone-btn-mobile" title="Call Us">
               <Phone size={16} />
             </a>
 
@@ -154,13 +163,13 @@ export default function Navbar({ currentPage, setCurrentPage }) {
 
               {/* Contact Info Row */}
               <div className="human-drawer-contact-row">
-                <a href="tel:0764237821" className="human-contact-item">
+                <a href={`tel:${(siteSettings.contactPhone || '076 423 7821').replace(/\s/g, '')}`} className="human-contact-item">
                   <Phone size={14} />
-                  <span>076 423 7821</span>
+                  <span>{siteSettings.contactPhone}</span>
                 </a>
-                <a href="mailto:edwardbreintjies@rosebalc.co.za" className="human-contact-item">
+                <a href={`mailto:${siteSettings.contactEmail}`} className="human-contact-item">
                   <Mail size={14} />
-                  <span>edwardbreintjies@rosebalc.co.za</span>
+                  <span>{siteSettings.contactEmail}</span>
                 </a>
               </div>
 

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PhoneCall, Mail, KeyRound } from 'lucide-react';
+import { db } from './services/db';
 
 // Official WhatsApp brand icon
 const WhatsAppIcon = ({ size = 24 }) => (
@@ -33,6 +34,32 @@ const SHOW_COMING_SOON = false;
 export default function App() {
   const [currentPage, setCurrentPage] = useState("home");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [siteSettings, setSiteSettings] = useState({
+    contactPhone: '076 423 7821',
+    contactEmail: 'edwardbreintjies@rosebalc.co.za',
+    socialWhatsapp: '0764237821',
+    seoSiteTitle: 'Rose B ALC | After School Learning Center',
+    seoMetaDescription: 'Rose Breintjies After School Learning Center – Quality academic support for Grades 8-12 in Kariega.',
+  });
+
+  useEffect(() => {
+    db.getSettings().then((s) => {
+      if (s) setSiteSettings(s);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (siteSettings.seoSiteTitle) {
+      document.title = siteSettings.seoSiteTitle;
+    }
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta');
+      metaDesc.name = 'description';
+      document.head.appendChild(metaDesc);
+    }
+    metaDesc.content = siteSettings.seoMetaDescription || '';
+  }, [siteSettings]);
 
   if (SHOW_COMING_SOON) {
     return <ComingSoon />;
@@ -131,15 +158,15 @@ export default function App() {
             <div style={{ color: 'rgba(255,255,255,0.7)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <PhoneCall size={16} style={{ color: 'var(--accent)' }} />
-                <span style={{ fontSize: '0.9rem' }}>076 423 7821 (Call)</span>
+                <span style={{ fontSize: '0.9rem' }}>{siteSettings.contactPhone} (Call)</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <WhatsAppIcon size={16} color="#25D366" />
-                <span style={{ fontSize: '0.9rem' }}>076 423 7821 (WhatsApp)</span>
+                <span style={{ fontSize: '0.9rem' }}>{siteSettings.socialWhatsapp || siteSettings.contactPhone} (WhatsApp)</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Mail size={16} style={{ color: 'var(--accent)' }} />
-                <span style={{ fontSize: '0.9rem' }}>edwardbreintjies@rosebalc.co.za</span>
+                <span style={{ fontSize: '0.9rem' }}>{siteSettings.contactEmail}</span>
               </div>
             </div>
           </div>

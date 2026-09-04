@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Phone, Mail, MapPin, Clock, Send, CheckCircle } from 'lucide-react';
+import { db } from '../services/db';
 
 const WEB3FORMS_KEY = '068cd66b-3f71-4347-9986-fedf727330aa';
 
@@ -13,6 +14,16 @@ export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [siteSettings, setSiteSettings] = useState({
+    contactPhone: '076 423 7821',
+    contactEmail: 'edwardbreintjies@rosebalc.co.za',
+    contactAddress: '23 Geelhout Avenue, Gamble, Kariega 6229',
+    operatingHours: 'Mon – Fri: 13:00 – 18:00 | Sat: 09:00 – 13:00',
+  });
+
+  useEffect(() => {
+    db.getSettings().then((s) => { if (s) setSiteSettings(s); });
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -90,9 +101,9 @@ export default function Contact() {
                   <Phone size={22} />
                 </div>
                 <div>
-                  <h4 style={{ fontSize: '1.1rem', marginBottom: '6px' }}>Phone Numbers</h4>
+                  <h4 style={{ fontSize: '1.1rem', marginBottom: '6px' }}>Phone Number</h4>
                   <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.45' }}>
-                    076 423 7821
+                    {siteSettings.contactPhone}
                   </p>
                 </div>
               </div>
@@ -102,10 +113,9 @@ export default function Contact() {
                   <Mail size={22} />
                 </div>
                 <div>
-                  <h4 style={{ fontSize: '1.1rem', marginBottom: '6px' }}>Email Addresses</h4>
+                  <h4 style={{ fontSize: '1.1rem', marginBottom: '6px' }}>Email Address</h4>
                   <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-                    edwardbreintjies@rosebalc.co.za<br />
-                    admissions@rosebalc.co.za
+                    {siteSettings.contactEmail}
                   </p>
                 </div>
               </div>
@@ -117,9 +127,7 @@ export default function Contact() {
                 <div>
                   <h4 style={{ fontSize: '1.1rem', marginBottom: '6px' }}>Location</h4>
                   <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.5' }}>
-                    Rose Breintjies ALC Main Hub<br />
-                    23 Geelhout Avenue, Gamble<br />
-                    Kariega, 6229
+                    {siteSettings.contactAddress}
                   </p>
                 </div>
               </div>
@@ -131,7 +139,7 @@ export default function Contact() {
                 <div>
                   <h4 style={{ fontSize: '1.1rem', marginBottom: '6px' }}>Operating Hours</h4>
                   <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.45' }}>
-                    Saturday - Sunday
+                    {siteSettings.operatingHours}
                   </p>
                 </div>
               </div>

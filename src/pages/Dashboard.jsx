@@ -5,7 +5,8 @@ import {
   FileText, Bell, Image, Settings, Users, ArrowRight, Plus,
   Trash2, Edit, Save, Lock, LogOut, CheckCircle, Search,
   Download, Printer, AlertTriangle, FileSpreadsheet, Mail, X, KeyRound,
-  HelpCircle, BookOpen, Compass, ChevronRight, ChevronLeft, Briefcase
+  HelpCircle, BookOpen, Compass, ChevronRight, ChevronLeft, Briefcase,
+  Phone, MapPin, Clock, Globe, Share2, Camera, Link2, CreditCard
 } from 'lucide-react';
 
 export default function Dashboard({ setCurrentPage, setIsAdminState }) {
@@ -41,6 +42,14 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
 
   // Office Suite States
   const [officeSubTab, setOfficeSubTab] = useState('documents');
+  const [tasks, setTasks] = useState([]);
+  const [staff, setStaff] = useState([]);
+  
+  // Office Suite Modals & Forms
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const [taskForm, setTaskForm] = useState({ title: '', priority: 'Normal', status: 'To Do' });
+  const [isStaffModalOpen, setIsStaffModalOpen] = useState(false);
+  const [staffForm, setStaffForm] = useState({ id: null, name: '', role: '', department: '', contact: '', initials: '' });
 
   // Database states
   const [apps, setApps] = useState([]);
@@ -48,6 +57,7 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
   const [gallery, setGallery] = useState([]);
   const [pricing, setPricing] = useState({});
   const [content, setContent] = useState({});
+  const [siteSettings, setSiteSettings] = useState({});
 
   // CRUD operation states
   const [selectedApp, setSelectedApp] = useState(null);
@@ -178,12 +188,18 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
     const gall = await db.getGallery();
     const pricingData = await db.getPricing();
     const contentData = await db.getContent();
+    const settingsData = await db.getSettings();
+    const tasksData = await db.getTasks();
+    const staffData = await db.getStaff();
 
     setApps(appsData);
     setNotices(noticesData);
     setGallery(gall);
     setPricing(pricingData);
     setContent(contentData);
+    setSiteSettings(settingsData);
+    setTasks(tasksData);
+    setStaff(staffData);
 
     // Extract unique albums
     const uniqueAlbums = [...new Set(gall.map(item => item.album))];
@@ -1056,6 +1072,66 @@ edwardbreintjies@rosebalc.co.za`,
   });
 
   // ================= NOTICE OPERATIONS =================
+  // ================= OFFICE SUITE HANDLERS =================
+  const handleTaskSubmit = async (e) => {
+    e.preventDefault();
+    if (!taskForm.title) return;
+    try {
+      const newTask = await db.addTask(taskForm);
+      setTasks([newTask, ...tasks]);
+      setTaskForm({ title: '', priority: 'Normal', status: 'To Do' });
+      setIsTaskModalOpen(false);
+    } catch (err) {
+      alert('Failed to add task.');
+    }
+  };
+
+  const handleTaskStatusUpdate = async (id, newStatus) => {
+    const success = await db.updateTaskStatus(id, newStatus);
+    if (success) {
+      setTasks(tasks.map(t => t.id === id ? { ...t, status: newStatus } : t));
+    }
+  };
+
+  const handleTaskDelete = async (id) => {
+    if (!window.confirm('Delete this task?')) return;
+    const success = await db.deleteTask(id);
+    if (success) setTasks(tasks.filter(t => t.id !== id));
+  };
+
+  const handleStaffSubmit = async (e) => {
+    e.preventDefault();
+    if (!staffForm.name || !staffForm.role) return;
+    
+    // Auto-generate initials if not provided
+    let initials = staffForm.initials;
+    if (!initials) {
+      initials = staffForm.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+    }
+
+    const payload = { ...staffForm, initials };
+
+    try {
+      if (staffForm.id) {
+        const success = await db.updateStaff(staffForm.id, payload);
+        if (success) setStaff(staff.map(s => s.id === staffForm.id ? { ...payload, id: staffForm.id } : s));
+      } else {
+        const newStaff = await db.addStaff(payload);
+        setStaff([...staff, newStaff]);
+      }
+      setIsStaffModalOpen(false);
+      setStaffForm({ id: null, name: '', role: '', department: '', contact: '', initials: '' });
+    } catch (err) {
+      alert('Failed to save staff member.');
+    }
+  };
+
+  const handleStaffDelete = async (id) => {
+    if (!window.confirm('Remove this staff member?')) return;
+    const success = await db.deleteStaff(id);
+    if (success) setStaff(staff.filter(s => s.id !== id));
+  };
+
   const handleNoticeSubmit = async (e) => {
     e.preventDefault();
     if (!noticeForm.title.trim() || !noticeForm.body.trim()) {
@@ -1145,7 +1221,8 @@ edwardbreintjies@rosebalc.co.za`,
     e.preventDefault();
     await db.savePricing(pricing);
     await db.saveContent(content);
-    alert("System pricing configurations and static page contents successfully updated!");
+    await db.saveSettings(siteSettings);
+    alert("System configurations successfully saved!");
     await reloadAllData();
   };
 
@@ -2772,12 +2849,203 @@ edwardbreintjies@rosebalc.co.za`,
                   </div>
                 </div>
 
+                {/* Contact Information */}
+                <div className="card" style={{ padding: '28px', marginTop: '24px' }}>
+                  <h3 style={{ fontSize: '1.25rem', marginBottom: '20px', color: 'var(--secondary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Phone size={20} /> Contact Information
+                  </h3>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="sub-grid-mobile">
+                    <div className="form-group">
+                      <label className="form-label"><Phone size={13} style={{ marginRight: '5px' }} />Contact Phone Number</label>
+                      <input
+                        type="tel"
+                        className="form-control"
+                        value={siteSettings.contactPhone || ''}
+                        onChange={(e) => setSiteSettings({ ...siteSettings, contactPhone: e.target.value })}
+                        placeholder="e.g. 076 423 7821"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label"><Mail size={13} style={{ marginRight: '5px' }} />Contact Email Address</label>
+                      <input
+                        type="email"
+                        className="form-control"
+                        value={siteSettings.contactEmail || ''}
+                        onChange={(e) => setSiteSettings({ ...siteSettings, contactEmail: e.target.value })}
+                        placeholder="e.g. info@rosebalc.co.za"
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label"><MapPin size={13} style={{ marginRight: '5px' }} />Physical Address</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={siteSettings.contactAddress || ''}
+                      onChange={(e) => setSiteSettings({ ...siteSettings, contactAddress: e.target.value })}
+                      placeholder="e.g. 23 Geelhout Avenue, Gamble, Kariega 6229"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label"><Clock size={13} style={{ marginRight: '5px' }} />Operating Hours</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={siteSettings.operatingHours || ''}
+                      onChange={(e) => setSiteSettings({ ...siteSettings, operatingHours: e.target.value })}
+                      placeholder="e.g. Mon – Fri: 13:00 – 18:00 | Sat: 09:00 – 13:00"
+                    />
+                  </div>
+                </div>
+
+                {/* SEO & Meta Settings */}
+                <div className="card" style={{ padding: '28px', marginTop: '24px' }}>
+                  <h3 style={{ fontSize: '1.25rem', marginBottom: '20px', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Globe size={20} /> SEO &amp; Site Metadata
+                  </h3>
+                  <div className="form-group">
+                    <label className="form-label">Browser Tab Title (Site Title)</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={siteSettings.seoSiteTitle || ''}
+                      onChange={(e) => setSiteSettings({ ...siteSettings, seoSiteTitle: e.target.value })}
+                      placeholder="e.g. Rose B ALC | After School Learning Center"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Meta Description (shown in Google search results)</label>
+                    <textarea
+                      className="form-control"
+                      rows="3"
+                      value={siteSettings.seoMetaDescription || ''}
+                      onChange={(e) => setSiteSettings({ ...siteSettings, seoMetaDescription: e.target.value })}
+                      placeholder="A short description of the site for search engines (max ~160 characters)"
+                    ></textarea>
+                    <small style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>
+                      Recommended: 120–160 characters. Current: {(siteSettings.seoMetaDescription || '').length} chars
+                    </small>
+                  </div>
+                </div>
+
+                {/* Banking & Payment Details */}
+                <div className="card" style={{ padding: '28px', marginTop: '24px' }}>
+                  <h3 style={{ fontSize: '1.25rem', marginBottom: '20px', color: 'var(--secondary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <CreditCard size={20} /> Banking &amp; Payment Details
+                  </h3>
+                  <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '18px' }}>These details can be printed on financial documents and displayed to parents for fee payments.</p>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="sub-grid-mobile">
+                    <div className="form-group">
+                      <label className="form-label">Bank Name</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={siteSettings.bankName || ''}
+                        onChange={(e) => setSiteSettings({ ...siteSettings, bankName: e.target.value })}
+                        placeholder="e.g. ABSA, FNB, Nedbank"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Account Holder Name</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={siteSettings.bankAccountName || ''}
+                        onChange={(e) => setSiteSettings({ ...siteSettings, bankAccountName: e.target.value })}
+                        placeholder="e.g. E. Breintjies"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Account Number</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={siteSettings.bankAccountNumber || ''}
+                        onChange={(e) => setSiteSettings({ ...siteSettings, bankAccountNumber: e.target.value })}
+                        placeholder="Account number"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Branch Code</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={siteSettings.bankBranchCode || ''}
+                        onChange={(e) => setSiteSettings({ ...siteSettings, bankBranchCode: e.target.value })}
+                        placeholder="e.g. 632005"
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group" style={{ maxWidth: '300px' }}>
+                    <label className="form-label">Account Type</label>
+                    <select
+                      className="form-control"
+                      value={siteSettings.bankAccountType || 'Cheque'}
+                      onChange={(e) => setSiteSettings({ ...siteSettings, bankAccountType: e.target.value })}
+                    >
+                      <option value="Cheque">Cheque</option>
+                      <option value="Savings">Savings</option>
+                      <option value="Current">Current</option>
+                      <option value="Transmission">Transmission</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Social Media Links */}
+                <div className="card" style={{ padding: '28px', marginTop: '24px', marginBottom: '24px' }}>
+                  <h3 style={{ fontSize: '1.25rem', marginBottom: '20px', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Globe size={20} /> Social Media Links
+                  </h3>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="sub-grid-mobile">
+                    <div className="form-group">
+                      <label className="form-label"><Share2 size={13} style={{ marginRight: '5px' }} />Facebook Page URL</label>
+                      <input
+                        type="url"
+                        className="form-control"
+                        value={siteSettings.socialFacebook || ''}
+                        onChange={(e) => setSiteSettings({ ...siteSettings, socialFacebook: e.target.value })}
+                        placeholder="https://facebook.com/..."
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label"><Camera size={13} style={{ marginRight: '5px' }} />Instagram Profile URL</label>
+                      <input
+                        type="url"
+                        className="form-control"
+                        value={siteSettings.socialInstagram || ''}
+                        onChange={(e) => setSiteSettings({ ...siteSettings, socialInstagram: e.target.value })}
+                        placeholder="https://instagram.com/..."
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label"><Link2 size={13} style={{ marginRight: '5px' }} />LinkedIn Profile URL</label>
+                      <input
+                        type="url"
+                        className="form-control"
+                        value={siteSettings.socialLinkedin || ''}
+                        onChange={(e) => setSiteSettings({ ...siteSettings, socialLinkedin: e.target.value })}
+                        placeholder="https://linkedin.com/in/..."
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label"><Phone size={13} style={{ marginRight: '5px' }} />WhatsApp Number</label>
+                      <input
+                        type="tel"
+                        className="form-control"
+                        value={siteSettings.socialWhatsapp || ''}
+                        onChange={(e) => setSiteSettings({ ...siteSettings, socialWhatsapp: e.target.value })}
+                        placeholder="e.g. 0764237821 (no spaces)"
+                      />
+                    </div>
+                  </div>
+                </div>
+
                 <button
                   type="submit"
                   className="btn btn-secondary"
                   style={{ width: '100%', padding: '14px', display: 'flex', gap: '8px', justifyContent: 'center' }}
                 >
-                  <Save size={18} /> Save Website Configurations
+                  <Save size={18} /> Save All Configurations
                 </button>
               </form>
 
