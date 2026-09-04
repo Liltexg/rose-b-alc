@@ -216,6 +216,10 @@ export default function Admissions({ setCurrentPage }) {
     setSubmitLoading(true);
 
     try {
+      // 1. Save application record first
+      const saved = await db.addApplication(applicationRecord);
+
+      // 2. Attempt email dispatch in non-blocking try-catch
       const applicantEmail = programme === 'Grade 12' ? formData.parentEmail : formData.learnerEmail;
       const emailContent = `New Admission Application — ${programme}
 
@@ -245,31 +249,28 @@ Media/Photos: ${applicationRecord.consentPhotos ? 'Yes' : 'No'}
 Information Correct: Yes
 Signature: ${signatureType === 'type' ? applicationRecord.signature : '[Drawn Signature Image]'}`;
 
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_KEY,
-          subject: `New Application: ${applicationRecord.learnerName} ${applicationRecord.learnerSurname} — ${programme}`,
-          name: `${applicationRecord.learnerName} ${applicationRecord.learnerSurname}`,
-          email: applicantEmail,
-          message: emailContent
-        })
-      });
-
-      const data = await res.json();
-
-      if (data.success) {
-        const saved = await db.addApplication(applicationRecord);
-        setSubmittedDetails(saved);
-        setSubmitSuccess(true);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        setFormErrors(['Failed to send application. Please try again.']);
-        window.scrollTo({ top: 200, behavior: 'smooth' });
+      try {
+        await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            access_key: WEB3FORMS_KEY,
+            subject: `New Application: ${applicationRecord.learnerName} ${applicationRecord.learnerSurname} — ${programme}`,
+            name: `${applicationRecord.learnerName} ${applicationRecord.learnerSurname}`,
+            email: applicantEmail || 'applicant@rosebalc.co.za',
+            message: emailContent
+          })
+        });
+      } catch (emailErr) {
+        console.warn('Web3Forms notification skipped or blocked:', emailErr);
       }
-    } catch {
-      setFormErrors(['Network error. Please check your connection.']);
+
+      setSubmittedDetails(saved);
+      setSubmitSuccess(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      console.error('Submission error:', err);
+      setFormErrors(['Unable to complete submission. Please check your network connection and try again.']);
       window.scrollTo({ top: 200, behavior: 'smooth' });
     } finally {
       setSubmitLoading(false);
