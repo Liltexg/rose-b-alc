@@ -1156,9 +1156,9 @@ edwardbreintjies@rosebalc.co.za`,
       reportingDate
     } = modalData;
 
-    const phone = settings?.contactPhone || '078 070 3348';
-    const email = settings?.contactEmail || 'admin@rosebalc.co.za';
-    const address = settings?.contactAddress || '23 Geelhout avenue, Gamble, Kariega 6229';
+    const phone = settings?.contactPhone || '076 423 7821';
+    const email = settings?.contactEmail || 'edwardbreintjies@rosebalc.co.za';
+    const address = settings?.contactAddress || '23 Geelhout Avenue, Gamble, Kariega 6229';
     const bankName = settings?.bankName || 'Standard Bank';
     const accountName = settings?.accountName || 'Rose B Academic & Leadership Centre';
     const accountNumber = settings?.accountNumber || '123 456 789';
@@ -1170,7 +1170,7 @@ edwardbreintjies@rosebalc.co.za`,
     if (template === 'Acceptance Letter') {
       contentHtml = `
         <p style="font-size: 1.05rem;">Dear <strong>${parentName || 'Parent / Guardian'}</strong>,</p>
-        <p>We are pleased to inform you that <strong>${learnerName} ${learnerSurname}</strong> has been provisionally accepted for admission at <strong>Rose B Academic & Leadership Centre</strong> for <strong>Grade ${grade}</strong> for the 2026 Academic Year.</p>
+        <p>We are pleased to inform you that <strong>${learnerName} ${learnerSurname}</strong> has been provisionally accepted for admission at <strong>Rose Bruintjies After School Learning Center</strong> for <strong>Grade ${grade}</strong> for the 2026 Academic Year.</p>
         
         <div style="background: #f8fafc; border-left: 4px solid #7A1C20; padding: 16px 20px; margin: 24px 0; border-radius: 6px; border: 1px solid #e2e8f0; border-left-width: 4px;">
           <h4 style="margin: 0 0 10px 0; color: #7A1C20; font-size: 1.1rem;">Admission Reporting Details</h4>
@@ -1188,7 +1188,7 @@ edwardbreintjies@rosebalc.co.za`,
           <li>Signed Acceptance Contract & Initial Registration Fee Proof of Payment</li>
         </ul>
 
-        <p>We extend a warm welcome to <strong>${learnerName}</strong> into the Rose B ALC community and look forward to supporting their educational success and personal growth.</p>
+        <p>We extend a warm welcome to <strong>${learnerName}</strong> into the Rose B ALC family and look forward to supporting their educational success and personal growth.</p>
       `;
     } else if (template === 'Warning Letter') {
       contentHtml = `
@@ -1203,13 +1203,13 @@ edwardbreintjies@rosebalc.co.za`,
         </div>
 
         <p><strong>Mandatory Action Required:</strong></p>
-        <p>The parent or legal guardian is required to schedule an urgent intervention meeting with the School Principal within 5 school days of receipt of this notice to formulate an academic and behavioral support plan.</p>
+        <p>The parent or legal guardian is required to schedule an urgent intervention meeting with the Director within 5 school days of receipt of this notice to formulate an academic and behavioral support plan.</p>
         <p>Please contact the administration desk at <strong>${phone}</strong> or via email at <strong>${email}</strong> to confirm your meeting availability.</p>
       `;
     } else if (template === 'Proof of Registration') {
       contentHtml = `
         <p style="font-size: 1.05rem;">To Whom It May Concern,</p>
-        <p>This document serves to formally certify that <strong>${learnerName} ${learnerSurname}</strong>${idNumber ? ` (Identity/Passport No: <strong>${idNumber}</strong>)` : ''} is duly enrolled and registered as a full-time student at <strong>Rose B Academic & Leadership Centre</strong> for the <strong>2026 Academic Year</strong>.</p>
+        <p>This document serves to formally certify that <strong>${learnerName} ${learnerSurname}</strong>${idNumber ? ` (Identity/Passport No: <strong>${idNumber}</strong>)` : ''} is duly enrolled and registered as a student at <strong>Rose Bruintjies After School Learning Center</strong> for the <strong>2026 Academic Year</strong>.</p>
 
         <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 18px 22px; margin: 24px 0; border-radius: 8px;">
           <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
@@ -1276,12 +1276,12 @@ edwardbreintjies@rosebalc.co.za`,
               padding: 0; 
               box-sizing: border-box;
             }
-            .top-bar {
+            .letterhead-top-bar {
               height: 6px;
               background: linear-gradient(90deg, #7A1C20 0%, #7A1C20 70%, #D4AF37 70%, #D4AF37 100%);
               margin-bottom: 20px;
             }
-            .header {
+            .letterhead-header {
               display: flex;
               justify-content: space-between;
               align-items: flex-start;
@@ -1295,20 +1295,21 @@ edwardbreintjies@rosebalc.co.za`,
               gap: 16px;
             }
             .lh-logo {
-              width: 80px;
-              height: 80px;
+              width: 85px;
+              height: 85px;
               object-fit: contain;
             }
-            .lh-title {
+            .lh-company-title {
               font-family: 'Cormorant Garamond', serif;
-              font-size: 1.6rem;
+              font-size: 1.65rem;
               font-weight: 700;
               color: #7A1C20;
               margin: 0;
               line-height: 1.1;
               text-transform: uppercase;
+              letter-spacing: 0.5px;
             }
-            .lh-sub {
+            .lh-company-sub {
               font-size: 0.75rem;
               font-weight: 600;
               color: #555;
@@ -1316,13 +1317,22 @@ edwardbreintjies@rosebalc.co.za`,
               letter-spacing: 1px;
               margin-top: 4px;
             }
+            .lh-director {
+              font-size: 0.75rem;
+              color: #333;
+              margin-top: 4px;
+              font-weight: 500;
+            }
             .lh-right {
               text-align: right;
-              font-size: 0.78rem;
+              font-size: 0.75rem;
               color: #444;
-              line-height: 1.5;
+              line-height: 1.6;
               border-left: 2px solid #D4AF37;
               padding-left: 14px;
+            }
+            .lh-right strong {
+              color: #7A1C20;
             }
             .meta-box {
               display: flex;
@@ -1361,23 +1371,29 @@ edwardbreintjies@rosebalc.co.za`,
               font-weight: 600;
               text-align: center;
             }
+            @media print {
+              body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            }
           </style>
         </head>
         <body>
-          <div class="top-bar"></div>
-          <div class="header">
+          <div class="letterhead-top-bar"></div>
+
+          <div class="letterhead-header">
             <div class="lh-left">
-              <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&w=150&q=80" class="lh-logo" alt="Rose B ALC Logo" />
+              <img src="/logo.png" class="lh-logo" alt="Rose B ALC Logo" />
               <div>
-                <h1 class="lh-title">Rose B Academic & Leadership Centre</h1>
-                <div class="lh-sub">Excellence in Education & Character Building</div>
-                <div style="font-size: 0.75rem; color: #666; margin-top: 2px;">Reg No: 2024/761921/07 | Exam Center No: 4280540</div>
+                <h1 class="lh-company-title">Rose Bruintjies After School Learning Center</h1>
+                <div class="lh-company-sub">CAPS-Aligned Life Sciences & Academic Upgrade Center</div>
+                <div class="lh-director"><strong>Founder & Director:</strong> Mr. Edward Breintjies (B.Ed FET)</div>
               </div>
             </div>
             <div class="lh-right">
-              <div><strong>Address:</strong> ${address}</div>
-              <div><strong>Phone:</strong> ${phone}</div>
+              <div><strong>Tel / WhatsApp:</strong> ${phone}</div>
               <div><strong>Email:</strong> ${email}</div>
+              <div><strong>Address:</strong> ${address}</div>
+              <div><strong>CIPC Reg No:</strong> 2026/611870/07</div>
+              <div><strong>SARS Tax Ref:</strong> 9161805297</div>
             </div>
           </div>
 
@@ -1392,8 +1408,8 @@ edwardbreintjies@rosebalc.co.za`,
           <div class="signature-section">
             <div class="sig-block">
               <div class="sig-line"></div>
-              <div style="font-weight: 600;">E. Breintjies</div>
-              <div style="font-size: 0.78rem; color: #666;">Principal / Centre Director</div>
+              <div style="font-weight: 600;">Mr. Edward Breintjies (B.Ed FET)</div>
+              <div style="font-size: 0.78rem; color: #666;">Founder & Director</div>
             </div>
             <div class="stamp-box">
               OFFICIAL<br/>SCHOOL STAMP
