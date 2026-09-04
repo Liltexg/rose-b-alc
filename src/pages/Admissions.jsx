@@ -151,7 +151,6 @@ export default function Admissions({ setCurrentPage }) {
       if (!formData.learnerPhone.trim()) errors.push("Candidate Contact Number is required");
       if (!formData.learnerEmail.trim()) errors.push("Candidate Email Address is required");
       else if (!emailRegex.test(formData.learnerEmail)) errors.push("Please enter a valid candidate email address");
-      if (!formData.learnerAddress.trim()) errors.push("Candidate Physical Address is required");
       if (!formData.emergencyContact.trim()) errors.push("Emergency Contact Details are required");
     }
 
@@ -235,7 +234,7 @@ ${programme === 'Grade 12' ? 'PARENT / GUARDIAN DETAILS' : 'CANDIDATE CONTACT DE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${programme === 'Grade 12'
           ? `Name: ${formData.parentName} ${formData.parentSurname}\nPhone: ${formData.parentContact}\nEmail: ${formData.parentEmail}\nAddress: ${formData.parentAddress}`
-          : `Phone: ${formData.learnerPhone}\nEmail: ${formData.learnerEmail}\nAddress: ${formData.learnerAddress}\nEmergency Contact: ${formData.emergencyContact}`
+          : `Phone: ${formData.learnerPhone}\nEmail: ${formData.learnerEmail}\nEmergency Contact: ${formData.emergencyContact}`
         }
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

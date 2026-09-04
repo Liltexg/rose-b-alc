@@ -5,7 +5,7 @@ import {
   FileText, Bell, Image, Settings, Users, ArrowRight, Plus,
   Trash2, Edit, Save, Lock, LogOut, CheckCircle, Search,
   Download, Printer, AlertTriangle, FileSpreadsheet, Mail, X, KeyRound,
-  HelpCircle, BookOpen, Compass, ChevronRight, ChevronLeft
+  HelpCircle, BookOpen, Compass, ChevronRight, ChevronLeft, Briefcase
 } from 'lucide-react';
 
 export default function Dashboard({ setCurrentPage, setIsAdminState }) {
@@ -38,6 +38,9 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
     localStorage.getItem('rosebalc_hide_tutorial_autoplay') === 'true'
   );
   const [guideTab, setGuideTab] = useState('getting-started');
+
+  // Office Suite States
+  const [officeSubTab, setOfficeSubTab] = useState('documents');
 
   // Database states
   const [apps, setApps] = useState([]);
@@ -1424,6 +1427,13 @@ edwardbreintjies@rosebalc.co.za`,
               </button>
 
               <button
+                onClick={() => { setActiveTab('office'); }}
+                className={`pro-sidebar-nav-btn ${activeTab === 'office' ? 'active' : ''}`}
+              >
+                <Briefcase size={18} /> Office Suite
+              </button>
+
+              <button
                 onClick={() => { setActiveTab('settings'); }}
                 className={`pro-sidebar-nav-btn ${activeTab === 'settings' ? 'active' : ''}`}
               >
@@ -2448,6 +2458,203 @@ edwardbreintjies@rosebalc.co.za`,
             </div>
           )}
 
+          {/* ================= TAB: OFFICE SUITE ================= */}
+          {activeTab === 'office' && (
+            <div className="animated office-suite-container" style={{ maxWidth: '1000px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                <h2>Office Suite</h2>
+                <div style={{ display: 'flex', gap: '8px', backgroundColor: 'var(--surface)', padding: '4px', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+                  <button 
+                    onClick={() => setOfficeSubTab('documents')}
+                    style={{
+                      padding: '8px 16px',
+                      borderRadius: '6px',
+                      border: 'none',
+                      backgroundColor: officeSubTab === 'documents' ? 'var(--primary)' : 'transparent',
+                      color: officeSubTab === 'documents' ? 'var(--white)' : 'var(--text)',
+                      fontWeight: officeSubTab === 'documents' ? '600' : '400',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px'
+                    }}
+                  >
+                    <FileText size={16} /> Documents
+                  </button>
+                  <button 
+                    onClick={() => setOfficeSubTab('tasks')}
+                    style={{
+                      padding: '8px 16px',
+                      borderRadius: '6px',
+                      border: 'none',
+                      backgroundColor: officeSubTab === 'tasks' ? 'var(--primary)' : 'transparent',
+                      color: officeSubTab === 'tasks' ? 'var(--white)' : 'var(--text)',
+                      fontWeight: officeSubTab === 'tasks' ? '600' : '400',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px'
+                    }}
+                  >
+                    <CheckCircle size={16} /> Tasks
+                  </button>
+                  <button 
+                    onClick={() => setOfficeSubTab('directory')}
+                    style={{
+                      padding: '8px 16px',
+                      borderRadius: '6px',
+                      border: 'none',
+                      backgroundColor: officeSubTab === 'directory' ? 'var(--primary)' : 'transparent',
+                      color: officeSubTab === 'directory' ? 'var(--white)' : 'var(--text)',
+                      fontWeight: officeSubTab === 'directory' ? '600' : '400',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px'
+                    }}
+                  >
+                    <Users size={16} /> Directory
+                  </button>
+                </div>
+              </div>
+
+              {officeSubTab === 'documents' && (
+                <div className="animated">
+                  <h3>Document Generator</h3>
+                  <p style={{ color: 'var(--text-muted)' }}>Select a template to generate an official document.</p>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', marginTop: '20px' }}>
+                    {['Acceptance Letter', 'Warning Letter', 'Proof of Registration', 'Fee Invoice'].map((doc) => (
+                      <div key={doc} style={{
+                        backgroundColor: 'var(--white)',
+                        borderRadius: '12px',
+                        padding: '24px',
+                        boxShadow: '0 4px 15px rgba(0,0,0,0.03)',
+                        border: '1px solid var(--border-color)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '12px',
+                        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                        cursor: 'pointer'
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-4px)';
+                        e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.08)';
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.03)';
+                      }}>
+                        <div style={{
+                          width: '40px', height: '40px', borderRadius: '8px', 
+                          backgroundColor: 'rgba(122, 28, 32, 0.1)', color: 'var(--secondary)',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center'
+                        }}>
+                          <FileText size={20} />
+                        </div>
+                        <h4 style={{ margin: 0 }}>{doc}</h4>
+                        <button className="btn btn-outline" style={{ marginTop: 'auto', width: '100%', fontSize: '0.9rem', padding: '8px' }}>
+                          Generate
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {officeSubTab === 'tasks' && (
+                <div className="animated">
+                  <h3>Task Board</h3>
+                  <div style={{ display: 'flex', gap: '20px', marginTop: '20px', overflowX: 'auto', paddingBottom: '10px' }}>
+                    {/* To Do Column */}
+                    <div style={{ flex: '1', minWidth: '280px', backgroundColor: 'var(--surface)', borderRadius: '12px', padding: '16px' }}>
+                      <h4 style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', color: 'var(--text-muted)' }}>
+                        To Do <span style={{ backgroundColor: 'rgba(0,0,0,0.05)', padding: '2px 8px', borderRadius: '12px', fontSize: '0.8rem' }}>2</span>
+                      </h4>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                        <div style={{ backgroundColor: 'var(--white)', padding: '12px', borderRadius: '8px', boxShadow: '0 2px 5px rgba(0,0,0,0.02)', border: '1px solid var(--border-color)' }}>
+                          <p style={{ margin: '0 0 8px 0', fontSize: '0.95rem', fontWeight: '500' }}>Review New Grade 12 Applications</p>
+                          <span style={{ fontSize: '0.75rem', color: 'var(--secondary)', backgroundColor: 'rgba(122, 28, 32, 0.1)', padding: '2px 6px', borderRadius: '4px' }}>High Priority</span>
+                        </div>
+                        <div style={{ backgroundColor: 'var(--white)', padding: '12px', borderRadius: '8px', boxShadow: '0 2px 5px rgba(0,0,0,0.02)', border: '1px solid var(--border-color)' }}>
+                          <p style={{ margin: '0 0 8px 0', fontSize: '0.95rem', fontWeight: '500' }}>Order new textbooks</p>
+                        </div>
+                      </div>
+                      <button style={{ width: '100%', marginTop: '12px', padding: '8px', backgroundColor: 'transparent', border: '1px dashed var(--border-color)', borderRadius: '8px', color: 'var(--text-muted)', cursor: 'pointer' }}>+ Add Task</button>
+                    </div>
+                    {/* In Progress Column */}
+                    <div style={{ flex: '1', minWidth: '280px', backgroundColor: 'var(--surface)', borderRadius: '12px', padding: '16px' }}>
+                      <h4 style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', color: 'var(--text-muted)' }}>
+                        In Progress <span style={{ backgroundColor: 'rgba(0,0,0,0.05)', padding: '2px 8px', borderRadius: '12px', fontSize: '0.8rem' }}>0</span>
+                      </h4>
+                    </div>
+                    {/* Done Column */}
+                    <div style={{ flex: '1', minWidth: '280px', backgroundColor: 'var(--surface)', borderRadius: '12px', padding: '16px' }}>
+                      <h4 style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', color: 'var(--text-muted)' }}>
+                        Done <span style={{ backgroundColor: 'rgba(0,0,0,0.05)', padding: '2px 8px', borderRadius: '12px', fontSize: '0.8rem' }}>1</span>
+                      </h4>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                        <div style={{ backgroundColor: 'var(--white)', padding: '12px', borderRadius: '8px', boxShadow: '0 2px 5px rgba(0,0,0,0.02)', border: '1px solid var(--border-color)', opacity: 0.6 }}>
+                          <p style={{ margin: '0 0 8px 0', fontSize: '0.95rem', fontWeight: '500', textDecoration: 'line-through' }}>Update Website Notice</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {officeSubTab === 'directory' && (
+                <div className="animated">
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                    <h3>Staff Directory</h3>
+                    <button className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Plus size={16} /> Add Staff</button>
+                  </div>
+                  <div style={{ backgroundColor: 'var(--white)', borderRadius: '12px', border: '1px solid var(--border-color)', overflow: 'hidden' }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                      <thead>
+                        <tr style={{ backgroundColor: 'var(--surface)', borderBottom: '1px solid var(--border-color)' }}>
+                          <th style={{ padding: '12px 16px', fontWeight: '600', color: 'var(--text-muted)' }}>Name</th>
+                          <th style={{ padding: '12px 16px', fontWeight: '600', color: 'var(--text-muted)' }}>Role</th>
+                          <th style={{ padding: '12px 16px', fontWeight: '600', color: 'var(--text-muted)' }}>Contact</th>
+                          <th style={{ padding: '12px 16px', fontWeight: '600', color: 'var(--text-muted)' }}>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr style={{ borderBottom: '1px solid var(--border-color)' }}>
+                          <td style={{ padding: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <div style={{ width: '36px', height: '36px', borderRadius: '50%', backgroundColor: 'var(--secondary)', color: 'var(--white)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>EB</div>
+                            <div>
+                              <div style={{ fontWeight: '500' }}>Elveria Breintjies</div>
+                              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Principal</div>
+                            </div>
+                          </td>
+                          <td style={{ padding: '16px' }}>Administration</td>
+                          <td style={{ padding: '16px', fontSize: '0.9rem' }}>078 070 3348</td>
+                          <td style={{ padding: '16px' }}><button style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}><Edit size={16} /></button></td>
+                        </tr>
+                        <tr style={{ borderBottom: '1px solid var(--border-color)' }}>
+                          <td style={{ padding: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <div style={{ width: '36px', height: '36px', borderRadius: '50%', backgroundColor: 'var(--primary)', color: 'var(--white)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>ST</div>
+                            <div>
+                              <div style={{ fontWeight: '500' }}>Staff Member</div>
+                              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Teacher</div>
+                            </div>
+                          </td>
+                          <td style={{ padding: '16px' }}>Mathematics</td>
+                          <td style={{ padding: '16px', fontSize: '0.9rem' }}>-</td>
+                          <td style={{ padding: '16px' }}><button style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}><Edit size={16} /></button></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* ================= TAB 5: SYSTEM SETTINGS ================= */}
           {activeTab === 'settings' && (
             <div className="animated" style={{ maxWidth: '800px' }}>
@@ -2966,6 +3173,13 @@ edwardbreintjies@rosebalc.co.za`,
           >
             <Image size={20} />
             Gallery
+          </button>
+          <button
+            className={`dash-tab-btn ${activeTab === 'office' ? 'active' : ''}`}
+            onClick={() => setActiveTab('office')}
+          >
+            <Briefcase size={20} />
+            Office
           </button>
           <button
             className={`dash-tab-btn ${activeTab === 'settings' ? 'active' : ''}`}
