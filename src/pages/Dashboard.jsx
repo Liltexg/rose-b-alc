@@ -1359,18 +1359,21 @@ edwardbreintjies@rosebalc.co.za`,
               margin-bottom: 6px;
             }
             .stamp-box {
-              width: 130px;
-              height: 80px;
-              border: 2px dashed #cbd5e1;
-              border-radius: 6px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              color: #94a3b8;
-              font-size: 0.75rem;
-              font-weight: 600;
+              width: 270px;
+              border: 4px double #7A1C20;
+              padding: 8px 12px;
+              font-family: "Courier New", Courier, monospace;
+              color: #7A1C20;
               text-align: center;
+              border-radius: 4px;
+              transform: rotate(-1.5deg);
+              background: rgba(122, 28, 32, 0.03);
             }
+            .stamp-title { font-size: 9px; font-weight: bold; color: #7A1C20; letter-spacing: 0.5px; line-height: 1.2; }
+            .stamp-sep { border-top: 1px solid #7A1C20; margin: 4px auto; width: 85%; }
+            .stamp-verified { font-size: 15px; font-weight: bold; letter-spacing: 2px; color: #7A1C20; margin: 2px 0; }
+            .stamp-date { font-size: 10px; color: #444; font-weight: bold; }
+            .stamp-footer { font-size: 8px; color: #666; font-family: 'Inter', sans-serif; line-height: 1.2; }
             @media print {
               body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             }
@@ -1412,7 +1415,12 @@ edwardbreintjies@rosebalc.co.za`,
               <div style="font-size: 0.78rem; color: #666;">Founder & Director</div>
             </div>
             <div class="stamp-box">
-              OFFICIAL<br/>SCHOOL STAMP
+              <div class="stamp-title">ROSE BRUINTJIES AFTER SCHOOL LEARNING CENTER</div>
+              <div class="stamp-sep"></div>
+              <div class="stamp-verified">OFFICIAL STAMP</div>
+              <div class="stamp-date">${new Date().toLocaleDateString('en-ZA', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+              <div class="stamp-sep"></div>
+              <div class="stamp-footer">CIPC: 2026/611870/07 | SARS TAX: 9161805297<br/>OFFICIAL ACADEMIC DOCUMENT</div>
             </div>
           </div>
 
