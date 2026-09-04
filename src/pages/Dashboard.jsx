@@ -74,6 +74,27 @@ export default function Dashboard({ setCurrentPage, setIsAdminState }) {
   // Preview letterhead modal state
   const [previewModal, setPreviewModal] = useState(null); // null = closed, or { type: 'app'|'notice', data }
 
+  // Document Generator modal state
+  const [docModal, setDocModal] = useState({
+    isOpen: false,
+    template: '',
+    selectedAppId: '',
+    learnerName: '',
+    learnerSurname: '',
+    grade: '10',
+    idNumber: '',
+    parentName: '',
+    parentEmail: '',
+    issueDate: new Date().toISOString().split('T')[0],
+    docRef: '',
+    reason: 'Standard Academic & Conduct Policy Notice',
+    feeAmount: '1200',
+    feeMonth: 'Monthly Tuition Fee',
+    subjectsEnrolled: 'Full NSC Matric / High School Subjects',
+    reportingTime: '07:30 AM',
+    reportingDate: new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0]
+  });
+
   // Gallery states
   const [galleryForm, setGalleryForm] = useState({ album: 'Academic Support', url: '', caption: '' });
   const [newAlbumName, setNewAlbumName] = useState('');
@@ -1055,6 +1076,332 @@ edwardbreintjies@rosebalc.co.za`,
           <script>
             window.onload = () => { setTimeout(() => { window.print(); }, 500); };
             setTimeout(() => { window.print(); }, 1500);
+          </script>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+  };
+
+  // ================= DOCUMENT GENERATOR HANDLERS =================
+  const handleOpenDocGenerator = (templateType) => {
+    const firstApp = apps && apps.length > 0 ? apps[0] : null;
+    const refNum = `ALC-DOC-${Math.floor(1000 + Math.random() * 9000)}`;
+    setDocModal({
+      isOpen: true,
+      template: templateType,
+      selectedAppId: firstApp ? firstApp.id : 'custom',
+      learnerName: firstApp ? (firstApp.learnerName || '') : '',
+      learnerSurname: firstApp ? (firstApp.learnerSurname || '') : '',
+      grade: firstApp ? (firstApp.grade || '10') : '10',
+      idNumber: firstApp ? (firstApp.idNumber || '') : '',
+      parentName: firstApp ? (firstApp.parentName || '') : '',
+      parentEmail: firstApp ? (firstApp.parentEmail || '') : '',
+      issueDate: new Date().toISOString().split('T')[0],
+      docRef: refNum,
+      reason: 'Standard Academic & Conduct Policy Notice',
+      feeAmount: '1200',
+      feeMonth: `${new Date().toLocaleString('en-US', { month: 'long' })} Tuition Fee`,
+      subjectsEnrolled: 'Full NSC Matric / Grade Curriculum',
+      reportingTime: '07:30 AM',
+      reportingDate: new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0]
+    });
+  };
+
+  const handleDocLearnerSelect = (appId) => {
+    if (appId === 'custom') {
+      setDocModal(prev => ({
+        ...prev,
+        selectedAppId: 'custom',
+        learnerName: '',
+        learnerSurname: '',
+        grade: '10',
+        idNumber: '',
+        parentName: '',
+        parentEmail: ''
+      }));
+    } else {
+      const selected = apps.find(a => String(a.id) === String(appId));
+      if (selected) {
+        setDocModal(prev => ({
+          ...prev,
+          selectedAppId: selected.id,
+          learnerName: selected.learnerName || '',
+          learnerSurname: selected.learnerSurname || '',
+          grade: selected.grade || '10',
+          idNumber: selected.idNumber || '',
+          parentName: selected.parentName || '',
+          parentEmail: selected.parentEmail || ''
+        }));
+      }
+    }
+  };
+
+  const printGeneratedDoc = (modalData, settings) => {
+    const printWindow = window.open('', '_blank');
+    const {
+      template,
+      learnerName,
+      learnerSurname,
+      grade,
+      idNumber,
+      parentName,
+      issueDate,
+      docRef,
+      reason,
+      feeAmount,
+      feeMonth,
+      subjectsEnrolled,
+      reportingTime,
+      reportingDate
+    } = modalData;
+
+    const phone = settings?.contactPhone || '078 070 3348';
+    const email = settings?.contactEmail || 'admin@rosebalc.co.za';
+    const address = settings?.contactAddress || '23 Geelhout avenue, Gamble, Kariega 6229';
+    const bankName = settings?.bankName || 'Standard Bank';
+    const accountName = settings?.accountName || 'Rose B Academic & Leadership Centre';
+    const accountNumber = settings?.accountNumber || '123 456 789';
+    const branchCode = settings?.branchCode || '051001';
+
+    let docTitle = template.toUpperCase();
+    let contentHtml = '';
+
+    if (template === 'Acceptance Letter') {
+      contentHtml = `
+        <p style="font-size: 1.05rem;">Dear <strong>${parentName || 'Parent / Guardian'}</strong>,</p>
+        <p>We are pleased to inform you that <strong>${learnerName} ${learnerSurname}</strong> has been provisionally accepted for admission at <strong>Rose B Academic & Leadership Centre</strong> for <strong>Grade ${grade}</strong> for the 2026 Academic Year.</p>
+        
+        <div style="background: #f8fafc; border-left: 4px solid #7A1C20; padding: 16px 20px; margin: 24px 0; border-radius: 6px; border: 1px solid #e2e8f0; border-left-width: 4px;">
+          <h4 style="margin: 0 0 10px 0; color: #7A1C20; font-size: 1.1rem;">Admission Reporting Details</h4>
+          <p style="margin: 4px 0;"><strong>Reporting Date:</strong> ${reportingDate || issueDate}</p>
+          <p style="margin: 4px 0;"><strong>Reporting Time:</strong> ${reportingTime || '07:30 AM'}</p>
+          <p style="margin: 4px 0;"><strong>Assigned Class/Grade:</strong> Grade ${grade}</p>
+        </div>
+
+        <p><strong>Required Documents & Items for Registration Finalization:</strong></p>
+        <ul style="line-height: 1.8;">
+          <li>Certified Copy of Learner Birth Certificate / Identity Document</li>
+          <li>Latest Academic Progress Report / Transfer Card</li>
+          <li>Certified Copy of Parent / Guardian Identity Document</li>
+          <li>Proof of Residence (Utility Bill / Affidavit)</li>
+          <li>Signed Acceptance Contract & Initial Registration Fee Proof of Payment</li>
+        </ul>
+
+        <p>We extend a warm welcome to <strong>${learnerName}</strong> into the Rose B ALC community and look forward to supporting their educational success and personal growth.</p>
+      `;
+    } else if (template === 'Warning Letter') {
+      contentHtml = `
+        <p style="font-size: 1.05rem;">Dear <strong>${parentName || 'Parent / Guardian'}</strong>,</p>
+        <p>This letter serves as an official formal warning regarding <strong>${learnerName} ${learnerSurname}</strong> (Grade ${grade}).</p>
+
+        <div style="background: #fff5f5; border-left: 4px solid #c53030; padding: 16px 20px; margin: 24px 0; border-radius: 6px; border: 1px solid #fed7d7; border-left-width: 4px;">
+          <h4 style="margin: 0 0 10px 0; color: #c53030; font-size: 1.1rem;">Official Notice Details</h4>
+          <p style="margin: 4px 0;"><strong>Nature of Concern / Policy Breach:</strong> ${reason}</p>
+          <p style="margin: 4px 0;"><strong>Date of Notice:</strong> ${issueDate}</p>
+          <p style="margin: 4px 0;"><strong>Status:</strong> Immediate Action Required</p>
+        </div>
+
+        <p><strong>Mandatory Action Required:</strong></p>
+        <p>The parent or legal guardian is required to schedule an urgent intervention meeting with the School Principal within 5 school days of receipt of this notice to formulate an academic and behavioral support plan.</p>
+        <p>Please contact the administration desk at <strong>${phone}</strong> or via email at <strong>${email}</strong> to confirm your meeting availability.</p>
+      `;
+    } else if (template === 'Proof of Registration') {
+      contentHtml = `
+        <p style="font-size: 1.05rem;">To Whom It May Concern,</p>
+        <p>This document serves to formally certify that <strong>${learnerName} ${learnerSurname}</strong>${idNumber ? ` (Identity/Passport No: <strong>${idNumber}</strong>)` : ''} is duly enrolled and registered as a full-time student at <strong>Rose B Academic & Leadership Centre</strong> for the <strong>2026 Academic Year</strong>.</p>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 18px 22px; margin: 24px 0; border-radius: 8px;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+            <tr style="border-bottom: 1px solid #edf2f7;"><td style="padding: 8px 0; color: #64748b; width: 180px;">Learner Full Name:</td><td><strong style="color: #1a1a1a;">${learnerName} ${learnerSurname}</strong></td></tr>
+            <tr style="border-bottom: 1px solid #edf2f7;"><td style="padding: 8px 0; color: #64748b;">Academic Level / Grade:</td><td><strong style="color: #1a1a1a;">Grade ${grade}</strong></td></tr>
+            <tr style="border-bottom: 1px solid #edf2f7;"><td style="padding: 8px 0; color: #64748b;">Registration Status:</td><td><strong style="color: #2e7d32; background: #e8f5e9; padding: 3px 10px; border-radius: 4px;">ACTIVE & VERIFIED</strong></td></tr>
+            <tr><td style="padding: 8px 0; color: #64748b;">Enrolled Subjects / Stream:</td><td><strong style="color: #1a1a1a;">${subjectsEnrolled}</strong></td></tr>
+          </table>
+        </div>
+
+        <p>This letter is issued upon request for official validation purposes (including medical aid, visa applications, grant verification, or employer support).</p>
+      `;
+    } else if (template === 'Fee Invoice') {
+      contentHtml = `
+        <p style="font-size: 1.05rem;">Dear <strong>${parentName || 'Parent / Guardian'}</strong>,</p>
+        <p>Please find below the official statement of account and fee invoice for <strong>${learnerName} ${learnerSurname}</strong> (Grade ${grade}).</p>
+
+        <table style="width: 100%; border-collapse: collapse; margin: 24px 0; border: 1px solid #cbd5e1; border-radius: 6px; overflow: hidden;">
+          <thead>
+            <tr style="background: #7A1C20; color: #ffffff;">
+              <th style="padding: 12px 16px; text-align: left; font-size: 0.95rem;">Description / Billing Period</th>
+              <th style="padding: 12px 16px; text-align: right; font-size: 0.95rem;">Amount (ZAR)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 14px 16px;">${feeMonth} - Grade ${grade} Tuition</td>
+              <td style="padding: 14px 16px; text-align: right; font-weight: 600;">R ${parseFloat(feeAmount || 0).toFixed(2)}</td>
+            </tr>
+            <tr style="background: #f8fafc; font-weight: bold;">
+              <td style="padding: 14px 16px; text-align: right;">TOTAL AMOUNT DUE:</td>
+              <td style="padding: 14px 16px; text-align: right; color: #7A1C20; font-size: 1.15rem;">R ${parseFloat(feeAmount || 0).toFixed(2)}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="background: #f1f5f9; border-radius: 8px; padding: 18px 22px; margin-top: 24px; border: 1px solid #e2e8f0;">
+          <h4 style="margin: 0 0 12px 0; color: #7A1C20; font-size: 1.05rem;">Official Banking Details for Payment</h4>
+          <table style="width: 100%; font-size: 0.92rem;">
+            <tr><td style="padding: 4px 0; width: 160px; color: #475569;">Bank Name:</td><td><strong>${bankName}</strong></td></tr>
+            <tr><td style="padding: 4px 0; color: #475569;">Account Name:</td><td><strong>${accountName}</strong></td></tr>
+            <tr><td style="padding: 4px 0; color: #475569;">Account Number:</td><td><strong>${accountNumber}</strong></td></tr>
+            <tr><td style="padding: 4px 0; color: #475569;">Branch Code:</td><td><strong>${branchCode}</strong></td></tr>
+            <tr><td style="padding: 4px 0; color: #475569;">Payment Reference:</td><td><strong style="color: #7A1C20; background: #fff3f3; padding: 2px 8px; border-radius: 4px;">${docRef} / ${learnerSurname}</strong></td></tr>
+          </table>
+        </div>
+      `;
+    }
+
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>${docTitle} - ${learnerName} ${learnerSurname} | Rose B ALC</title>
+          <style>
+            @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap');
+            @page { size: A4; margin: 15mm 15mm 20mm 15mm; }
+            body { 
+              font-family: 'Inter', sans-serif; 
+              color: #1a1a1a; 
+              line-height: 1.6; 
+              background: #fff; 
+              margin: 0; 
+              padding: 0; 
+              box-sizing: border-box;
+            }
+            .top-bar {
+              height: 6px;
+              background: linear-gradient(90deg, #7A1C20 0%, #7A1C20 70%, #D4AF37 70%, #D4AF37 100%);
+              margin-bottom: 20px;
+            }
+            .header {
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-start;
+              border-bottom: 2px solid #7A1C20;
+              padding-bottom: 16px;
+              margin-bottom: 24px;
+            }
+            .lh-left {
+              display: flex;
+              align-items: center;
+              gap: 16px;
+            }
+            .lh-logo {
+              width: 80px;
+              height: 80px;
+              object-fit: contain;
+            }
+            .lh-title {
+              font-family: 'Cormorant Garamond', serif;
+              font-size: 1.6rem;
+              font-weight: 700;
+              color: #7A1C20;
+              margin: 0;
+              line-height: 1.1;
+              text-transform: uppercase;
+            }
+            .lh-sub {
+              font-size: 0.75rem;
+              font-weight: 600;
+              color: #555;
+              text-transform: uppercase;
+              letter-spacing: 1px;
+              margin-top: 4px;
+            }
+            .lh-right {
+              text-align: right;
+              font-size: 0.78rem;
+              color: #444;
+              line-height: 1.5;
+              border-left: 2px solid #D4AF37;
+              padding-left: 14px;
+            }
+            .meta-box {
+              display: flex;
+              justify-content: space-between;
+              background: #f8fafc;
+              border: 1px solid #e2e8f0;
+              padding: 10px 16px;
+              border-radius: 6px;
+              margin-bottom: 24px;
+              font-size: 0.85rem;
+            }
+            .signature-section {
+              margin-top: 60px;
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-end;
+            }
+            .sig-block {
+              text-align: center;
+              width: 220px;
+            }
+            .sig-line {
+              border-top: 1px solid #333;
+              margin-bottom: 6px;
+            }
+            .stamp-box {
+              width: 130px;
+              height: 80px;
+              border: 2px dashed #cbd5e1;
+              border-radius: 6px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: #94a3b8;
+              font-size: 0.75rem;
+              font-weight: 600;
+              text-align: center;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="top-bar"></div>
+          <div class="header">
+            <div class="lh-left">
+              <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&w=150&q=80" class="lh-logo" alt="Rose B ALC Logo" />
+              <div>
+                <h1 class="lh-title">Rose B Academic & Leadership Centre</h1>
+                <div class="lh-sub">Excellence in Education & Character Building</div>
+                <div style="font-size: 0.75rem; color: #666; margin-top: 2px;">Reg No: 2024/761921/07 | Exam Center No: 4280540</div>
+              </div>
+            </div>
+            <div class="lh-right">
+              <div><strong>Address:</strong> ${address}</div>
+              <div><strong>Phone:</strong> ${phone}</div>
+              <div><strong>Email:</strong> ${email}</div>
+            </div>
+          </div>
+
+          <div class="meta-box">
+            <div><strong>Document:</strong> ${docTitle}</div>
+            <div><strong>Ref:</strong> ${docRef}</div>
+            <div><strong>Date:</strong> ${issueDate}</div>
+          </div>
+
+          ${contentHtml}
+
+          <div class="signature-section">
+            <div class="sig-block">
+              <div class="sig-line"></div>
+              <div style="font-weight: 600;">E. Breintjies</div>
+              <div style="font-size: 0.78rem; color: #666;">Principal / Centre Director</div>
+            </div>
+            <div class="stamp-box">
+              OFFICIAL<br/>SCHOOL STAMP
+            </div>
+          </div>
+
+          <script>
+            window.onload = () => { setTimeout(() => { window.print(); }, 500); };
           </script>
         </body>
       </html>
@@ -2619,6 +2966,7 @@ edwardbreintjies@rosebalc.co.za`,
                         transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                         cursor: 'pointer'
                       }}
+                      onClick={() => handleOpenDocGenerator(doc)}
                       onMouseOver={(e) => {
                         e.currentTarget.style.transform = 'translateY(-4px)';
                         e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.08)';
@@ -2635,7 +2983,11 @@ edwardbreintjies@rosebalc.co.za`,
                           <FileText size={20} />
                         </div>
                         <h4 style={{ margin: 0 }}>{doc}</h4>
-                        <button className="btn btn-outline" style={{ marginTop: 'auto', width: '100%', fontSize: '0.9rem', padding: '8px' }}>
+                        <button 
+                          className="btn btn-outline" 
+                          style={{ marginTop: 'auto', width: '100%', fontSize: '0.9rem', padding: '8px' }}
+                          onClick={(e) => { e.stopPropagation(); handleOpenDocGenerator(doc); }}
+                        >
                           Generate
                         </button>
                       </div>
@@ -3769,6 +4121,209 @@ edwardbreintjies@rosebalc.co.za`,
                     {currentTourStep === 6 && <>Finish</>}
                   </button>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Document Generator Modal */}
+      {docModal.isOpen && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 1000, padding: '20px', backdropFilter: 'blur(4px)'
+        }}>
+          <div style={{
+            backgroundColor: '#fff', borderRadius: '16px', maxWidth: '600px', width: '100%',
+            maxHeight: '90vh', overflowY: 'auto', padding: '28px',
+            boxShadow: '0 20px 50px rgba(0,0,0,0.2)', border: '1px solid var(--border-color)'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid var(--border-color)', paddingBottom: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '8px', backgroundColor: 'rgba(122, 28, 32, 0.1)', color: 'var(--secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <FileText size={20} />
+                </div>
+                <div>
+                  <h3 style={{ margin: 0 }}>Generate {docModal.template}</h3>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Ref: {docModal.docRef}</span>
+                </div>
+              </div>
+              <button onClick={() => setDocModal(prev => ({ ...prev, isOpen: false }))} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
+                <X size={20} />
+              </button>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {/* Select Applicant Dropdown */}
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', marginBottom: '6px' }}>
+                  Select Student / Applicant
+                </label>
+                <select
+                  value={docModal.selectedAppId}
+                  onChange={(e) => handleDocLearnerSelect(e.target.value)}
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', fontSize: '0.95rem' }}
+                >
+                  {apps && apps.map(app => (
+                    <option key={app.id} value={app.id}>
+                      {app.learnerName} {app.learnerSurname} (Grade {app.grade || '10'})
+                    </option>
+                  ))}
+                  <option value="custom">+ Manual / Custom Learner Entry</option>
+                </select>
+              </div>
+
+              {/* Learner Name & Surname */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', marginBottom: '6px' }}>Learner First Name</label>
+                  <input
+                    type="text"
+                    value={docModal.learnerName}
+                    onChange={(e) => setDocModal(prev => ({ ...prev, learnerName: e.target.value }))}
+                    placeholder="First Name"
+                    style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', marginBottom: '6px' }}>Learner Surname</label>
+                  <input
+                    type="text"
+                    value={docModal.learnerSurname}
+                    onChange={(e) => setDocModal(prev => ({ ...prev, learnerSurname: e.target.value }))}
+                    placeholder="Surname"
+                    style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)' }}
+                  />
+                </div>
+              </div>
+
+              {/* Grade & Parent Name */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', marginBottom: '6px' }}>Grade / Stream</label>
+                  <select
+                    value={docModal.grade}
+                    onChange={(e) => setDocModal(prev => ({ ...prev, grade: e.target.value }))}
+                    style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)' }}
+                  >
+                    {['R', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'].map(g => (
+                      <option key={g} value={g}>Grade {g}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', marginBottom: '6px' }}>Parent / Guardian Name</label>
+                  <input
+                    type="text"
+                    value={docModal.parentName}
+                    onChange={(e) => setDocModal(prev => ({ ...prev, parentName: e.target.value }))}
+                    placeholder="Parent Name"
+                    style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)' }}
+                  />
+                </div>
+              </div>
+
+              {/* Specific template fields */}
+              {docModal.template === 'Acceptance Letter' && (
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', marginBottom: '6px' }}>Reporting Date</label>
+                    <input
+                      type="date"
+                      value={docModal.reportingDate}
+                      onChange={(e) => setDocModal(prev => ({ ...prev, reportingDate: e.target.value }))}
+                      style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', marginBottom: '6px' }}>Reporting Time</label>
+                    <input
+                      type="text"
+                      value={docModal.reportingTime}
+                      onChange={(e) => setDocModal(prev => ({ ...prev, reportingTime: e.target.value }))}
+                      placeholder="07:30 AM"
+                      style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)' }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {docModal.template === 'Warning Letter' && (
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', marginBottom: '6px' }}>Reason / Notice Details</label>
+                  <textarea
+                    rows={3}
+                    value={docModal.reason}
+                    onChange={(e) => setDocModal(prev => ({ ...prev, reason: e.target.value }))}
+                    placeholder="Enter warning details..."
+                    style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)' }}
+                  />
+                </div>
+              )}
+
+              {docModal.template === 'Proof of Registration' && (
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', marginBottom: '6px' }}>ID / Passport / Reg Number</label>
+                  <input
+                    type="text"
+                    value={docModal.idNumber}
+                    onChange={(e) => setDocModal(prev => ({ ...prev, idNumber: e.target.value }))}
+                    placeholder="Learner ID Number"
+                    style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)' }}
+                  />
+                </div>
+              )}
+
+              {docModal.template === 'Fee Invoice' && (
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', marginBottom: '6px' }}>Fee Description</label>
+                    <input
+                      type="text"
+                      value={docModal.feeMonth}
+                      onChange={(e) => setDocModal(prev => ({ ...prev, feeMonth: e.target.value }))}
+                      placeholder="e.g. Monthly Tuition Fee - October 2026"
+                      style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', marginBottom: '6px' }}>Amount Due (ZAR)</label>
+                    <input
+                      type="number"
+                      value={docModal.feeAmount}
+                      onChange={(e) => setDocModal(prev => ({ ...prev, feeAmount: e.target.value }))}
+                      placeholder="1200"
+                      style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)' }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Buttons */}
+              <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '16px' }}>
+                <button
+                  onClick={() => setDocModal(prev => ({ ...prev, isOpen: false }))}
+                  className="btn btn-secondary"
+                  style={{ padding: '10px 20px', borderRadius: '8px' }}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    if (!docModal.learnerName || !docModal.learnerSurname) {
+                      alert('Please enter the learner name and surname.');
+                      return;
+                    }
+                    printGeneratedDoc(docModal, siteSettings);
+                    setDocModal(prev => ({ ...prev, isOpen: false }));
+                  }}
+                  className="btn btn-primary"
+                  style={{ padding: '10px 20px', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}
+                >
+                  <Printer size={16} /> Generate & Print Letterhead
+                </button>
               </div>
             </div>
           </div>
