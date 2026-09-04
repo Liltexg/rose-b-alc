@@ -134,38 +134,95 @@ export const db = {
   },
 
   getApplications: async () => {
-    const { data, error } = await supabase.from('applications').select('*').order('created_at', { ascending: false });
-    if (error) { console.error('Error fetching applications:', error); return []; }
-    return data.map(mapApplicationToJS);
+    let dbApps = [];
+    try {
+      const { data, error } = await supabase.from('applications').select('*').order('created_at', { ascending: false });
+      if (!error && data) {
+        dbApps = data.map(mapApplicationToJS);
+      }
+    } catch (err) {
+      console.warn('Error fetching DB applications:', err);
+    }
+
+    let localApps = [];
+    try {
+      localApps = JSON.parse(localStorage.getItem('rosebalc_local_applications') || '[]');
+    } catch (e) {
+      console.warn('Error reading local applications:', e);
+    }
+
+    const map = new Map();
+    [...dbApps, ...localApps].forEach(a => {
+      if (a && a.id && !map.has(String(a.id))) {
+        map.set(String(a.id), a);
+      }
+    });
+
+    return Array.from(map.values()).sort((a, b) => new Date(b.dateSubmitted || 0) - new Date(a.dateSubmitted || 0));
   },
 
   addApplication: async (app) => {
+    let savedApp = null;
     try {
       const { data, error } = await supabase.from('applications').insert([mapApplicationToDB(app)]).select().single();
       if (!error && data) {
-        return mapApplicationToJS(data);
+        savedApp = mapApplicationToJS(data);
+      } else {
+        console.warn('Supabase application insert warning:', error?.message);
       }
-      console.warn('Supabase application insert warning:', error?.message);
     } catch (err) {
       console.warn('Supabase insert application exception:', err);
     }
-    return {
-      id: `APP-${Math.random().toString(36).substr(2, 8).toUpperCase()}`,
-      dateSubmitted: new Date().toISOString(),
-      status: 'Pending',
-      ...app
-    };
+
+    if (!savedApp) {
+      savedApp = {
+        id: `APP-${Math.random().toString(36).substr(2, 8).toUpperCase()}`,
+        dateSubmitted: new Date().toISOString(),
+        status: 'Pending',
+        ...app
+      };
+    }
+
+    try {
+      const localApps = JSON.parse(localStorage.getItem('rosebalc_local_applications') || '[]');
+      const updated = [savedApp, ...localApps.filter(a => String(a.id) !== String(savedApp.id))];
+      localStorage.setItem('rosebalc_local_applications', JSON.stringify(updated));
+    } catch (e) {
+      console.warn('Failed to save to localStorage:', e);
+    }
+
+    return savedApp;
   },
 
   updateApplicationStatus: async (id, status) => {
-    const { error } = await supabase.from('applications').update({ status }).eq('id', id);
-    if (error) { console.error('Error updating status:', error); return false; }
+    try {
+      await supabase.from('applications').update({ status }).eq('id', id);
+    } catch (err) {
+      console.warn('Supabase status update error:', err);
+    }
+    try {
+      const localApps = JSON.parse(localStorage.getItem('rosebalc_local_applications') || '[]');
+      const updated = localApps.map(a => String(a.id) === String(id) ? { ...a, status } : a);
+      localStorage.setItem('rosebalc_local_applications', JSON.stringify(updated));
+    } catch (e) {
+      console.warn('LocalStorage status update error:', e);
+    }
     return true;
   },
 
   deleteApplication: async (id) => {
-    const { error } = await supabase.from('applications').delete().eq('id', id);
-    if (error) { console.error('Error deleting application:', error); return false; }
+    try {
+      await supabase.from('applications').delete().eq('id', id);
+    } catch (err) {
+      console.warn('Supabase delete error:', err);
+    }
+    try {
+      const localApps = JSON.parse(localStorage.getItem('rosebalc_local_applications') || '[]');
+      const updated = localApps.filter(a => String(a.id) !== String(id));
+      localStorage.setItem('rosebalc_local_applications', JSON.stringify(updated));
+    } catch (e) {
+      console.warn('LocalStorage delete error:', e);
+    }
     return true;
   },
 
