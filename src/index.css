@@ -1958,10 +1958,19 @@ body {
   display: flex;
   align-items: stretch;
   height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+}
+
+.dash-bottom-tabs-inner::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 .dash-tab-btn {
-  flex: 1;
+  flex: 0 0 auto;
+  min-width: 76px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2004,6 +2013,19 @@ body {
 
 .dash-tab-btn:hover {
   color: #cbd5e1;
+}
+
+/* Dashboard Responsive Layout Utilities */
+.dash-responsive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.dash-flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 /* Dashboard mobile layout overrides */

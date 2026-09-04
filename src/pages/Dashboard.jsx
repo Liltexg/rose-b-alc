@@ -780,6 +780,8 @@ edwardbreintjies@rosebalc.co.za`,
           <div class="field-row"><span class="field-label">Candidate Name</span><span class="field-value">${app.learnerName} ${app.learnerSurname}</span></div>
           <div class="field-row"><span class="field-label">Enrolled Programme</span><span class="field-value">${app.programme}</span></div>
           <div class="field-row"><span class="field-label">Current Grade Level</span><span class="field-value">${app.learnerGrade}</span></div>
+          <div class="field-row"><span class="field-label">Language of Instruction</span><span class="field-value">${app.languageOfInstruction || 'N/A'}</span></div>
+          ${app.currentSchool ? `<div class="field-row"><span class="field-label">Previous/Current School</span><span class="field-value">${app.currentSchool}</span></div>` : ''}
           <div class="field-row"><span class="field-label">Registered Subjects</span><span class="field-value">${Array.isArray(app.learnerSubjects) ? app.learnerSubjects.join(' • ') : app.learnerSubjects || 'N/A'}</span></div>
 
           ${app.programme === 'Grade 12' ? `
